@@ -1,0 +1,16 @@
+[{
+    "TeamName": "Nike",
+    "TeamLogo": "nike.jpeg",
+    "Location": "Noida"
+  },
+  {
+    "TeamName": "Titans",
+    "TeamLogo": "titans.jpeg",
+    "Location": "Noida"
+  },
+  {
+    "TeamName": "Hades",
+    "TeamLogo": "hades.jpeg",
+    "Location": "Noida"
+  }
+]
