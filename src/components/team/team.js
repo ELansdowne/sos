@@ -26,7 +26,7 @@ const Team = (props, classes) => {
         </Typography>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
-        <TeamPanel />
+        <TeamPanel data={props.data} />
       </ExpansionPanelDetails>
     </ExpansionPanel>
   );

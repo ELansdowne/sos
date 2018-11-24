@@ -1,16 +1,16 @@
 [{
     "TeamName": "Nike",
-    "TeamLogo": "nike.jpeg",
+    "TeamLogo": "Nike.png",
     "Location": "Noida"
   },
   {
     "TeamName": "Titans",
-    "TeamLogo": "titans.jpeg",
+    "TeamLogo": "Titans.png",
     "Location": "Noida"
   },
   {
     "TeamName": "Hades",
-    "TeamLogo": "hades.jpeg",
+    "TeamLogo": "Hades.png",
     "Location": "Noida"
   }
 ]
