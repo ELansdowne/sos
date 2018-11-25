@@ -1,8 +1,5 @@
 import React, { PureComponent } from "react";
-import Card from "@material-ui/core/Card";
 import MenuItem from "@material-ui/core/MenuItem";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import { withStyles } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
@@ -10,6 +7,9 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
 import AddTeamDialog from "./add-team-dialog/add-team-dialog";
+import { Location } from "../../shared/model/location";
+import { Team } from "../../shared/model/team";
+import { EnumToArray } from "../../shared/Utils/enumToArray";
 
 const styles = theme => ({
   root: {
@@ -41,8 +41,8 @@ export class AddTeam extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      age: "",
-      name: "hai",
+      location: "Noida",
+      team: "Hades",
       labelWidth: 0,
       open: false
     };
@@ -54,6 +54,20 @@ export class AddTeam extends PureComponent {
 
   handleClose = () => {
     this.setState({ open: false });
+  };
+
+  handleChange = event => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
+  componentDidMount() {
+    console.log("localtionis ", EnumToArray.enumToArray(Location));
+  }
+
+  getSelectValues = enums => {
+    let values = EnumToArray.enumToArray(enums).map(result => {
+      return <MenuItem value={result}>{result}</MenuItem>;
+    });
+    return values;
   };
   render() {
     const { classes } = this.props;
@@ -69,41 +83,30 @@ export class AddTeam extends PureComponent {
           className={classes.dialog}
         >
           <DialogTitle id="alert-dialog-slide-title">{"Add Team"}</DialogTitle>
-          <AddTeamDialog close={this.handleClose} />
+          <AddTeamDialog
+            close={this.handleClose}
+            team={this.state.team}
+            location={this.state.location}
+          />
         </Dialog>
         <div className={classes.select}>
           <Select
-            value={this.state.age}
+            value={this.state.location}
             onChange={this.handleChange}
             displayEmpty
-            name="age"
+            name="location"
             className={classes.selectEmpty}
           >
-            <MenuItem value="">
-              <em>Select Location</em>
-            </MenuItem>
-            <MenuItem value={"All"}>All</MenuItem>
-            <MenuItem value={"Noida"}>Noida</MenuItem>
-            <MenuItem value={"Sydney"}>Sydney</MenuItem>
+            {this.getSelectValues(Location)}
           </Select>
           <Select
-            value={this.state.age}
+            value={this.state.team}
             onChange={this.handleChange}
             displayEmpty
-            name="age"
+            name="team"
             className={classes.selectEmpty}
           >
-            <MenuItem value="">
-              <em>Select Team</em>
-            </MenuItem>
-            <MenuItem value={"All"}>All</MenuItem>
-            <MenuItem value={"Nike"}>Nike</MenuItem>
-            <MenuItem value={"Nemesis"}>Nemesis</MenuItem>
-            <MenuItem value={"Titans"}>Titans</MenuItem>
-            <MenuItem value={"Hades"}>Hades</MenuItem>
-            <MenuItem value={"Helios"}>Helios</MenuItem>
-            <MenuItem value={"Kratos"}>Kratos</MenuItem>
-            <MenuItem value={"Athena"}>Athena</MenuItem>
+            {this.getSelectValues(Team)}
           </Select>
         </div>
         <Button

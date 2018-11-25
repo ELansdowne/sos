@@ -44,15 +44,22 @@ class AddTaskDialog extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      age: "",
-      name: "hai",
-      labelWidth: 0
+      assigned: "",
+      labelWidth: 0,
+      task: "WorkRequest"
     };
+    this.handleChange = this.handleChange.bind(this);
   }
 
   closeDialog = () => {
+    console.log("stateas", this.state.task, this.state.assigned);
     this.props.close();
   };
+
+  handleChange(event) {
+    console.log("sdsd", event.target);
+    this.setState({ [event.target.name]: event.target.value });
+  }
   render() {
     const { classes } = this.props;
     return (
@@ -60,10 +67,10 @@ class AddTaskDialog extends PureComponent {
         <div className={classes.task}>
           <label className={classes.label}>Task: </label>
           <Select
-            value={this.state.age}
+            value={this.state.task}
             onChange={this.handleChange}
             displayEmpty
-            name="age"
+            name="task"
             className={classes.selectEmpty}
           >
             <MenuItem value="">
@@ -76,7 +83,12 @@ class AddTaskDialog extends PureComponent {
         </div>
         <div className={classes.task}>
           <label className={classes.label}>Assigned to</label>
-          <input type="text" />
+          <input
+            type="text"
+            name="assigned"
+            value={this.state.assigned}
+            onChange={this.handleChange}
+          />
         </div>
         <div className={classes.buttonGroup}>
           <Button

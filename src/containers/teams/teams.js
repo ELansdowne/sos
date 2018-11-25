@@ -2,16 +2,43 @@ import React, { PureComponent } from "react";
 import Aux from "../../hoc/Auxi";
 import Team from "../../components/team/team";
 import teams from "../../assets/localDB/teams.json";
+import axios from "axios";
 
 export class Teams extends PureComponent {
+  constructor() {
+    super();
+    this.state = {
+      teamData: null
+    };
+  }
   componentDidMount() {
+    this.getTeams();
     console.log("local rteam", teams);
   }
+  getTeams() {
+    axios
+      .get(`http://localhost:3000/getTeam`)
+      .then(res => {
+        this.setState({ teamData: res.data });
+        console.log(res.data);
+      })
+      .catch(error => {
+        axios
+          .get("http://localhost:3000/teams") //using json-server dependency for local json .. check db.json file for local data.
+          .then(result => {
+            console.log("result is ", result);
+            this.setState({ teamData: result.data });
+            console.log(result.data);
+          })
+          .catch(error => {
+            this.setState({ teamData: teams });
+          });
+      });
+  }
   render() {
-    console.log(teams);
     let teamData = null;
-    if (teams) {
-      teamData = teams.map((team, index) => {
+    if (this.state.teamData) {
+      teamData = this.state.teamData.map((team, index) => {
         return <Team key={index} data={team} />;
       });
     }

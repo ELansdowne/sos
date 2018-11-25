@@ -77,6 +77,7 @@ class TeamPanel extends PureComponent {
               <Button
                 color="primary"
                 className={classes.button}
+                variant="contained"
                 onClick={this.handleClickOpen}
               >
                 Add tasks

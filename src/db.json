@@ -1,0 +1,52 @@
+{
+  "teams": [
+    {
+      "id": 1,
+      "TeamName": "Nike",
+      "TeamLogo": "Nike.png",
+      "Location": "Noida"
+    },
+    {
+      "id": 2,
+      "TeamName": "Titans",
+      "TeamLogo": "Titans.png",
+      "Location": "Noida"
+    },
+    {
+      "id": 3,
+      "TeamName": "Hades",
+      "TeamLogo": "Hades.png",
+      "Location": "Noida"
+    },
+    {
+      "id": 4,
+      "TeamName": "elektra",
+      "TeamLogo": "TeamLogo",
+      "Location": "Noida"
+    },
+    {
+      "id": 5,
+      "TeamName": "chk",
+      "TeamLogo": "Nemesis",
+      "Location": "Sydney"
+    },
+    {
+      "id": 6,
+      "TeamName": "kite",
+      "TeamLogo": "Nemesis",
+      "Location": "Sydney"
+    },
+    {
+      "id": 7,
+      "TeamName": "sadgg",
+      "TeamLogo": "Nike",
+      "Location": "Noida"
+    },
+    {
+      "id": 8,
+      "TeamName": "asdf",
+      "TeamLogo": "Nemesis",
+      "Location": "Sydney"
+    }
+  ]
+}

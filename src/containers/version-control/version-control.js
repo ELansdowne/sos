@@ -5,6 +5,9 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import Aux from "../../hoc/Auxi";
 import { withStyles } from "@material-ui/core";
+import { EnumToArray } from "../../shared/Utils/enumToArray";
+import { Releases } from "../../shared/model/release";
+import { Sprint } from "../../shared/model/sprint";
 
 const styles = theme => ({
   root: {},
@@ -21,47 +24,46 @@ export class VersionControl extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      age: "",
-      name: "hai",
+      release: "19E1",
+      sprint: "Sprint1",
       labelWidth: 0
     };
   }
+
+  handleChange = event => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
+
+  getSelectValues = enums => {
+    let values = EnumToArray.enumToArray(enums).map(result => {
+      return <MenuItem value={result}>{result}</MenuItem>;
+    });
+    return values;
+  };
   render() {
     const { classes } = this.props;
     return (
       <div className={classes.root}>
         <FormControl className={classes.formControl}>
           <Select
-            value={this.state.age}
+            value={this.state.release}
             onChange={this.handleChange}
             displayEmpty
-            name="age"
+            name="release"
             className={classes.selectEmpty}
           >
-            <MenuItem value="">
-              <em>Select Release</em>
-            </MenuItem>
-            <MenuItem value={19e1}>19E1</MenuItem>
-            <MenuItem value={19e2}>19E2</MenuItem>
-            <MenuItem value={19e2}>19E2</MenuItem>
+            {this.getSelectValues(Releases)}
           </Select>
         </FormControl>
         <FormControl className={classes.formControl}>
           <Select
-            value={this.state.age}
+            value={this.state.sprint}
             onChange={this.handleChange}
             displayEmpty
-            name="age"
+            name="sprint"
             className={classes.selectEmpty}
           >
-            <MenuItem value="">
-              <em>Select Sprint</em>
-            </MenuItem>
-            <MenuItem value={1}>Sprint 1</MenuItem>
-            <MenuItem value={2}>Sprint 2</MenuItem>
-            <MenuItem value={3}>Sprint 3</MenuItem>
-            <MenuItem value={4}>Sprint 4</MenuItem>
-            <MenuItem value={5}>Sprint 5</MenuItem>
+            {this.getSelectValues(Sprint)}
           </Select>
         </FormControl>
       </div>

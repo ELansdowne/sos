@@ -3,6 +3,11 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import { withStyles } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
+import { EnumToArray } from "../../../shared/Utils/enumToArray";
+import { Team } from "../../../shared/model/team";
+import { Location } from "../../../shared/model/location";
+import axios from "axios";
+import Teams from "../../teams/teams";
 
 const styles = theme => ({
   formControl: {
@@ -41,58 +46,77 @@ class AddTeamDialog extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      age: "",
-      name: "hai",
+      logo: "Nike",
+      name: "",
+      location: "Noida",
       labelWidth: 0
     };
   }
 
   closeDialog = () => {
+    let teams = new Teams();
+    axios
+      .post("http://localhost:3000/teams", {
+        id: 8,
+        TeamName: this.state.name,
+        TeamLogo: this.state.logo,
+        Location: this.state.location
+      })
+      .then(response => {
+        console.log("response", response);
+        window.location.reload();
+      })
+      .catch(error => {
+        console.log("error is", error);
+      });
     this.props.close();
   };
+
+  handleChange = event => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
+  getSelectValues = enums => {
+    let values = EnumToArray.enumToArray(enums).map(result => {
+      return <MenuItem value={result}>{result}</MenuItem>;
+    });
+    return values;
+  };
   render() {
+    console.log("props om this are ", this.props);
     const { classes } = this.props;
     return (
       <div className={classes.root}>
         <div className={classes.task}>
           <label className={classes.label}>Team Name</label>
-          <input type="text" />
+          <input
+            type="text"
+            onChange={this.handleChange}
+            value={this.state.name}
+            name="name"
+          />
         </div>
         <div className={classes.task}>
           <label className={classes.label}>Team Logo </label>
           <Select
-            value={this.state.age}
+            value={this.state.logo}
             onChange={this.handleChange}
             displayEmpty
-            name="age"
+            name="logo"
             className={classes.selectEmpty}
           >
-            <MenuItem value="">
-              <em>Select Release</em>
-            </MenuItem>
-            <MenuItem value={"Nike"}>Nike</MenuItem>
-            <MenuItem value={"Nemesis"}>Nemesis</MenuItem>
-            <MenuItem value={"Titans"}>Titans</MenuItem>
-            <MenuItem value={"Hades"}>Hades</MenuItem>
-            <MenuItem value={"Helios"}>Helios</MenuItem>
-            <MenuItem value={"Kratos"}>Kratos</MenuItem>
-            <MenuItem value={"Athena"}>Athena</MenuItem>
+            {this.getSelectValues(Team)}
           </Select>
         </div>
         <div className={classes.task}>
           <label className={classes.label}>Location </label>
           <Select
-            value={this.state.age}
+            value={this.state.location}
             onChange={this.handleChange}
             displayEmpty
-            name="age"
+            name="location"
             className={classes.selectEmpty}
           >
-            <MenuItem value="">
-              <em>Select Location</em>
-            </MenuItem>
-            <MenuItem value={"Nike"}>Noida</MenuItem>
-            <MenuItem value={"Nemesis"}>Sydney</MenuItem>
+            {this.getSelectValues(Location)}
           </Select>
         </div>
 
