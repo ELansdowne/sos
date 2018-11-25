@@ -1,5 +1,13 @@
 .root {
     flex: 1;
-    flex-wrap: wrap;
-    justify-content: space-around
+    flex-direction: column;
+}
+
+.formControl {
+    flex-direction: row;
+}
+
+.task {
+    flex-direction: row;
+    justify-content: center
 }
