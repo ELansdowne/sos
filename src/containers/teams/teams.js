@@ -19,15 +19,12 @@ export class Teams extends PureComponent {
       .get(`http://localhost:3000/getTeam`)
       .then(res => {
         this.setState({ teamData: res.data });
-        console.log(res.data);
       })
       .catch(error => {
         axios
           .get("http://localhost:3000/teams") //using json-server dependency for local json .. check db.json file for local data.
           .then(result => {
-            console.log("result is ", result);
             this.setState({ teamData: result.data });
-            console.log(result.data);
           })
           .catch(error => {
             this.setState({ teamData: teams });

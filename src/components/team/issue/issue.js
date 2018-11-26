@@ -42,7 +42,6 @@ export class Issue extends Component {
         }
       )
       .then(res => {
-        console.log(res);
         return null;
       });
   };

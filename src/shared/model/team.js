@@ -6,5 +6,6 @@ export const Team = {
   Hades: "Hades",
   Helios: "Helios",
   Kratos: "Kratos",
-  Athena: "Athena"
+  Athena: "Athena",
+  Caerus: "Caerus"
 };

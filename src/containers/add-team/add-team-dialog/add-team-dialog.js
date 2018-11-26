@@ -7,7 +7,6 @@ import { EnumToArray } from "../../../shared/Utils/enumToArray";
 import { Team } from "../../../shared/model/team";
 import { Location } from "../../../shared/model/location";
 import axios from "axios";
-import Teams from "../../teams/teams";
 
 const styles = theme => ({
   formControl: {
@@ -53,20 +52,27 @@ class AddTeamDialog extends PureComponent {
   }
 
   closeDialog = () => {
-    let teams = new Teams();
     axios
       .post("http://localhost:3000/addTeam", {
-        id: 8,
+        id: 9,
         TeamName: this.state.name,
         TeamLogo: this.state.name,
         Location: this.state.location
       })
       .then(response => {
-        console.log("response", response);
         window.location.reload();
       })
       .catch(error => {
-        console.log("error is", error);
+        axios
+          .post("http://localhost:3000/teams", {
+            id: 9,
+            TeamName: this.state.name,
+            TeamLogo: this.state.name,
+            Location: this.state.location
+          })
+          .then(response => {
+            window.location.reload();
+          });
       });
     this.props.close();
   };
@@ -75,13 +81,16 @@ class AddTeamDialog extends PureComponent {
     this.setState({ [event.target.name]: event.target.value });
   };
   getSelectValues = enums => {
-    let values = EnumToArray.enumToArray(enums).map(result => {
-      return <MenuItem value={result}>{result}</MenuItem>;
+    let values = EnumToArray.enumToArray(enums).map((result, index) => {
+      return (
+        <MenuItem key={index} value={result}>
+          {result}
+        </MenuItem>
+      );
     });
     return values;
   };
   render() {
-    console.log("props om this are ", this.props);
     const { classes } = this.props;
     return (
       <div className={classes.root}>

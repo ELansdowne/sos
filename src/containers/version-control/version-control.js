@@ -1,9 +1,7 @@
 import React, { PureComponent } from "react";
 import MenuItem from "@material-ui/core/MenuItem";
-import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-import Aux from "../../hoc/Auxi";
 import { withStyles } from "@material-ui/core";
 import { EnumToArray } from "../../shared/Utils/enumToArray";
 import { Releases } from "../../shared/model/release";
@@ -35,8 +33,12 @@ export class VersionControl extends PureComponent {
   };
 
   getSelectValues = enums => {
-    let values = EnumToArray.enumToArray(enums).map(result => {
-      return <MenuItem value={result}>{result}</MenuItem>;
+    let values = EnumToArray.enumToArray(enums).map((result, index) => {
+      return (
+        <MenuItem key={index} value={result}>
+          {result}
+        </MenuItem>
+      );
     });
     return values;
   };

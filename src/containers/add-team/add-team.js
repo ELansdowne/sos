@@ -59,13 +59,14 @@ export class AddTeam extends PureComponent {
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
-  componentDidMount() {
-    console.log("localtionis ", EnumToArray.enumToArray(Location));
-  }
 
   getSelectValues = enums => {
-    let values = EnumToArray.enumToArray(enums).map(result => {
-      return <MenuItem value={result}>{result}</MenuItem>;
+    let values = EnumToArray.enumToArray(enums).map((result, index) => {
+      return (
+        <MenuItem key={index} value={result}>
+          {result}
+        </MenuItem>
+      );
     });
     return values;
   };

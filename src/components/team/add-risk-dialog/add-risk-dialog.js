@@ -3,6 +3,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import { withStyles } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
+import { FeatureCategory } from "../../../shared/model/feature-category";
+import { EnumToArray } from "../../../shared/Utils/enumToArray";
 
 const styles = theme => ({
   formControl: {
@@ -56,6 +58,17 @@ class AddRiskDialog extends PureComponent {
   handleChange(event) {
     this.setState({ [event.target.name]: event.target.value });
   }
+
+  getSelectValues = enums => {
+    let values = EnumToArray.enumToArray(enums).map((result, index) => {
+      return (
+        <MenuItem key={index} value={result}>
+          {result}
+        </MenuItem>
+      );
+    });
+    return values;
+  };
   render() {
     const { classes } = this.props;
     return (
@@ -69,12 +82,7 @@ class AddRiskDialog extends PureComponent {
             name="typeName"
             className={classes.selectEmpty}
           >
-            <MenuItem value="">
-              <em>Select a Category</em>
-            </MenuItem>
-            <MenuItem value={"Risks"}>Risks</MenuItem>
-            <MenuItem value={"Dependencies"}>Dependencies</MenuItem>
-            <MenuItem value={"Blockers"}>Blockers</MenuItem>
+            {this.getSelectValues(FeatureCategory)}
           </Select>
         </div>
         <div className={classes.task}>

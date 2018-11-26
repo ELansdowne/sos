@@ -6,10 +6,13 @@ import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
-import AddTaskDialog from "../add-task-dialog/add-task-dialog";
 import Issue from "../issue/issue";
 import Task from "../task/task";
 import axios from "axios";
+import features from "../../../assets/localDB/features.json";
+import AddFeatureDialog from "../add-feature-dialog/add-feature-dialog";
+import { FeatureStatus } from "../../../shared/model/feature-status";
+import { Team } from "../../../shared/model/team";
 
 const styles = theme => ({
   root: {
@@ -32,29 +35,14 @@ class TeamPanel extends PureComponent {
     super(props);
     this.state = {
       open: false,
-      status: " "
+      status: " ",
+      features: null
     };
   }
 
-  static getContext() {
-    return this.props;
+  componentDidMount() {
+    this.getFeatures();
   }
-
-  handleClickOpen = () => {
-    this.setState({ open: true });
-  };
-
-  handleClose = () => {
-    this.setState({ open: false });
-  };
-  handleChange = event => {
-    if (event.target.name === "red")
-      this.setState({ status: event.target.name });
-    if (event.target.name === "amber")
-      this.setState({ status: event.target.name });
-    if (event.target.name === "green")
-      this.setState({ status: event.target.name });
-  };
   componentDidUpdate() {
     const statusData = {
       status: this.state.status
@@ -72,28 +60,73 @@ class TeamPanel extends PureComponent {
         }
       )
       .then(res => {
-        console.log(res);
         return null;
       });
   }
+
+  getFeatures() {
+    axios
+      .get(`http://localhost:3000/getFeature`)
+      .then(res => {
+        this.setState({ features: res.data });
+      })
+      .catch(error => {
+        axios
+          .get("http://localhost:3000/features") //using json-server dependency for local json .. check db.json file for local data.
+          .then(result => {
+            this.setState({ features: result.data });
+          })
+          .catch(error => {
+            this.setState({ features: features });
+          });
+      });
+  }
+  handleClickOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+  handleChange = event => {
+    if (event.target.name === FeatureStatus.RED)
+      this.setState({ status: event.target.name });
+    if (event.target.name === FeatureStatus.AMBER)
+      this.setState({ status: event.target.name });
+    if (event.target.name === FeatureStatus.GREEN)
+      this.setState({ status: event.target.name });
+  };
+
   render() {
-    console.log("props team panel ", this.props.data);
     const { classes } = this.props;
+    let features = null;
+    if (this.state.features) {
+      features = this.state.features.map((feature, index) => {
+        return (
+          <Task
+            key={feature.id}
+            name={feature.taskName}
+            owner={feature.productOwner}
+          />
+        );
+      });
+    }
+
     let imgPath = "default.jpg";
     switch (this.props.data.TeamName) {
-      case "Nike":
+      case Team.Nike:
         imgPath = "Nike.png";
         break;
-      case "Titans":
+      case Team.Titans:
         imgPath = "Titans.png";
         break;
-      case "Hades":
+      case Team.Hades:
         imgPath = "Hades.png";
         break;
-      case "Caerus":
+      case Team.Caerus:
         imgPath = "Caerus.png";
         break;
-      case "Nemesis":
+      case Team.Nemesis:
         imgPath = "Nemesis.png";
         break;
       default:
@@ -102,13 +135,13 @@ class TeamPanel extends PureComponent {
     }
     let color = "white";
     switch (this.state.status) {
-      case "green":
+      case FeatureStatus.GREEN:
         color = "#55ce55";
         break;
-      case "amber":
+      case FeatureStatus.AMBER:
         color = "#FFBF00";
         break;
-      case "red":
+      case FeatureStatus.RED:
         color = "#fb4141";
         break;
       default:
@@ -129,7 +162,7 @@ class TeamPanel extends PureComponent {
           <DialogTitle id="alert-dialog-slide-title">
             {"Add Features"}
           </DialogTitle>
-          <AddTaskDialog close={this.handleClose} />
+          <AddFeatureDialog close={this.handleClose} />
         </Dialog>
         <Grid container spacing={8}>
           <Grid item xs={1}>
@@ -190,10 +223,7 @@ class TeamPanel extends PureComponent {
             </Paper>
           </Grid>
           <Grid item xs={4}>
-            <Paper className={classes.paper}>
-              <Task />
-              <Task />
-            </Paper>
+            <Paper className={classes.paper}>{features}</Paper>
           </Grid>
           <Grid item xs={3}>
             <Paper className={classes.paper}>

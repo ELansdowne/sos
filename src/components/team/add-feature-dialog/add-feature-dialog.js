@@ -3,8 +3,9 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import { withStyles } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import TeamPanel from "../team-panel/team-panel";
-import style from "./add-task-dialog.module.css";
+import { EnumToArray } from "../../../shared/Utils/enumToArray";
+import { Category } from "../../../shared/model/category";
+import axios from "axios";
 
 const styles = theme => ({
   formControl: {
@@ -39,7 +40,7 @@ const styles = theme => ({
     marginRight: "20px"
   }
 });
-class AddTaskDialog extends PureComponent {
+class AddFeatureDialog extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -51,12 +52,43 @@ class AddTaskDialog extends PureComponent {
   }
 
   closeDialog = () => {
+    axios
+      .post("http://localhost:3000/addFeature", {
+        id: 6,
+        taskName: this.state.task,
+        productOwner: this.state.assigned
+      })
+      .then(response => {
+        window.location.reload();
+      })
+      .catch(error => {
+        axios
+          .post("http://localhost:3000/features", {
+            id: 5,
+            taskName: this.state.task,
+            productOwner: this.state.assigned
+          })
+          .then(response => {
+            window.location.reload();
+          });
+      });
     this.props.close();
   };
 
   handleChange(event) {
     this.setState({ [event.target.name]: event.target.value });
   }
+
+  getSelectValues = enums => {
+    let values = EnumToArray.enumToArray(enums).map((result, index) => {
+      return (
+        <MenuItem key={index} value={result}>
+          {result}
+        </MenuItem>
+      );
+    });
+    return values;
+  };
   render() {
     const { classes } = this.props;
     return (
@@ -70,12 +102,7 @@ class AddTaskDialog extends PureComponent {
             name="task"
             className={classes.selectEmpty}
           >
-            <MenuItem value="">
-              <em>Select a Category</em>
-            </MenuItem>
-            <MenuItem value={"WorkRequest"}>WorkRequest</MenuItem>
-            <MenuItem value={"CI"}>CI</MenuItem>
-            <MenuItem value={"CA"}>CA</MenuItem>
+            {this.getSelectValues(Category)}
           </Select>
         </div>
         <div className={classes.task}>
@@ -109,4 +136,4 @@ class AddTaskDialog extends PureComponent {
   }
 }
 
-export default withStyles(styles)(AddTaskDialog);
+export default withStyles(styles)(AddFeatureDialog);

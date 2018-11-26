@@ -19,10 +19,11 @@ const styles = theme => ({
     fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular,
     display: "flex",
-    flexDirection: "row"
+    flexDirection: "row",
+    justifyContent: "space-between"
   },
   input: {
-    margin: "1px"
+    marginRight: "10px"
   }
 });
 function Transition(props) {
@@ -63,8 +64,9 @@ export class Task extends PureComponent {
               <input
                 placeholder="workrequest information"
                 className={classes.input}
+                value={this.props.name}
               />
-              <input placeholder="product owner" />
+              <input placeholder="product owner" value={this.props.owner} />
             </Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
