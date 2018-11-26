@@ -23,7 +23,7 @@ function Header(props) {
     <Aux>
       <AppBar position="static" color="default" className={classes.appBar}>
         <Toolbar className={style.toolBar}>
-          <Typography variant="h6" color="inherit">
+          <Typography variant="h5" color="inherit">
             SOS
           </Typography>
         </Toolbar>

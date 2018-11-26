@@ -24,8 +24,8 @@ export class VersionControl extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      release: "19E1",
-      sprint: "Sprint1",
+      release: "Select Release",
+      sprint: "Select a Sprint",
       labelWidth: 0
     };
   }

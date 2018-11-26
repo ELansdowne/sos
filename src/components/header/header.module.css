@@ -1,10 +1,11 @@
 .toolBar {
-    align-items: center;
-    justify-content: center;
-    background-color: brown;
+  align-items: center;
+  justify-content: center;
+  background-color: #3f51b5;
+  color: white;
 }
 
 .versionControl {
-    justify-content: end;
-    align-items: flex-end
+  justify-content: end;
+  align-items: flex-end;
 }

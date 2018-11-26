@@ -13,7 +13,6 @@ export class Teams extends PureComponent {
   }
   componentDidMount() {
     this.getTeams();
-    console.log("local rteam", teams);
   }
   getTeams() {
     axios

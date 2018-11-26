@@ -1,4 +1,5 @@
 export const Team = {
+  None: "Select a Team",
   Nike: "Nike",
   Nemesis: "Nemesis",
   Titans: "Titans",

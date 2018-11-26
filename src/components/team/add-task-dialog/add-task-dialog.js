@@ -40,7 +40,6 @@ const styles = theme => ({
   }
 });
 class AddTaskDialog extends PureComponent {
-  // teamPanel = new TeamPanel();
   constructor(props) {
     super(props);
     this.state = {
@@ -52,12 +51,10 @@ class AddTaskDialog extends PureComponent {
   }
 
   closeDialog = () => {
-    console.log("stateas", this.state.task, this.state.assigned);
     this.props.close();
   };
 
   handleChange(event) {
-    console.log("sdsd", event.target);
     this.setState({ [event.target.name]: event.target.value });
   }
   render() {
@@ -74,7 +71,7 @@ class AddTaskDialog extends PureComponent {
             className={classes.selectEmpty}
           >
             <MenuItem value="">
-              <em>Select Release</em>
+              <em>Select a Category</em>
             </MenuItem>
             <MenuItem value={"WorkRequest"}>WorkRequest</MenuItem>
             <MenuItem value={"CI"}>CI</MenuItem>
@@ -82,7 +79,7 @@ class AddTaskDialog extends PureComponent {
           </Select>
         </div>
         <div className={classes.task}>
-          <label className={classes.label}>Assigned to</label>
+          <label className={classes.label}>Product Owner:</label>
           <input
             type="text"
             name="assigned"
