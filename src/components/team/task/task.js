@@ -11,6 +11,8 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
 import AddRiskDialog from "../add-risk-dialog/add-risk-dialog";
 import axios from "axios";
+import Issue from "../issue/issue";
+import issues from "../../../assets/localDB/issues.json";
 
 const styles = theme => ({
   root: {
@@ -44,8 +46,39 @@ export class Task extends PureComponent {
       workrequest: "",
       noOfBlocker: "",
       taskData: null,
-      open: false
+      open: false,
+      issueData: null
     };
+  }
+
+  componentDidMount() {
+    this.getTeams();
+  }
+  getTeams() {
+    axios
+      .get(`http://localhost:3000/getIssues`)
+      .then(result => {
+        let filteredIssues = this.filterIssues(result.data);
+        this.setState({ issueData: filteredIssues });
+      })
+      .catch(error => {
+        axios
+          .get("http://localhost:3000/issues") //using json-server dependency for local json .. check db.json file for local data.
+          .then(result => {
+            let filteredIssues = this.filterIssues(result.data);
+            this.setState({ issueData: filteredIssues });
+          })
+          .catch(error => {
+            let filteredIssues = this.filterIssues(issues);
+            this.setState({ issueData: filteredIssues });
+          });
+      });
+  }
+  filterIssues(issues = []) {
+    /* filter issues corresponding to teamId*/
+    return issues.filter(
+      feature => feature.FeatureId === this.props.feature.FeatureId
+    );
   }
   handleClickOpen = () => {
     this.setState({ open: true });
@@ -81,13 +114,17 @@ export class Task extends PureComponent {
         }
       )
       .then(res => {
-        console.log(res);
-        console.log(res.data);
         return null;
       });
     this.setState({ isSubmitted: true });
   };
   render() {
+    let issues = null;
+    if (this.state.issueData) {
+      issues = this.state.issueData.map((issue, index) => {
+        return <Issue key={index} issue={issue} />;
+      });
+    }
     let cardColor = "rgba(19, 19, 241, 0.281)";
     const { classes } = this.props;
     switch (this.props.name) {
@@ -113,14 +150,14 @@ export class Task extends PureComponent {
                 placeholder="workrequest information"
                 name="workrequest"
                 className={classes.input}
-                value={this.props.info}
+                value={this.props.feature.WorkRequestInfo}
                 style={{ background: cardColor }}
               />
               <input
                 placeholder="product owner"
                 name="owner"
                 style={{ background: cardColor }}
-                value={this.props.owner}
+                value={this.props.feature.AssignedTo}
               />
             </Typography>
           </ExpansionPanelSummary>
@@ -227,7 +264,10 @@ export class Task extends PureComponent {
                   <DialogTitle id="alert-dialog-slide-title">
                     {"Add Risks/Dependencies/Blockers"}
                   </DialogTitle>
-                  <AddRiskDialog close={this.handleClose} />
+                  <AddRiskDialog
+                    close={this.handleClose}
+                    feature={this.props.feature.FeatureId}
+                  />
                 </Dialog>
                 <Button
                   color="default"
@@ -252,6 +292,7 @@ export class Task extends PureComponent {
               </div>
             </Typography>
           </ExpansionPanelDetails>
+          here{issues}
         </ExpansionPanel>
       </div>
     );

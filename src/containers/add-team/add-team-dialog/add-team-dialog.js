@@ -52,6 +52,11 @@ class AddTeamDialog extends PureComponent {
   }
 
   closeDialog = () => {
+    this.props.close();
+  };
+
+  createTeam = () => {
+    /*  Parameter as TeamId has to be generated at backend to uniquely identify every team.*/
     const teamData = {
       TeamName: this.state.teamName,
       TeamLogo: this.state.teamName,
@@ -132,7 +137,7 @@ class AddTeamDialog extends PureComponent {
             variant="contained"
             color="primary"
             className={classes.button}
-            onClick={this.closeDialog}
+            onClick={this.createTeam}
           >
             Submit
           </Button>

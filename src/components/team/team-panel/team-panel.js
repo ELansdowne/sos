@@ -6,7 +6,6 @@ import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
-import Issue from "../issue/issue";
 import Task from "../task/task";
 import axios from "axios";
 import features from "../../../assets/localDB/features.json";
@@ -67,19 +66,29 @@ class TeamPanel extends PureComponent {
   getFeatures() {
     axios
       .get(`http://localhost:3000/getTask`)
-      .then(res => {
-        this.setState({ features: res.data });
+      .then(result => {
+        let filteredFeatures = this.filterFeatures(result.data);
+        this.setState({ features: filteredFeatures });
       })
       .catch(error => {
         axios
           .get("http://localhost:3000/features") //using json-server dependency for local json .. check db.json file for local data.
           .then(result => {
-            this.setState({ features: result.data });
+            let filteredFeatures = this.filterFeatures(result.data);
+            this.setState({ features: filteredFeatures });
           })
           .catch(error => {
-            this.setState({ features: features });
+            let filteredFeatures = this.filterFeatures(features);
+            this.setState({ features: filteredFeatures });
           });
       });
+  }
+
+  filterFeatures(features = []) {
+    /* filter features corresponding to teamId*/
+    return features.filter(
+      feature => feature.TeamId === this.props.data.TeamId
+    );
   }
   handleClickOpen = () => {
     this.setState({ open: true });
@@ -102,14 +111,7 @@ class TeamPanel extends PureComponent {
     let features = null;
     if (this.state.features) {
       features = this.state.features.map((feature, index) => {
-        return (
-          <Task
-            key={feature.id}
-            name={feature.Tasks}
-            info={feature.WorkRequestInfo}
-            owner={feature.AssignedTo}
-          />
-        );
+        return <Task feature={feature} key={index} />;
       });
     }
 
@@ -163,7 +165,10 @@ class TeamPanel extends PureComponent {
           <DialogTitle id="alert-dialog-slide-title">
             {"Add Features"}
           </DialogTitle>
-          <AddFeatureDialog close={this.handleClose} />
+          <AddFeatureDialog
+            close={this.handleClose}
+            teamData={this.props.data}
+          />
         </Dialog>
         <Grid container spacing={8}>
           <Grid item xs={1}>
@@ -227,9 +232,7 @@ class TeamPanel extends PureComponent {
             <Paper className={classes.paper}>{features}</Paper>
           </Grid>
           <Grid item xs={3}>
-            <Paper className={classes.paper}>
-              <Issue />
-            </Paper>
+            <Paper className={classes.paper} />
           </Grid>
           <Grid item xs={4}>
             <Paper className={classes.paper} />

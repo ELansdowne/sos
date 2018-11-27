@@ -6,6 +6,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { FeatureCategory } from "../../../shared/model/feature-category";
 import { EnumToArray } from "../../../shared/Utils/enumToArray";
+import axios from "axios";
 
 const styles = theme => ({
   formControl: {
@@ -55,6 +56,36 @@ class AddRiskDialog extends PureComponent {
 
   closeDialog = () => {
     this.props.close();
+  };
+  postIssue = () => {
+    /*  Ruchi ur post service goes here mine in catch block*/
+    const teamData = {
+      TeamName: this.state.teamName,
+      TeamLogo: this.state.teamName,
+      Location: this.state.location
+    };
+    axios
+      .post("http://localhost:3000/addIssue", {
+        teamData
+      })
+      .then(response => {
+        window.location.reload();
+      })
+      .catch(error => {
+        axios
+          .post("http://localhost:3000/issues", {
+            id: 5,
+            FeatureId: this.props.feature,
+            IssueId: "IR005", //this is unique id for every issue , this has to be generated in backend , we don;t have to send it
+            Category: this.state.typeName,
+            Description: this.state.description,
+            AssignedTo: this.state.rAssignedName,
+            date: this.state.date
+          })
+          .then(response => {
+            window.location.reload();
+          });
+      });
   };
 
   handleChange(event) {
@@ -127,7 +158,7 @@ class AddRiskDialog extends PureComponent {
             variant="contained"
             color="primary"
             className={classes.button}
-            onClick={this.closeDialog}
+            onClick={this.postIssue}
           >
             Submit
           </Button>

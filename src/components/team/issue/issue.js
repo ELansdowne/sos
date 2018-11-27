@@ -1,12 +1,14 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import Card from "@material-ui/core/Card";
 import TextField from "@material-ui/core/TextField";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
+import { FormatDate } from "../../../shared/Utils/format-date";
+import { FeatureCategory } from "../../../shared/model/feature-category";
 
-export class Issue extends Component {
-  constructor() {
-    super();
+class Issue extends PureComponent {
+  constructor(props) {
+    super(props);
     this.state = {
       assignedName: "",
       description: "",
@@ -15,16 +17,20 @@ export class Issue extends Component {
   }
 
   render() {
+    let endDate = null;
+    if (this.props.issue) {
+      endDate = FormatDate.formatDate(this.props.issue.date);
+    }
     let bgColorConfig = "orangered";
     let cardType = this.props.cardType ? this.props.cardType : "Risks";
     switch (cardType) {
-      case "Risks":
+      case FeatureCategory.Risks:
         bgColorConfig = "orangered";
         break;
-      case "Blockers":
+      case FeatureCategory.Blockers:
         bgColorConfig = "palevioletred";
         break;
-      case "Dependencies":
+      case FeatureCategory.Dependencies:
         bgColorConfig = "peachpuff";
         break;
       default:
@@ -33,7 +39,7 @@ export class Issue extends Component {
     }
 
     return (
-      <Card style={{ background: bgColorConfig }}>
+      <Card style={{ background: bgColorConfig, margin: "10px" }}>
         <CardContent>
           <Typography
             color="textSecondary"
@@ -50,7 +56,7 @@ export class Issue extends Component {
               name="description"
               placeholder="description"
               style={{ width: "100%" }}
-              value={this.state.description}
+              value={this.props.issue.Description}
             />
             <Typography>
               <TextField
@@ -59,14 +65,14 @@ export class Issue extends Component {
                 type="text"
                 placeholder="Assigned to"
                 style={{ width: "45%" }}
-                value={this.state.assignedName}
+                value={this.props.issue.AssignedTo}
               />
               <TextField
                 id="date"
                 name="date"
                 type="date"
                 style={{ marginLeft: "8px", width: "50%" }}
-                value={this.state.date}
+                value={endDate}
               />
             </Typography>
           </Typography>

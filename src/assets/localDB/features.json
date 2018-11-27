@@ -1,21 +1,65 @@
- [{
-         "id": 1,
-         "taskName": "WorkRequest",
-         "productOwner": "Santi"
-     },
-     {
-         "id": 2,
-         "taskName": "CI",
-         "productOwner": "Moni"
-     },
-     {
-         "id": 3,
-         "taskName": "CA",
-         "productOwner": "Leno"
-     },
-     {
-         "id": 4,
-         "taskName": "CI",
-         "productOwner": "Keto"
-     }
- ]
+[{
+        "id": 1,
+        "Tasks": "WorkRequest",
+        "AssignedTo": "Santi",
+        "WorkRequestInfo": "NA",
+        "TeamId": "TR001",
+        "FeatureId": "FR001"
+    },
+    {
+        "id": 2,
+        "Tasks": "CI",
+        "AssignedTo": "Moni",
+        "WorkRequestInfo": "NA",
+        "TeamId": "TR001",
+        "FeatureId": "FR002"
+    },
+    {
+        "id": 3,
+        "Tasks": "CA",
+        "AssignedTo": "Leno",
+        "WorkRequestInfo": "NA",
+        "TeamId": "TR001",
+        "FeatureId": "FR003"
+    },
+    {
+        "id": 4,
+        "Tasks": "CI",
+        "AssignedTo": "Keto",
+        "WorkRequestInfo": "NA",
+        "TeamId": "TR002",
+        "FeatureId": "FR004"
+    },
+    {
+        "id": 5,
+        "Tasks": "WorkRequest",
+        "AssignedTo": "ammo",
+        "WorkRequestInfo": "NA",
+        "TeamId": "TR002",
+        "FeatureId": "FR005"
+    },
+    {
+        "id": 6,
+        "Tasks": "CI",
+        "AssignedTo": "Apkl",
+        "WorkRequestInfo": "checker",
+        "TeamId": "TR003",
+        "FeatureId": "FR006"
+    },
+    {
+        "id": 7,
+        "Tasks": "CI",
+        "AssignedTo": "Amit",
+        "WorkRequestInfo": "chekkk",
+        "TeamId": "TR001",
+        "FeatureId": "FR007"
+    },
+    {
+        "id": 8,
+        "Tasks": "CA",
+        "AssignedTo": "Ankit",
+        "WorkRequestInfo": "chek",
+        "TeamId": "TR002",
+        "FeatureId": "FR008"
+    }
+]

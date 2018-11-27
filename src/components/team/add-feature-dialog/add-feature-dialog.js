@@ -53,6 +53,11 @@ class AddFeatureDialog extends PureComponent {
   }
 
   closeDialog = () => {
+    this.props.close();
+  };
+
+  createFeature = () => {
+    /*  a unique parameter as FeatureId has to generated at backend to uniquely identify every feature also to map every feature with team*/
     const taskData = {
       Tasks: this.state.task,
       AssignedTo: this.state.assigned,
@@ -68,10 +73,11 @@ class AddFeatureDialog extends PureComponent {
       .catch(error => {
         axios
           .post("http://localhost:3000/features", {
-            id: 5,
-            taskName: this.state.task,
-            productOwner: this.state.assigned,
-            WorkRequestInfo: this.state.taskId
+            id: 8,
+            Tasks: this.state.task,
+            AssignedTo: this.state.assigned,
+            WorkRequestInfo: this.state.taskId,
+            TeamId: this.props.teamData.TeamId
           })
           .then(response => {
             window.location.reload();
@@ -140,7 +146,7 @@ class AddFeatureDialog extends PureComponent {
             variant="contained"
             color="primary"
             className={classes.button}
-            onClick={this.closeDialog}
+            onClick={this.createFeature}
           >
             Submit
           </Button>

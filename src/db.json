@@ -4,64 +4,156 @@
       "id": 1,
       "TeamName": "Nike",
       "TeamLogo": "Nike.png",
-      "Location": "Noida"
+      "Location": "Noida",
+      "TeamId": "TR001"
     },
     {
       "id": 2,
       "TeamName": "Titans",
       "TeamLogo": "Titans.png",
-      "Location": "Noida"
+      "Location": "Noida",
+      "TeamId": "TR002"
     },
     {
       "id": 3,
       "TeamName": "Hades",
       "TeamLogo": "Hades.png",
-      "Location": "Noida"
+      "Location": "Noida",
+      "TeamId": "TR003"
     },
     {
       "id": 4,
       "TeamName": "elektra",
       "TeamLogo": "TeamLogo",
-      "Location": "Noida"
+      "Location": "Noida",
+      "TeamId": "TR004"
     },
     {
       "id": 5,
       "TeamName": "chk",
       "TeamLogo": "Nemesis",
-      "Location": "Sydney"
+      "Location": "Sydney",
+      "TeamId": "TR005"
     },
     {
-      "id": 9,
+      "id": 6,
       "TeamName": "Nemesis",
       "TeamLogo": "Nemesis",
-      "Location": "Sydney"
+      "Location": "Sydney",
+      "TeamId": "TR006"
     }
   ],
   "features": [
     {
       "id": 1,
-      "taskName": "WorkRequest",
-      "productOwner": "Santi"
+      "Tasks": "WorkRequest",
+      "AssignedTo": "Santi",
+      "WorkRequestInfo": "NA",
+      "TeamId": "TR001",
+      "FeatureId": "FR001"
     },
     {
       "id": 2,
-      "taskName": "CI",
-      "productOwner": "Moni"
+      "Tasks": "CI",
+      "AssignedTo": "Moni",
+      "WorkRequestInfo": "NA",
+      "TeamId": "TR001",
+      "FeatureId": "FR002"
     },
     {
       "id": 3,
-      "taskName": "CA",
-      "productOwner": "Leno"
+      "Tasks": "CA",
+      "AssignedTo": "Leno",
+      "WorkRequestInfo": "NA",
+      "TeamId": "TR001",
+      "FeatureId": "FR003"
     },
     {
       "id": 4,
-      "taskName": "CI",
-      "productOwner": "Keto"
+      "Tasks": "CI",
+      "AssignedTo": "Keto",
+      "WorkRequestInfo": "NA",
+      "TeamId": "TR002",
+      "FeatureId": "FR004"
     },
     {
       "id": 5,
-      "taskName": "WorkRequest",
-      "productOwner": "ammo"
+      "Tasks": "WorkRequest",
+      "AssignedTo": "ammo",
+      "WorkRequestInfo": "NA",
+      "TeamId": "TR002",
+      "FeatureId": "FR005"
+    },
+    {
+      "id": 6,
+      "Tasks": "CI",
+      "AssignedTo": "Apkl",
+      "WorkRequestInfo": "checker",
+      "TeamId": "TR003",
+      "FeatureId": "FR006"
+    },
+    {
+      "id": 7,
+      "Tasks": "CI",
+      "AssignedTo": "Amit",
+      "WorkRequestInfo": "chekkk",
+      "TeamId": "TR001",
+      "FeatureId": "FR007"
+    },
+    {
+      "id": 8,
+      "Tasks": "CA",
+      "AssignedTo": "Ankit",
+      "WorkRequestInfo": "chek",
+      "TeamId": "TR002",
+      "FeatureId": "FR008"
+    }
+  ],
+  "issues": [
+    {
+      "id": 1,
+      "FeatureId": "FR001",
+      "IssueId": "IR001",
+      "Category": "Risks",
+      "Description": "just an test",
+      "AssignedTo": "Amit",
+      "date": "Thu Jan 01 2019 05:30:00 GMT+0530 (India Standard Time)"
+    },
+    {
+      "id": 2,
+      "FeatureId": "FR001",
+      "IssueId": "IR002",
+      "Category": "Risks",
+      "Description": "just an test",
+      "AssignedTo": "Amit",
+      "date": "Thu Jan 01 2019 05:30:00 GMT+0530 (India Standard Time)"
+    },
+    {
+      "id": 3,
+      "FeatureId": "FR002",
+      "IssueId": "IR003",
+      "Category": "Blockers",
+      "Description": "just an test",
+      "AssignedTo": "Amit",
+      "date": "Thu Jan 01 2019 05:30:00 GMT+0530 (India Standard Time)"
+    },
+    {
+      "id": 4,
+      "FeatureId": "FR002",
+      "IssueId": "IR004",
+      "Category": "Blockers",
+      "Description": "just an test",
+      "AssignedTo": "Amit",
+      "date": "Thu Jan 01 2019 05:30:00 GMT+0530 (India Standard Time)"
+    },
+    {
+      "id": 5,
+      "FeatureId": "FR001",
+      "IssueId": "IR005",
+      "Category": "Dependencies",
+      "Description": "dependent on t01",
+      "AssignedTo": "Ascensio",
+      "date": "2018-11-30"
     }
   ]
 }
