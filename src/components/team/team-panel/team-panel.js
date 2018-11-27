@@ -66,7 +66,7 @@ class TeamPanel extends PureComponent {
 
   getFeatures() {
     axios
-      .get(`http://localhost:3000/getFeature`)
+      .get(`http://localhost:3000/getTask`)
       .then(res => {
         this.setState({ features: res.data });
       })
@@ -105,8 +105,9 @@ class TeamPanel extends PureComponent {
         return (
           <Task
             key={feature.id}
-            name={feature.taskName}
-            owner={feature.productOwner}
+            name={feature.Tasks}
+            info={feature.WorkRequestInfo}
+            owner={feature.AssignedTo}
           />
         );
       });
@@ -231,9 +232,7 @@ class TeamPanel extends PureComponent {
             </Paper>
           </Grid>
           <Grid item xs={4}>
-            <Paper className={classes.paper}>
-              <Task />
-            </Paper>
+            <Paper className={classes.paper} />
           </Grid>
         </Grid>
       </div>

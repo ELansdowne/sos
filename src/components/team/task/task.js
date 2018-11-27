@@ -10,6 +10,7 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
 import AddRiskDialog from "../add-risk-dialog/add-risk-dialog";
+import axios from "axios";
 
 const styles = theme => ({
   root: {
@@ -53,9 +54,56 @@ export class Task extends PureComponent {
   handleClose = () => {
     this.setState({ open: false });
   };
+  handleChange = event => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
+  handleSave = event => {
+    event.preventDefault();
+    const taskRequestData = {
+      WorkRequestInfo: this.state.workrequest,
+      NBlocker: this.state.noOfBlocker,
+      NDependency: this.state.noOfDependency,
+      Size: this.state.size,
+      Priority: this.state.priority,
+      StartDate: this.state.sprintStartDate,
+      EndDate: this.state.sprintEndDate
+    };
+    axios
+      .post(
+        `http://localhost:3000/addPatch`,
+        {
+          taskRequestData
+        },
+        {
+          headers: {
+            "Access-Control-Allow-Origin": "*"
+          }
+        }
+      )
+      .then(res => {
+        console.log(res);
+        console.log(res.data);
+        return null;
+      });
+    this.setState({ isSubmitted: true });
+  };
   render() {
     let cardColor = "rgba(19, 19, 241, 0.281)";
     const { classes } = this.props;
+    switch (this.props.name) {
+      case "WorkRequest":
+        cardColor = "rgba(19, 19, 241, 0.281)";
+        break;
+      case "CI":
+        cardColor = "peachpuff";
+        break;
+      case "CA":
+        cardColor = "#ffce75";
+        break;
+      default:
+        cardColor = "rgba(19, 19, 241, 0.281)";
+        break;
+    }
     return (
       <div className={classes.root}>
         <ExpansionPanel>
@@ -63,10 +111,17 @@ export class Task extends PureComponent {
             <Typography className={classes.heading}>
               <input
                 placeholder="workrequest information"
+                name="workrequest"
                 className={classes.input}
-                value={this.props.name}
+                value={this.props.info}
+                style={{ background: cardColor }}
               />
-              <input placeholder="product owner" value={this.props.owner} />
+              <input
+                placeholder="product owner"
+                name="owner"
+                style={{ background: cardColor }}
+                value={this.props.owner}
+              />
             </Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>

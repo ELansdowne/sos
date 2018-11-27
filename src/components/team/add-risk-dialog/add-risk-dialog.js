@@ -2,6 +2,7 @@ import React, { PureComponent } from "react";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import { withStyles } from "@material-ui/core";
+import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { FeatureCategory } from "../../../shared/model/feature-category";
 import { EnumToArray } from "../../../shared/Utils/enumToArray";
@@ -43,10 +44,11 @@ class AddRiskDialog extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      assigned: "",
       labelWidth: 0,
       typeName: "Risks",
-      rAssignedName: ""
+      rAssignedName: "",
+      description: "",
+      date: ""
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -86,11 +88,30 @@ class AddRiskDialog extends PureComponent {
           </Select>
         </div>
         <div className={classes.task}>
-          <label className={classes.label}>Product owner</label>
+          <label className={classes.label}>Description:</label>
+          <TextField
+            type="text"
+            name="description"
+            style={{ width: "75%", textOverflow: "ellipsis" }}
+            value={this.state.description}
+            onChange={this.handleChange}
+          />
+        </div>
+        <div className={classes.task}>
+          <label className={classes.label}>Product owner:</label>
           <input
             type="text"
             name="rAssignedName"
             value={this.state.rAssignedName}
+            onChange={this.handleChange}
+          />
+        </div>
+        <div className={classes.task}>
+          <label className={classes.label}>Date:</label>
+          <input
+            type="date"
+            name="date"
+            value={this.state.date}
             onChange={this.handleChange}
           />
         </div>

@@ -45,19 +45,21 @@ class AddTeamDialog extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      name: "Select a Team",
+      teamName: "Select a Team",
       location: "Select a location",
       labelWidth: 0
     };
   }
 
   closeDialog = () => {
+    const teamData = {
+      TeamName: this.state.teamName,
+      TeamLogo: this.state.teamName,
+      Location: this.state.location
+    };
     axios
       .post("http://localhost:3000/addTeam", {
-        id: 9,
-        TeamName: this.state.name,
-        TeamLogo: this.state.name,
-        Location: this.state.location
+        teamData
       })
       .then(response => {
         window.location.reload();
@@ -65,9 +67,8 @@ class AddTeamDialog extends PureComponent {
       .catch(error => {
         axios
           .post("http://localhost:3000/teams", {
-            id: 9,
-            TeamName: this.state.name,
-            TeamLogo: this.state.name,
+            TeamName: this.state.teamName,
+            TeamLogo: this.state.teamName,
             Location: this.state.location
           })
           .then(response => {
@@ -97,10 +98,10 @@ class AddTeamDialog extends PureComponent {
         <div className={classes.task}>
           <label className={classes.label}>Team Name </label>
           <Select
-            value={this.state.name}
+            value={this.state.teamName}
             onChange={this.handleChange}
             displayEmpty
-            name="name"
+            name="teamName"
             className={classes.selectEmpty}
           >
             {this.getSelectValues(Team)}

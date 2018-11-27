@@ -46,17 +46,21 @@ class AddFeatureDialog extends PureComponent {
     this.state = {
       assigned: "",
       labelWidth: 0,
-      task: "WorkRequest"
+      task: "WorkRequest",
+      taskId: ""
     };
     this.handleChange = this.handleChange.bind(this);
   }
 
   closeDialog = () => {
+    const taskData = {
+      Tasks: this.state.task,
+      AssignedTo: this.state.assigned,
+      WorkRequestInfo: this.state.taskId
+    };
     axios
-      .post("http://localhost:3000/addFeature", {
-        id: 6,
-        taskName: this.state.task,
-        productOwner: this.state.assigned
+      .post("http://localhost:3000/addTask", {
+        taskData
       })
       .then(response => {
         window.location.reload();
@@ -66,7 +70,8 @@ class AddFeatureDialog extends PureComponent {
           .post("http://localhost:3000/features", {
             id: 5,
             taskName: this.state.task,
-            productOwner: this.state.assigned
+            productOwner: this.state.assigned,
+            WorkRequestInfo: this.state.taskId
           })
           .then(response => {
             window.location.reload();
@@ -94,7 +99,7 @@ class AddFeatureDialog extends PureComponent {
     return (
       <div className={classes.root}>
         <div className={classes.task}>
-          <label className={classes.label}>Task: </label>
+          <label className={classes.label}>Feature: </label>
           <Select
             value={this.state.task}
             onChange={this.handleChange}
@@ -104,6 +109,15 @@ class AddFeatureDialog extends PureComponent {
           >
             {this.getSelectValues(Category)}
           </Select>
+        </div>
+        <div className={classes.task}>
+          <label className={classes.label}>Feature Info:</label>
+          <input
+            type="text"
+            name="taskId"
+            value={this.state.taskId}
+            onChange={this.handleChange}
+          />
         </div>
         <div className={classes.task}>
           <label className={classes.label}>Product Owner:</label>

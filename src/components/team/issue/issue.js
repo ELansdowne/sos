@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import axios from "axios";
 import Card from "@material-ui/core/Card";
 import TextField from "@material-ui/core/TextField";
 import CardContent from "@material-ui/core/CardContent";
@@ -14,37 +13,7 @@ export class Issue extends Component {
       date: ""
     };
   }
-  handleChange = event => {
-    if (event.target.name === "assignedName")
-      this.setState({ assignedName: event.target.value });
-    if (event.target.name === "description")
-      this.setState({ description: event.target.value });
-    if (event.target.name === "date")
-      this.setState({ date: event.target.value });
-  };
-  handleSave = event => {
-    event.preventDefault();
-    const riskData = {
-      description: this.state.description,
-      assignedName: this.state.assignedName,
-      date: this.state.date
-    };
-    axios
-      .post(
-        `http://localhost:3000/addRisks`,
-        {
-          riskData
-        },
-        {
-          headers: {
-            "Access-Control-Allow-Origin": "*"
-          }
-        }
-      )
-      .then(res => {
-        return null;
-      });
-  };
+
   render() {
     let bgColorConfig = "orangered";
     let cardType = this.props.cardType ? this.props.cardType : "Risks";
@@ -81,7 +50,6 @@ export class Issue extends Component {
               name="description"
               placeholder="description"
               style={{ width: "100%" }}
-              onChange={this.handleChange}
               value={this.state.description}
             />
             <Typography>
@@ -91,7 +59,6 @@ export class Issue extends Component {
                 type="text"
                 placeholder="Assigned to"
                 style={{ width: "45%" }}
-                onChange={this.handleChange}
                 value={this.state.assignedName}
               />
               <TextField
@@ -99,18 +66,12 @@ export class Issue extends Component {
                 name="date"
                 type="date"
                 style={{ marginLeft: "8px", width: "50%" }}
-                onChange={this.handleChange}
                 value={this.state.date}
               />
             </Typography>
           </Typography>
           <br />
-          <Typography>
-            <button
-              style={{ width: "15px", height: "15px", float: "right" }}
-              onClick={this.handleSave}
-            />
-          </Typography>
+          <Typography />
         </CardContent>
       </Card>
     );
