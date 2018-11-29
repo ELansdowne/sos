@@ -56,14 +56,14 @@ export class Task extends PureComponent {
   }
   getTeams() {
     axios
-      .get(`http://localhost:3000/getIssues`)
+      .get(`http://localhost:3000/getRisks`)
       .then(result => {
         let filteredIssues = this.filterIssues(result.data);
         this.setState({ issueData: filteredIssues });
       })
       .catch(error => {
         axios
-          .get("http://localhost:3000/issues") //using json-server dependency for local json .. check db.json file for local data.
+          .get("http://localhost:3000/issues")
           .then(result => {
             let filteredIssues = this.filterIssues(result.data);
             this.setState({ issueData: filteredIssues });
@@ -75,7 +75,6 @@ export class Task extends PureComponent {
       });
   }
   filterIssues(issues = []) {
-    /* filter issues corresponding to teamId*/
     return issues.filter(
       feature => feature.FeatureId === this.props.feature.FeatureId
     );
@@ -127,7 +126,7 @@ export class Task extends PureComponent {
     }
     let cardColor = "rgba(19, 19, 241, 0.281)";
     const { classes } = this.props;
-    switch (this.props.name) {
+    switch (this.props.feature.Tasks) {
       case "WorkRequest":
         cardColor = "rgba(19, 19, 241, 0.281)";
         break;
@@ -150,7 +149,7 @@ export class Task extends PureComponent {
                 placeholder="workrequest information"
                 name="workrequest"
                 className={classes.input}
-                value={this.props.feature.WorkRequestInfo}
+                value={this.props.feature.FeatureId}
                 style={{ background: cardColor }}
               />
               <input
@@ -169,6 +168,20 @@ export class Task extends PureComponent {
                   className="table table-bordered"
                   style={{ marginBottom: "0px", width: "120px" }}
                 >
+                  <thead>
+                    <th style={{ background: cardColor, width: "50px" }}>
+                      Title
+                    </th>
+                    <th>
+                      {" "}
+                      <input
+                        placeholder="description"
+                        name="description"
+                        style={{ background: cardColor, width: "270%" }}
+                        value={this.props.feature.WorkRequestInfo}
+                      />
+                    </th>
+                  </thead>
                   <thead>
                     <tr>
                       <th style={{ background: cardColor, width: "50px" }}>
@@ -292,7 +305,7 @@ export class Task extends PureComponent {
               </div>
             </Typography>
           </ExpansionPanelDetails>
-          here{issues}
+          {issues}
         </ExpansionPanel>
       </div>
     );

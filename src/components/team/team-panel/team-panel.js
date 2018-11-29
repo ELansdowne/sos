@@ -72,7 +72,7 @@ class TeamPanel extends PureComponent {
       })
       .catch(error => {
         axios
-          .get("http://localhost:3000/features") //using json-server dependency for local json .. check db.json file for local data.
+          .get("http://localhost:3000/features")
           .then(result => {
             let filteredFeatures = this.filterFeatures(result.data);
             this.setState({ features: filteredFeatures });
@@ -85,7 +85,6 @@ class TeamPanel extends PureComponent {
   }
 
   filterFeatures(features = []) {
-    /* filter features corresponding to teamId*/
     return features.filter(
       feature => feature.TeamId === this.props.data.TeamId
     );

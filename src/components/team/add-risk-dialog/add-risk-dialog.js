@@ -58,15 +58,16 @@ class AddRiskDialog extends PureComponent {
     this.props.close();
   };
   postIssue = () => {
-    /*  Ruchi ur post service goes here mine in catch block*/
-    const teamData = {
-      TeamName: this.state.teamName,
-      TeamLogo: this.state.teamName,
-      Location: this.state.location
+    const riskData = {
+      FeatureId: this.props.feature,
+      Category: this.state.typeName,
+      Description: this.state.description,
+      AssignedTo: this.state.rAssignedName,
+      date: this.state.date
     };
     axios
-      .post("http://localhost:3000/addIssue", {
-        teamData
+      .post("http://localhost:3000/addRisks", {
+        riskData
       })
       .then(response => {
         window.location.reload();

@@ -3,6 +3,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import { withStyles } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
 import { EnumToArray } from "../../../shared/Utils/enumToArray";
 import { Category } from "../../../shared/model/category";
 import axios from "axios";
@@ -47,7 +48,8 @@ class AddFeatureDialog extends PureComponent {
       assigned: "",
       labelWidth: 0,
       task: "WorkRequest",
-      taskId: ""
+      taskId: "",
+      description: ""
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -61,7 +63,8 @@ class AddFeatureDialog extends PureComponent {
     const taskData = {
       Tasks: this.state.task,
       AssignedTo: this.state.assigned,
-      WorkRequestInfo: this.state.taskId
+      FeatureId: this.state.taskId,
+      WorkRequestInfo: this.state.description
     };
     axios
       .post("http://localhost:3000/addTask", {
@@ -76,7 +79,8 @@ class AddFeatureDialog extends PureComponent {
             id: 8,
             Tasks: this.state.task,
             AssignedTo: this.state.assigned,
-            WorkRequestInfo: this.state.taskId,
+            FeatureId: this.state.taskId,
+            WorkRequestInfo: this.state.description,
             TeamId: this.props.teamData.TeamId
           })
           .then(response => {
@@ -131,6 +135,16 @@ class AddFeatureDialog extends PureComponent {
             type="text"
             name="assigned"
             value={this.state.assigned}
+            onChange={this.handleChange}
+          />
+        </div>
+        <div className={classes.task}>
+          <label className={classes.label}>Title: </label>
+          <TextField
+            type="text"
+            name="description"
+            style={{ width: "75%", textOverflow: "ellipsis" }}
+            value={this.state.description}
             onChange={this.handleChange}
           />
         </div>

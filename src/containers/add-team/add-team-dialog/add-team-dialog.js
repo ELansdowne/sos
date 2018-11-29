@@ -56,7 +56,6 @@ class AddTeamDialog extends PureComponent {
   };
 
   createTeam = () => {
-    /*  Parameter as TeamId has to be generated at backend to uniquely identify every team.*/
     const teamData = {
       TeamName: this.state.teamName,
       TeamLogo: this.state.teamName,

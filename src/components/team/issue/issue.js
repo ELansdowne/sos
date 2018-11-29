@@ -22,7 +22,9 @@ class Issue extends PureComponent {
       endDate = FormatDate.formatDate(this.props.issue.date);
     }
     let bgColorConfig = "orangered";
-    let cardType = this.props.cardType ? this.props.cardType : "Risks";
+    let cardType = this.props.issue.Category
+      ? this.props.issue.Category
+      : "Risks";
     switch (cardType) {
       case FeatureCategory.Risks:
         bgColorConfig = "orangered";
@@ -39,16 +41,14 @@ class Issue extends PureComponent {
     }
 
     return (
-      <Card style={{ background: bgColorConfig, margin: "10px" }}>
+      <Card style={{ background: bgColorConfig, margin: "2px" }}>
         <CardContent>
           <Typography
             color="textSecondary"
-            variant="h5"
-            component="h2"
             gutterBottom
-            style={{ fontWeight: "bold" }}
+            style={{ fontWeight: "bold", fontSize: "16px" }}
           >
-            {this.props.cardType}
+            {this.props.issue.Category}
           </Typography>
           <Typography>
             <TextField
@@ -76,7 +76,6 @@ class Issue extends PureComponent {
               />
             </Typography>
           </Typography>
-          <br />
           <Typography />
         </CardContent>
       </Card>
