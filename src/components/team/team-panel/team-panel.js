@@ -12,18 +12,24 @@ import features from "../../../assets/localDB/features.json";
 import AddFeatureDialog from "../add-feature-dialog/add-feature-dialog";
 import { FeatureStatus } from "../../../shared/model/feature-status";
 import { Team } from "../../../shared/model/team";
+import Container from "../../../containers/Container/container";
+import { DragDropContext } from "react-dnd";
+import HTML5Backend from "react-dnd-html5-backend";
+import styles from "./team-panel.module.css";
+import { Header } from "../../../shared/model/header";
 
-const styles = theme => ({
-  root: {
-    flexGrow: 1
-  },
-  paper: {
-    padding: theme.spacing.unit * 2,
-    textAlign: "center",
-    color: theme.palette.text.secondary
-  },
-  dialog: {}
-});
+// const styles = theme => ({
+//   root: {
+//     flexGrow: 1
+//   },
+//   paper: {
+//     padding: theme.spacing.unit * 2,
+//     textAlign: "center",
+//     color: theme.palette.text.secondary,
+//     minHeight: "400px"
+//   },
+//   dialog: {}
+// });
 
 function Transition(props) {
   return <Slide direction="up" {...props} />;
@@ -76,6 +82,7 @@ class TeamPanel extends PureComponent {
           .then(result => {
             let filteredFeatures = this.filterFeatures(result.data);
             this.setState({ features: filteredFeatures });
+            console.log("features are --->>>", this.state.features);
           })
           .catch(error => {
             let filteredFeatures = this.filterFeatures(features);
@@ -106,13 +113,26 @@ class TeamPanel extends PureComponent {
   };
 
   render() {
-    const { classes } = this.props;
+    const style = {
+      display: "flex",
+      paddingTop: "20px"
+    };
+    // const { classes } = this.props;
     let features = null;
     if (this.state.features) {
       features = this.state.features.map((feature, index) => {
         return <Task feature={feature} key={index} />;
       });
     }
+    const listOne = [
+      { id: 1, text: "Item 1" },
+      { id: 2, text: "Item 2" },
+      { id: 3, text: "Item 3" }
+    ];
+
+    const listTwo = [];
+
+    const listThree = [];
 
     let imgPath = "default.jpg";
     switch (this.props.data.TeamName) {
@@ -151,7 +171,7 @@ class TeamPanel extends PureComponent {
         break;
     }
     return (
-      <div className={classes.root}>
+      <div className={styles.root}>
         <Dialog
           open={this.state.open}
           TransitionComponent={Transition}
@@ -159,7 +179,6 @@ class TeamPanel extends PureComponent {
           onClose={this.handleClose}
           aria-labelledby="alert-dialog-slide-title"
           aria-describedby="alert-dialog-slide-description"
-          className={classes.dialog}
         >
           <DialogTitle id="alert-dialog-slide-title">
             {"Add Features"}
@@ -169,77 +188,73 @@ class TeamPanel extends PureComponent {
             teamData={this.props.data}
           />
         </Dialog>
-        <Grid container spacing={8}>
-          <Grid item xs={1}>
-            <Paper className={classes.paper} style={{ background: color }}>
+        <div className={styles.badge}>
+          <Paper className={styles.paper}>
+            <img
+              src={require("./images/" + imgPath)}
+              className={styles.image}
+              alt="teamName"
+            />
+
+            <div style={{ padding: "8px" }}>
               <img
-                src={require("./images/" + imgPath)}
                 style={{
-                  width: "40px",
-                  height: "40px",
+                  width: "20px",
+                  height: "20px",
                   float: "center"
                 }}
-                alt="teamName"
+                src={require("./images/Red.png")}
+                alt="Red Status"
+                name="red"
+                onClick={this.handleChange}
               />
-              <Button
-                color="primary"
-                size="small"
-                className={classes.button}
-                variant="contained"
-                onClick={this.handleClickOpen}
-              >
-                Add feature
-              </Button>
-              <div style={{ padding: "8px" }}>
-                <img
-                  style={{
-                    width: "20px",
-                    height: "20px",
-                    float: "center"
-                  }}
-                  src={require("./images/Red.png")}
-                  alt="Red Status"
-                  name="red"
-                  onClick={this.handleChange}
-                />
-                <img
-                  style={{
-                    width: "20px",
-                    height: "20px",
-                    float: "center"
-                  }}
-                  src={require("./images/Amber.png")}
-                  alt="Amber Status"
-                  name="amber"
-                  onClick={this.handleChange}
-                />
-                <img
-                  style={{
-                    width: "20px",
-                    height: "20px",
-                    float: "center"
-                  }}
-                  src={require("./images/Green.PNG")}
-                  alt="Green Status"
-                  name="green"
-                  onClick={this.handleChange}
-                />
-              </div>
-            </Paper>
-          </Grid>
-          <Grid item xs={4}>
-            <Paper className={classes.paper}>{features}</Paper>
-          </Grid>
-          <Grid item xs={3}>
-            <Paper className={classes.paper} />
-          </Grid>
-          <Grid item xs={4}>
-            <Paper className={classes.paper} />
-          </Grid>
-        </Grid>
+              <img
+                style={{
+                  width: "20px",
+                  height: "20px",
+                  float: "center"
+                }}
+                src={require("./images/Amber.png")}
+                alt="Amber Status"
+                name="amber"
+                onClick={this.handleChange}
+              />
+              <img
+                style={{
+                  width: "20px",
+                  height: "20px",
+                  float: "center"
+                }}
+                src={require("./images/Green.PNG")}
+                alt="Green Status"
+                name="green"
+                onClick={this.handleChange}
+              />
+            </div>
+            <Button
+              color="primary"
+              size="small"
+              variant="contained"
+              onClick={this.handleClickOpen}
+            >
+              Add feature
+            </Button>
+          </Paper>
+        </div>
+        {this.state.features ? (
+          <div style={{ ...style }}>
+            <Container
+              id={1}
+              list={this.state.features}
+              header={Header.BACKLOG}
+            />
+            <Container id={2} list={listTwo} header={Header.INPROGRESS} />
+            <Container id={3} list={listThree} header={Header.DONE} />
+          </div>
+        ) : null}
       </div>
     );
   }
 }
 
-export default withStyles(styles)(TeamPanel);
+export default DragDropContext(HTML5Backend)(TeamPanel);

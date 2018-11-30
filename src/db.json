@@ -1,6 +1,5 @@
 {
-  "teams": [
-    {
+  "teams": [{
       "id": 1,
       "TeamName": "Nike",
       "TeamLogo": "Nike.png",
@@ -20,31 +19,9 @@
       "TeamLogo": "Hades.png",
       "Location": "Noida",
       "TeamId": "TR003"
-    },
-    {
-      "id": 4,
-      "TeamName": "elektra",
-      "TeamLogo": "TeamLogo",
-      "Location": "Noida",
-      "TeamId": "TR004"
-    },
-    {
-      "id": 5,
-      "TeamName": "chk",
-      "TeamLogo": "Nemesis",
-      "Location": "Sydney",
-      "TeamId": "TR005"
-    },
-    {
-      "id": 6,
-      "TeamName": "Nemesis",
-      "TeamLogo": "Nemesis",
-      "Location": "Sydney",
-      "TeamId": "TR006"
     }
   ],
-  "features": [
-    {
+  "features": [{
       "id": 1,
       "Tasks": "WorkRequest",
       "AssignedTo": "Santi",
@@ -109,8 +86,7 @@
       "FeatureId": "FR008"
     }
   ],
-  "issues": [
-    {
+  "issues": [{
       "id": 1,
       "FeatureId": "FR001",
       "IssueId": "IR001",

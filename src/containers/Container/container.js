@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import update from "react/lib/update";
-import Card from "./Card";
+import update from "react-addons-update";
+import Card from "../card/card";
 import { DropTarget } from "react-dnd";
+import styles from "./container.module.css";
 
 class Container extends Component {
   constructor(props) {
@@ -43,31 +44,36 @@ class Container extends Component {
   }
 
   render() {
+    let cardsVal = null;
     const { cards } = this.state;
     const { canDrop, isOver, connectDropTarget } = this.props;
     const isActive = canDrop && isOver;
     const style = {
-      width: "200px",
-      height: "404px",
-      border: "1px dashed gray"
+      width: "31%",
+      minheight: "80%",
+      marginRight: "20px"
     };
 
     const backgroundColor = isActive ? "lightgreen" : "#FFF";
+    if (cards) {
+      cardsVal = cards.map((card, i) => {
+        return (
+          <Card
+            key={card.id}
+            index={i}
+            listId={this.props.id}
+            card={card}
+            removeCard={this.removeCard.bind(this)}
+            moveCard={this.moveCard.bind(this)}
+          />
+        );
+      });
+    }
 
     return connectDropTarget(
-      <div style={{ ...style, backgroundColor }}>
-        {cards.map((card, i) => {
-          return (
-            <Card
-              key={card.id}
-              index={i}
-              listId={this.props.id}
-              card={card}
-              removeCard={this.removeCard.bind(this)}
-              moveCard={this.moveCard.bind(this)}
-            />
-          );
-        })}
+      <div style={{ ...style, backgroundColor }} className={styles.container}>
+        <div className={styles.header}>{this.props.header}</div>
+        {cardsVal}
       </div>
     );
   }
