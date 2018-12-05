@@ -21,15 +21,15 @@ const styles = theme => ({
     margin: theme.spacing.unit
   },
   selectEmpty: {
-    marginTop: theme.spacing.unit * 2,
-    marginRight: theme.spacing.unit * 2,
+    marginTop: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
     alignItems: "left"
   },
   button: {
-    margin: theme.spacing.unit * 3
+    margin: theme.spacing.unit
   },
   select: {
-    margin: "10px"
+    margin: "2px"
   }
 });
 

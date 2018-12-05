@@ -61,6 +61,7 @@ class AddRiskDialog extends PureComponent {
     const riskData = {
       FeatureId: this.props.feature,
       Category: this.state.typeName,
+      IssueId: "I" + parseInt(Math.random() * 1000),
       Description: this.state.description,
       AssignedTo: this.state.rAssignedName,
       date: this.state.date
@@ -75,9 +76,8 @@ class AddRiskDialog extends PureComponent {
       .catch(error => {
         axios
           .post("http://localhost:3000/issues", {
-            id: 5,
             FeatureId: this.props.feature,
-            IssueId: "IR005", //this is unique id for every issue , this has to be generated in backend , we don;t have to send it
+            IssueId: "I" + parseInt(Math.random() * 1000), //this is unique id for every issue , this has to be generated in backend , we don;t have to send it
             Category: this.state.typeName,
             Description: this.state.description,
             AssignedTo: this.state.rAssignedName,
@@ -139,7 +139,7 @@ class AddRiskDialog extends PureComponent {
           />
         </div>
         <div className={classes.task}>
-          <label className={classes.label}>Date:</label>
+          <label className={classes.label}>ETA:</label>
           <input
             type="date"
             name="date"

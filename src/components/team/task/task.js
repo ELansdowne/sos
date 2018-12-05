@@ -47,7 +47,8 @@ export class Task extends PureComponent {
       noOfBlocker: "",
       taskData: null,
       open: false,
-      issueData: null
+      issueData: null,
+      sprintStartEnd: ""
     };
   }
 
@@ -92,13 +93,14 @@ export class Task extends PureComponent {
   handleSave = event => {
     event.preventDefault();
     const taskRequestData = {
-      WorkRequestInfo: this.state.workrequest,
+      FeatureId: this.props.feature.FeatureId,
       NBlocker: this.state.noOfBlocker,
       NDependency: this.state.noOfDependency,
       Size: this.state.size,
       Priority: this.state.priority,
       StartDate: this.state.sprintStartDate,
-      EndDate: this.state.sprintEndDate
+      EndDate: this.state.sprintEndDate,
+      SprintStartEnd: this.state.sprintStartEnd
     };
     axios
       .post(
@@ -112,8 +114,21 @@ export class Task extends PureComponent {
           }
         }
       )
-      .then(res => {
-        return null;
+      .catch(error => {
+        axios
+          .post("http://localhost:3000/taskCard", {
+            FeatureId: this.props.feature.FeatureId,
+            NBlocker: this.state.noOfBlocker,
+            NDependency: this.state.noOfDependency,
+            Size: this.state.size,
+            Priority: this.state.priority,
+            StartDate: this.state.sprintStartDate,
+            EndDate: this.state.sprintEndDate,
+            SprintStartEnd: this.state.sprintStartEnd
+          })
+          .then(response => {
+            //  window.location.reload();
+          });
       });
     this.setState({ isSubmitted: true });
   };
@@ -150,13 +165,13 @@ export class Task extends PureComponent {
                 name="workrequest"
                 className={classes.input}
                 value={this.props.feature.FeatureId}
-                style={{ background: cardColor }}
+                style={{ background: cardColor, width: "70px" }}
               />
               <input
-                placeholder="product owner"
-                name="owner"
-                style={{ background: cardColor }}
-                value={this.props.feature.AssignedTo}
+                placeholder="description"
+                name="description"
+                style={{ background: cardColor, width: "220px" }}
+                value={this.props.feature.WorkRequestInfo}
               />
             </Typography>
           </ExpansionPanelSummary>
@@ -169,28 +184,14 @@ export class Task extends PureComponent {
                   style={{ marginBottom: "0px", width: "120px" }}
                 >
                   <thead>
-                    <th style={{ background: cardColor, width: "50px" }}>
-                      Title
-                    </th>
-                    <th>
-                      {" "}
-                      <input
-                        placeholder="description"
-                        name="description"
-                        style={{ background: cardColor, width: "270%" }}
-                        value={this.props.feature.WorkRequestInfo}
-                      />
-                    </th>
-                  </thead>
-                  <thead>
                     <tr>
-                      <th style={{ background: cardColor, width: "50px" }}>
-                        No of Blockers
-                      </th>
                       <th style={{ background: cardColor, width: "60px" }}>
-                        No of Dependencies
+                        Sprint Start/End
                       </th>
-                      <th style={{ background: cardColor, width: "30px" }}>
+                      <th style={{ background: cardColor, width: "50px" }}>
+                        Product Owner
+                      </th>
+                      <th style={{ background: cardColor, width: "40px" }}>
                         Size
                       </th>
                       <th style={{ background: cardColor, width: "50px" }}>
@@ -202,20 +203,19 @@ export class Task extends PureComponent {
                     <tr>
                       <td>
                         <input
-                          name="noOfBlocker"
-                          value={this.state.noOfBlocker}
+                          name="sprintStartEnd"
+                          value={this.state.sprintStartEnd}
                           onChange={this.handleChange}
-                          style={{ width: "80px" }}
+                          style={{ width: "70px" }}
                           placeholder="0"
                         />
                       </td>
                       <td>
                         <input
-                          name="noOfDependency"
-                          value={this.state.noOfDependency}
-                          onChange={this.handleChange}
-                          style={{ width: "110px" }}
-                          placeholder="0"
+                          placeholder="product owner"
+                          name="owner"
+                          style={{ width: "120px", textOverflow: "ellipsis" }}
+                          value={this.props.feature.AssignedTo}
                         />
                       </td>
                       <td>
@@ -223,7 +223,7 @@ export class Task extends PureComponent {
                           name="size"
                           value={this.state.size}
                           onChange={this.handleChange}
-                          style={{ width: "70px" }}
+                          style={{ width: "40px" }}
                           placeholder="0"
                         />
                       </td>
@@ -231,35 +231,10 @@ export class Task extends PureComponent {
                         {" "}
                         <input
                           name="priority"
-                          style={{ width: "110px" }}
+                          style={{ width: "50px" }}
                           value={this.state.priority}
                           onChange={this.handleChange}
                           placeholder="0"
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <th style={{ background: cardColor }}>
-                        Sprint StartDate
-                      </th>
-                      <td>
-                        <input
-                          type="date"
-                          name="sprintStartDate"
-                          style={{ width: "110px", fontSize: "0.8rem" }}
-                          value={this.state.sprintStartDate}
-                          onChange={this.handleChange}
-                        />
-                      </td>
-
-                      <th style={{ background: cardColor }}>Sprint EndDate</th>
-                      <td>
-                        <input
-                          type="date"
-                          name="sprintEndDate"
-                          style={{ width: "110px", fontSize: "0.8rem" }}
-                          value={this.state.sprintEndDate}
-                          onChange={this.handleChange}
                         />
                       </td>
                     </tr>

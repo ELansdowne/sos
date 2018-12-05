@@ -12,7 +12,17 @@ const styles = {
   appBar: {
     flex: 1,
     flexDirection: "row",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    height: " 45px",
+    padding: "0px"
+  },
+  toolBar: {
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#3f51b5",
+    color: "white",
+    height: " 45px ",
+    minHeight: " 45px "
   }
 };
 
@@ -22,11 +32,7 @@ function Header(props) {
   return (
     <Aux>
       <AppBar position="static" color="default" className={classes.appBar}>
-        <Toolbar className={style.toolBar}>
-          <Typography variant="h5" color="inherit">
-            SOS
-          </Typography>
-        </Toolbar>
+        <Toolbar className={classes.toolBar}>SOS</Toolbar>
         <VersionControl className={style.versionControl} />
       </AppBar>
     </Aux>

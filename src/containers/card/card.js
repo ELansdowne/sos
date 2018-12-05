@@ -5,9 +5,7 @@ import flow from "lodash/flow";
 import Task from "../../components/team/task/task";
 
 const style = {
-  // border: "1px dashed gray",
   padding: "0.5rem 1rem",
-  margin: ".5rem",
   cursor: "move"
 };
 
@@ -43,18 +41,19 @@ const cardSource = {
   endDrag(props, monitor) {
     const item = monitor.getItem();
     const dropResult = monitor.getDropResult();
-    console.log("dropped resu;t ", dropResult); // below is wher we can find wher it was dropped
+    let status = "backlog";
+    //  drop location
     if (dropResult.listId === 1) {
-      alert("dropped to backlog");
+      status = "backlog";
     } else if (dropResult.listId === 2) {
-      alert("dropped to inprogress");
+      status = "inprogress";
     } else if (dropResult.listId === 3) {
-      alert("dropped to done");
+      status = "done";
     }
 
     if (dropResult && dropResult.listId !== item.listId) {
       props.removeCard(item.index);
-      console.log("dropped is ", item); // this is the moved item Ruchi
+      console.log("dropped is ", item); // moved item
     }
   }
 };

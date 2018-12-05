@@ -59,7 +59,8 @@ class AddTeamDialog extends PureComponent {
     const teamData = {
       TeamName: this.state.teamName,
       TeamLogo: this.state.teamName,
-      Location: this.state.location
+      Location: this.state.location,
+      TeamId: "T" + parseInt(Math.random() * 1000)
     };
     axios
       .post("http://localhost:3000/addTeam", {
@@ -73,7 +74,8 @@ class AddTeamDialog extends PureComponent {
           .post("http://localhost:3000/teams", {
             TeamName: this.state.teamName,
             TeamLogo: this.state.teamName,
-            Location: this.state.location
+            Location: this.state.location,
+            TeamId: "T" + parseInt(Math.random() * 1000)
           })
           .then(response => {
             window.location.reload();

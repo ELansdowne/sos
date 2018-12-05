@@ -1,5 +1,5 @@
 export const Header = {
   BACKLOG: "Backlog",
-  INPROGRESS: "In-progress",
+  INPROGRESS: "InProgress",
   DONE: "Done"
 };

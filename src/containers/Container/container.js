@@ -49,12 +49,12 @@ class Container extends Component {
     const { canDrop, isOver, connectDropTarget } = this.props;
     const isActive = canDrop && isOver;
     const style = {
-      width: "31%",
+      width: "100%",
       minheight: "80%",
-      marginRight: "20px"
+      marginRight: "2px"
     };
 
-    const backgroundColor = isActive ? "lightgreen" : "#FFF";
+    const backgroundColor = isActive ? "rgba(19, 19, 241, 0.282)" : "#FFF";
     if (cards) {
       cardsVal = cards.map((card, i) => {
         return (

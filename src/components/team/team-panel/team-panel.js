@@ -1,12 +1,10 @@
 import React, { PureComponent } from "react";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
-import { withStyles } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
-import Task from "../task/task";
 import axios from "axios";
 import features from "../../../assets/localDB/features.json";
 import AddFeatureDialog from "../add-feature-dialog/add-feature-dialog";
@@ -17,6 +15,10 @@ import { DragDropContext } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
 import styles from "./team-panel.module.css";
 import { Header } from "../../../shared/model/header";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
+import { EnumToArray } from "../../../shared/Utils/enumToArray";
+import { StatusCategory } from "../../../shared/model/team-status";
 
 // const styles = theme => ({
 //   root: {
@@ -41,34 +43,25 @@ class TeamPanel extends PureComponent {
     this.state = {
       open: false,
       status: " ",
-      features: null
+      features: null,
+      teamStatus: ""
     };
   }
 
   componentDidMount() {
     this.getFeatures();
+    this.getStatus();
   }
-  componentDidUpdate() {
-    const statusData = {
-      status: this.state.status
-    };
+  getStatus() {
     axios
-      .post(
-        `http://localhost:3000/addStatus`,
-        {
-          statusData
-        },
-        {
-          headers: {
-            "Access-Control-Allow-Origin": "*"
-          }
-        }
-      )
-      .then(res => {
-        return null;
+      .get(`http://localhost:3000/getStatus`)
+      .then(result => {})
+      .catch(error => {
+        axios.get("http://localhost:3000/status").then(result => {
+          this.setState({ status: result.data });
+        });
       });
   }
-
   getFeatures() {
     axios
       .get(`http://localhost:3000/getTask`)
@@ -82,7 +75,6 @@ class TeamPanel extends PureComponent {
           .then(result => {
             let filteredFeatures = this.filterFeatures(result.data);
             this.setState({ features: filteredFeatures });
-            console.log("features are --->>>", this.state.features);
           })
           .catch(error => {
             let filteredFeatures = this.filterFeatures(features);
@@ -110,20 +102,43 @@ class TeamPanel extends PureComponent {
       this.setState({ status: event.target.name });
     if (event.target.name === FeatureStatus.GREEN)
       this.setState({ status: event.target.name });
-  };
+    if (event.target.name === "teamStatus")
+      this.setState({ teamStatus: event.target.value });
 
+    const statusData = {
+      status: event.target.value,
+      TeamId: this.props.data.TeamId
+    };
+    axios
+      .post("http://localhost:3000/addStatus", {
+        statusData
+      })
+      .then(response => {
+        window.location.reload();
+      })
+      .catch(error => {
+        axios.post("http://localhost:3000/status", {
+          status: this.state.teamStatus,
+          TeamId: this.props.data.TeamId
+        });
+      });
+  };
+  getSelectValues = enums => {
+    let values = EnumToArray.enumToArray(enums).map((result, index) => {
+      return (
+        <MenuItem key={index} value={result}>
+          {result}
+        </MenuItem>
+      );
+    });
+    return values;
+  };
   render() {
     const style = {
       display: "flex",
       paddingTop: "20px"
     };
-    // const { classes } = this.props;
-    let features = null;
-    if (this.state.features) {
-      features = this.state.features.map((feature, index) => {
-        return <Task feature={feature} key={index} />;
-      });
-    }
+
     const listOne = [
       { id: 1, text: "Item 1" },
       { id: 2, text: "Item 2" },
@@ -156,14 +171,14 @@ class TeamPanel extends PureComponent {
         break;
     }
     let color = "white";
-    switch (this.state.status) {
-      case FeatureStatus.GREEN:
+    switch (this.state.teamStatus) {
+      case "Green":
         color = "#55ce55";
         break;
-      case FeatureStatus.AMBER:
+      case "Amber":
         color = "#FFBF00";
         break;
-      case FeatureStatus.RED:
+      case "Red":
         color = "#fb4141";
         break;
       default:
@@ -188,70 +203,60 @@ class TeamPanel extends PureComponent {
             teamData={this.props.data}
           />
         </Dialog>
-        <div className={styles.badge}>
-          <Paper className={styles.paper}>
+        <Grid container spacing={12}>
+          <Paper
+            className={styles.paper}
+            style={{ background: color, padding: "4px" }}
+          >
             <img
               src={require("./images/" + imgPath)}
               className={styles.image}
+              style={{
+                width: "40px",
+                height: "40px",
+                float: "center"
+              }}
               alt="teamName"
             />
 
             <div style={{ padding: "8px" }}>
-              <img
-                style={{
-                  width: "20px",
-                  height: "20px",
-                  float: "center"
-                }}
-                src={require("./images/Red.png")}
-                alt="Red Status"
-                name="red"
-                onClick={this.handleChange}
-              />
-              <img
-                style={{
-                  width: "20px",
-                  height: "20px",
-                  float: "center"
-                }}
-                src={require("./images/Amber.png")}
-                alt="Amber Status"
-                name="amber"
-                onClick={this.handleChange}
-              />
-              <img
-                style={{
-                  width: "20px",
-                  height: "20px",
-                  float: "center"
-                }}
-                src={require("./images/Green.PNG")}
-                alt="Green Status"
-                name="green"
-                onClick={this.handleChange}
-              />
+              <div>
+                <label>Status</label>
+                <div>
+                  <Select
+                    value={this.state.teamStatus}
+                    onChange={this.handleChange}
+                    displayEmpty
+                    name="teamStatus"
+                  >
+                    {this.getSelectValues(StatusCategory)}
+                  </Select>
+                </div>
+              </div>
             </div>
             <Button
-              color="primary"
               size="small"
+              style={{ padding: "1px", textTransform: "capitalize" }}
               variant="contained"
               onClick={this.handleClickOpen}
             >
               Add feature
             </Button>
           </Paper>
-        </div>
-        {this.state.features ? (
-          <div style={{ ...style }}>
-            <Container
-              id={1}
-              list={this.state.features}
-              header={Header.BACKLOG}
-            />
-            <Container id={2} list={listTwo} header={Header.INPROGRESS} />
-            <Container id={3} list={listThree} header={Header.DONE} />
-          </div>
-        ) : null}
+          {this.state.features ? (
+            <Grid>
+              <div style={{ ...style }}>
+                <Container
+                  id={1}
+                  list={this.state.features}
+                  header={Header.BACKLOG}
+                />
+                <Container id={2} list={listTwo} header={Header.INPROGRESS} />
+                <Container id={3} list={listThree} header={Header.DONE} />
+              </div>
+            </Grid>
+          ) : null}
+        </Grid>
       </div>
     );
   }

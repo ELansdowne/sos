@@ -64,7 +64,8 @@ class AddFeatureDialog extends PureComponent {
       Tasks: this.state.task,
       AssignedTo: this.state.assigned,
       FeatureId: this.state.taskId,
-      WorkRequestInfo: this.state.description
+      WorkRequestInfo: this.state.description,
+      TeamId: this.props.teamData.TeamId
     };
     axios
       .post("http://localhost:3000/addTask", {
@@ -76,7 +77,6 @@ class AddFeatureDialog extends PureComponent {
       .catch(error => {
         axios
           .post("http://localhost:3000/features", {
-            id: 8,
             Tasks: this.state.task,
             AssignedTo: this.state.assigned,
             FeatureId: this.state.taskId,
@@ -121,7 +121,7 @@ class AddFeatureDialog extends PureComponent {
           </Select>
         </div>
         <div className={classes.task}>
-          <label className={classes.label}>Feature Info:</label>
+          <label className={classes.label}>Feature ID:</label>
           <input
             type="text"
             name="taskId"

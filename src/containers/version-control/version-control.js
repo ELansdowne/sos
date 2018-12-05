@@ -10,11 +10,11 @@ import { Sprint } from "../../shared/model/sprint";
 const styles = theme => ({
   root: {},
   formControl: {
-    margin: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
     minWidth: 120
   },
   selectEmpty: {
-    marginTop: theme.spacing.unit
+    marginTop: (theme.spacing.unit * 1) / 2
   }
 });
 

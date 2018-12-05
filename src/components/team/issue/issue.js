@@ -41,43 +41,40 @@ class Issue extends PureComponent {
     }
 
     return (
-      <Card style={{ background: bgColorConfig, margin: "2px" }}>
-        <CardContent>
-          <Typography
-            color="textSecondary"
-            gutterBottom
-            style={{ fontWeight: "bold", fontSize: "16px" }}
-          >
-            {this.props.issue.Category}
-          </Typography>
-          <Typography>
-            <TextField
-              id="description"
-              name="description"
-              placeholder="description"
-              style={{ width: "100%" }}
-              value={this.props.issue.Description}
-            />
-            <Typography>
-              <TextField
-                id="assignedName"
-                name="assignedName"
-                type="text"
-                placeholder="Assigned to"
-                style={{ width: "45%" }}
-                value={this.props.issue.AssignedTo}
-              />
-              <TextField
-                id="date"
-                name="date"
-                type="date"
-                style={{ marginLeft: "8px", width: "50%" }}
-                value={endDate}
-              />
-            </Typography>
-          </Typography>
-          <Typography />
-        </CardContent>
+      <Card
+        style={{ background: bgColorConfig, padding: "5px", margin: "5px" }}
+      >
+        <Typography
+          color="textSecondary"
+          gutterBottom
+          style={{ fontWeight: "bold", fontSize: "12px" }}
+        >
+          {this.props.issue.Category}
+        </Typography>
+
+        <TextField
+          id="description"
+          name="description"
+          placeholder="description"
+          style={{ width: "100%", fontSize: "10px" }}
+          value={this.props.issue.Description}
+        />
+
+        <TextField
+          id="assignedName"
+          name="assignedName"
+          type="text"
+          placeholder="Assigned to"
+          style={{ width: "45%", fontSize: "10px" }}
+          value={this.props.issue.AssignedTo}
+        />
+        <TextField
+          id="date"
+          name="date"
+          type="date"
+          style={{ marginLeft: "8px", width: "50%", fontSize: "10px" }}
+          value={endDate}
+        />
       </Card>
     );
   }
