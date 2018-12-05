@@ -13,6 +13,8 @@ import AddRiskDialog from "../add-risk-dialog/add-risk-dialog";
 import axios from "axios";
 import Issue from "../issue/issue";
 import issues from "../../../assets/localDB/issues.json";
+import SaveIcon from "@material-ui/icons/Save";
+import AddIcon from "@material-ui/icons/Add";
 
 const styles = theme => ({
   root: {
@@ -257,26 +259,17 @@ export class Task extends PureComponent {
                     feature={this.props.feature.FeatureId}
                   />
                 </Dialog>
-                <Button
-                  color="default"
-                  size="small"
-                  className={classes.button}
-                  variant="contained"
-                  style={{ float: "left" }}
-                  onClick={this.handleClickOpen}
-                >
-                  Add
-                </Button>
-                <Button
-                  color="default"
-                  size="small"
-                  className={classes.button}
-                  variant="contained"
-                  style={{ float: "right" }}
+                {/* <AddIcon color="primary" style={{ float: "right", cursor: "pointer" }} onClick={this.handleClickOpen} /> */}
+                <button
+                  style={{ float: "right", cursor: "pointer" }}
                   onClick={this.handleSave}
                 >
-                  Save
-                </Button>
+                  <img src="add-button.jpg" height="10px" width="10px" />
+                </button>
+                <SaveIcon
+                  style={{ float: "right", cursor: "pointer" }}
+                  onClick={this.handleSave}
+                />
               </div>
             </Typography>
           </ExpansionPanelDetails>

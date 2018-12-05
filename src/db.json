@@ -24,13 +24,13 @@
   ],
   "features": [
     {
+      "id": 1,
       "Tasks": "CA",
       "AssignedTo": "Leno",
       "FeatureId": "FR001",
       "WorkRequestInfo": "NA",
       "TeamId": "TR001",
-      "status": "Done",
-      "id": 1
+      "status": "Done"
     },
     {
       "id": 2,
@@ -45,10 +45,10 @@
       "id": 3,
       "Tasks": "CA",
       "AssignedTo": "Leno",
+      "FeatureId": "FR003",
       "WorkRequestInfo": "NA",
       "TeamId": "TR001",
-      "FeatureId": "FR003",
-      "status": "Backlog"
+      "status": "Done"
     },
     {
       "id": 4,
@@ -63,28 +63,28 @@
       "id": 5,
       "Tasks": "WorkRequest",
       "AssignedTo": "ammo",
+      "FeatureId": "FR005",
       "WorkRequestInfo": "NA",
       "TeamId": "TR002",
-      "FeatureId": "FR005",
-      "status": "InProgress"
+      "status": "Backlog"
     },
     {
       "id": 6,
       "Tasks": "CI",
       "AssignedTo": "Apkl",
+      "FeatureId": "FR006",
       "WorkRequestInfo": "checker",
       "TeamId": "TR003",
-      "FeatureId": "FR006",
       "status": "Done"
     },
     {
       "id": 7,
       "Tasks": "CI",
       "AssignedTo": "Amit",
+      "FeatureId": "FR007",
       "WorkRequestInfo": "chekkk",
       "TeamId": "TR001",
-      "FeatureId": "FR007",
-      "status": "InProgress"
+      "status": "Backlog"
     },
     {
       "id": 8,

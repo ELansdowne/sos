@@ -42,8 +42,9 @@ const cardSource = {
 
   endDrag(props, monitor) {
     const item = monitor.getItem();
+    console.log("dropped is enddrag ", item); // moved item
     const dropResult = monitor.getDropResult();
-    let status = "backlog";
+    let status = "Backlog";
     //  drop location
     if (dropResult.listId === 1) {
       status = Header.BACKLOG;
@@ -53,20 +54,9 @@ const cardSource = {
       status = Header.DONE;
     }
 
-    console.log(
-      "checker is",
-      item,
-      item.card.id,
-      item.card.Tasks,
-      item.card.AssignedTo,
-      item.card.FeatureId,
-      item.card.WorkRequestInfo,
-      status
-    );
-    /*  a unique parameter as FeatureId has to generated at backend to uniquely identify every feature also to map every feature with team*/
     axios
-      .put("http://localhost:3000/features/1", {
-        // id: item.card.id,
+      .put("http://localhost:3000/features/" + item.card.id, {
+        id: item.card.id,
         Tasks: item.card.Tasks,
         AssignedTo: item.card.AssignedTo,
         FeatureId: item.card.FeatureId,
@@ -75,7 +65,6 @@ const cardSource = {
         status: status
       })
       .then(response => {
-        console.log("dropped is -->", item); // moved item
         window.location.reload();
       })
       .catch(error => {
@@ -90,7 +79,6 @@ const cardSource = {
             status: status
           })
           .then(response => {
-            console.log("dropped is -----", item); // moved item
             window.location.reload();
           });
       });

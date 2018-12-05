@@ -66,6 +66,7 @@ class AddFeatureDialog extends PureComponent {
       AssignedTo: this.state.assigned,
       FeatureId: this.state.taskId,
       WorkRequestInfo: this.state.description,
+      status: Header.BACKLOG,
       TeamId: this.props.teamData.TeamId
     };
     axios
@@ -82,8 +83,8 @@ class AddFeatureDialog extends PureComponent {
             AssignedTo: this.state.assigned,
             FeatureId: this.state.taskId,
             WorkRequestInfo: this.state.description,
-            TeamId: this.props.teamData.TeamId,
-            status: Header.BACKLOG
+            status: Header.BACKLOG,
+            TeamId: this.props.teamData.TeamId
           })
           .then(response => {
             window.location.reload();

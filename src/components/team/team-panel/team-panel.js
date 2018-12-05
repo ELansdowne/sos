@@ -20,6 +20,19 @@ import Select from "@material-ui/core/Select";
 import { EnumToArray } from "../../../shared/Utils/enumToArray";
 import { StatusCategory } from "../../../shared/model/team-status";
 
+// const styles = theme => ({
+//   root: {
+//     flexGrow: 1
+//   },
+//   paper: {
+//     padding: theme.spacing.unit * 2,
+//     textAlign: "center",
+//     color: theme.palette.text.secondary,
+//     minHeight: "400px"
+//   },
+//   dialog: {}
+// });
+
 function Transition(props) {
   return <Slide direction="up" {...props} />;
 }
@@ -45,10 +58,14 @@ class TeamPanel extends PureComponent {
   getStatus() {
     axios
       .get(`http://localhost:3000/getStatus`)
-      .then(result => {})
+      .then(result => {
+        let filteredstatus = this.filterstatus(result.data);
+        this.setState({ teamStatus: filteredstatus });
+      })
       .catch(error => {
         axios.get("http://localhost:3000/status").then(result => {
-          this.setState({ status: result.data });
+          let filteredstatus = this.filterstatus(result.data);
+          this.setState({ teamStatus: filteredstatus });
         });
       });
   }
@@ -85,6 +102,11 @@ class TeamPanel extends PureComponent {
   filterFeatures(features = []) {
     return features.filter(
       feature => feature.TeamId === this.props.data.TeamId
+    );
+  }
+  filterstatus(tStatus = []) {
+    return tStatus.filter(
+      teamStatus => teamStatus.TeamId === this.props.data.TeamId
     );
   }
   handleClickOpen = () => {
@@ -133,6 +155,12 @@ class TeamPanel extends PureComponent {
     return values;
   };
   render() {
+    let tStatus = null;
+    if (this.state.teamStatus && this.state.teamStatus !== "") {
+      this.state.teamStatus.map((team, index) => {
+        tStatus = team.status;
+      });
+    }
     const style = {
       display: "flex",
       paddingTop: "20px"
@@ -160,7 +188,7 @@ class TeamPanel extends PureComponent {
         break;
     }
     let color = "white";
-    switch (this.state.teamStatus) {
+    switch (tStatus) {
       case "Green":
         color = "#55ce55";
         break;
@@ -235,13 +263,24 @@ class TeamPanel extends PureComponent {
           {this.state.features ? (
             <Grid>
               <div style={{ ...style }}>
-                <Container id={1} list={this.backlog} header={Header.BACKLOG} />
+                <Container
+                  id={1}
+                  list={this.backlog}
+                  header={Header.BACKLOG}
+                  style={{ width: "400px" }}
+                />
                 <Container
                   id={2}
                   list={this.progress}
                   header={Header.INPROGRESS}
+                  style={{ width: "400px" }}
                 />
-                <Container id={3} list={this.done} header={Header.DONE} />
+                <Container
+                  id={3}
+                  list={this.done}
+                  header={Header.DONE}
+                  style={{ width: "400px" }}
+                />
               </div>
             </Grid>
           ) : null}
