@@ -20,24 +20,14 @@ import Select from "@material-ui/core/Select";
 import { EnumToArray } from "../../../shared/Utils/enumToArray";
 import { StatusCategory } from "../../../shared/model/team-status";
 
-// const styles = theme => ({
-//   root: {
-//     flexGrow: 1
-//   },
-//   paper: {
-//     padding: theme.spacing.unit * 2,
-//     textAlign: "center",
-//     color: theme.palette.text.secondary,
-//     minHeight: "400px"
-//   },
-//   dialog: {}
-// });
-
 function Transition(props) {
   return <Slide direction="up" {...props} />;
 }
 
 class TeamPanel extends PureComponent {
+  backlog = [];
+  progress = [];
+  done = [];
   constructor(props) {
     super(props);
     this.state = {
@@ -74,6 +64,15 @@ class TeamPanel extends PureComponent {
           .get("http://localhost:3000/features")
           .then(result => {
             let filteredFeatures = this.filterFeatures(result.data);
+            filteredFeatures.forEach(feature => {
+              if (feature.status === Header.BACKLOG) {
+                this.backlog.push(feature);
+              } else if (feature.status === Header.INPROGRESS) {
+                this.progress.push(feature);
+              } else if (feature.status === Header.DONE) {
+                this.done.push(feature);
+              }
+            });
             this.setState({ features: filteredFeatures });
           })
           .catch(error => {
@@ -138,16 +137,6 @@ class TeamPanel extends PureComponent {
       display: "flex",
       paddingTop: "20px"
     };
-
-    const listOne = [
-      { id: 1, text: "Item 1" },
-      { id: 2, text: "Item 2" },
-      { id: 3, text: "Item 3" }
-    ];
-
-    const listTwo = [];
-
-    const listThree = [];
 
     let imgPath = "default.jpg";
     switch (this.props.data.TeamName) {
@@ -246,13 +235,13 @@ class TeamPanel extends PureComponent {
           {this.state.features ? (
             <Grid>
               <div style={{ ...style }}>
+                <Container id={1} list={this.backlog} header={Header.BACKLOG} />
                 <Container
-                  id={1}
-                  list={this.state.features}
-                  header={Header.BACKLOG}
+                  id={2}
+                  list={this.progress}
+                  header={Header.INPROGRESS}
                 />
-                <Container id={2} list={listTwo} header={Header.INPROGRESS} />
-                <Container id={3} list={listThree} header={Header.DONE} />
+                <Container id={3} list={this.done} header={Header.DONE} />
               </div>
             </Grid>
           ) : null}

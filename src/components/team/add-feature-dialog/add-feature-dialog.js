@@ -7,6 +7,7 @@ import TextField from "@material-ui/core/TextField";
 import { EnumToArray } from "../../../shared/Utils/enumToArray";
 import { Category } from "../../../shared/model/category";
 import axios from "axios";
+import { Header } from "../../../shared/model/header";
 
 const styles = theme => ({
   formControl: {
@@ -81,7 +82,8 @@ class AddFeatureDialog extends PureComponent {
             AssignedTo: this.state.assigned,
             FeatureId: this.state.taskId,
             WorkRequestInfo: this.state.description,
-            TeamId: this.props.teamData.TeamId
+            TeamId: this.props.teamData.TeamId,
+            status: Header.BACKLOG
           })
           .then(response => {
             window.location.reload();

@@ -3,6 +3,8 @@ import { findDOMNode } from "react-dom";
 import { DragSource, DropTarget } from "react-dnd";
 import flow from "lodash/flow";
 import Task from "../../components/team/task/task";
+import axios from "axios";
+import { Header } from "../../shared/model/header";
 
 const style = {
   padding: "0.5rem 1rem",
@@ -44,12 +46,55 @@ const cardSource = {
     let status = "backlog";
     //  drop location
     if (dropResult.listId === 1) {
-      status = "backlog";
+      status = Header.BACKLOG;
     } else if (dropResult.listId === 2) {
-      status = "inprogress";
+      status = Header.INPROGRESS;
     } else if (dropResult.listId === 3) {
-      status = "done";
+      status = Header.DONE;
     }
+
+    console.log(
+      "checker is",
+      item,
+      item.card.id,
+      item.card.Tasks,
+      item.card.AssignedTo,
+      item.card.FeatureId,
+      item.card.WorkRequestInfo,
+      status
+    );
+    /*  a unique parameter as FeatureId has to generated at backend to uniquely identify every feature also to map every feature with team*/
+    axios
+      .put("http://localhost:3000/features/1", {
+        // id: item.card.id,
+        Tasks: item.card.Tasks,
+        AssignedTo: item.card.AssignedTo,
+        FeatureId: item.card.FeatureId,
+        WorkRequestInfo: item.card.WorkRequestInfo,
+        TeamId: item.card.TeamId,
+        status: status
+      })
+      .then(response => {
+        console.log("dropped is -->", item); // moved item
+        window.location.reload();
+      })
+      .catch(error => {
+        axios
+          .put("http://localhost:3000/features", {
+            id: item.id,
+            Tasks: item.tasks,
+            AssignedTo: item.AssignedTo,
+            FeatureId: item.FeatureId,
+            WorkRequestInfo: item.WorkRequestInfo,
+            TeamId: item.TeamId,
+            status: status
+          })
+          .then(response => {
+            console.log("dropped is -----", item); // moved item
+            window.location.reload();
+          });
+      });
+    //  this.props.close();
 
     if (dropResult && dropResult.listId !== item.listId) {
       props.removeCard(item.index);

@@ -1,5 +1,6 @@
 {
-  "teams": [{
+  "teams": [
+    {
       "id": 1,
       "TeamName": "Nike",
       "TeamLogo": "Nike.png",
@@ -21,13 +22,15 @@
       "TeamId": "TR003"
     }
   ],
-  "features": [{
-      "id": 1,
-      "Tasks": "WorkRequest",
-      "AssignedTo": "Santi",
+  "features": [
+    {
+      "Tasks": "CA",
+      "AssignedTo": "Leno",
+      "FeatureId": "FR001",
       "WorkRequestInfo": "NA",
       "TeamId": "TR001",
-      "FeatureId": "FR001"
+      "status": "Done",
+      "id": 1
     },
     {
       "id": 2,
@@ -35,7 +38,8 @@
       "AssignedTo": "Moni",
       "WorkRequestInfo": "NA",
       "TeamId": "TR001",
-      "FeatureId": "FR002"
+      "FeatureId": "FR002",
+      "status": "InProgress"
     },
     {
       "id": 3,
@@ -43,7 +47,8 @@
       "AssignedTo": "Leno",
       "WorkRequestInfo": "NA",
       "TeamId": "TR001",
-      "FeatureId": "FR003"
+      "FeatureId": "FR003",
+      "status": "Backlog"
     },
     {
       "id": 4,
@@ -51,7 +56,8 @@
       "AssignedTo": "Keto",
       "WorkRequestInfo": "NA",
       "TeamId": "TR002",
-      "FeatureId": "FR004"
+      "FeatureId": "FR004",
+      "status": "InProgress"
     },
     {
       "id": 5,
@@ -59,7 +65,8 @@
       "AssignedTo": "ammo",
       "WorkRequestInfo": "NA",
       "TeamId": "TR002",
-      "FeatureId": "FR005"
+      "FeatureId": "FR005",
+      "status": "InProgress"
     },
     {
       "id": 6,
@@ -67,7 +74,8 @@
       "AssignedTo": "Apkl",
       "WorkRequestInfo": "checker",
       "TeamId": "TR003",
-      "FeatureId": "FR006"
+      "FeatureId": "FR006",
+      "status": "Done"
     },
     {
       "id": 7,
@@ -75,7 +83,8 @@
       "AssignedTo": "Amit",
       "WorkRequestInfo": "chekkk",
       "TeamId": "TR001",
-      "FeatureId": "FR007"
+      "FeatureId": "FR007",
+      "status": "InProgress"
     },
     {
       "id": 8,
@@ -83,10 +92,12 @@
       "AssignedTo": "Ankit",
       "WorkRequestInfo": "chek",
       "TeamId": "TR002",
-      "FeatureId": "FR008"
+      "FeatureId": "FR008",
+      "status": "Done"
     }
   ],
-  "issues": [{
+  "issues": [
+    {
       "id": 1,
       "FeatureId": "FR001",
       "IssueId": "IR001",
