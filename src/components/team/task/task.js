@@ -15,7 +15,6 @@ import Issue from "../issue/issue";
 import issues from "../../../assets/localDB/issues.json";
 import SaveIcon from "@material-ui/icons/Save";
 import AddIcon from "@material-ui/icons/Add";
-
 const styles = theme => ({
   root: {
     marginBottom: "20px"
@@ -199,6 +198,7 @@ export class Task extends PureComponent {
                       <th style={{ background: cardColor, width: "50px" }}>
                         Priority
                       </th>
+                      <th style={{ backgroundColor: "white", width: "50px" }} />
                     </tr>
                   </thead>
                   <tbody>
@@ -239,6 +239,29 @@ export class Task extends PureComponent {
                           placeholder="0"
                         />
                       </td>
+                      <tr>
+                        <td>
+                          <img
+                            alt="add"
+                            src={require("./image/addButton.png")}
+                            style={{
+                              cursor: "pointer",
+                              width: "19px",
+                              height: "19px"
+                            }}
+                            onClick={this.handleClickOpen}
+                          />
+                        </td>
+                        <td>
+                          <SaveIcon
+                            style={{
+                              cursor: "pointer",
+                              color: "#0a7bdb"
+                            }}
+                            onClick={this.handleSave}
+                          />
+                        </td>
+                      </tr>
                     </tr>
                   </tbody>
                 </table>
@@ -259,17 +282,6 @@ export class Task extends PureComponent {
                     feature={this.props.feature.FeatureId}
                   />
                 </Dialog>
-                {/* <AddIcon color="primary" style={{ float: "right", cursor: "pointer" }} onClick={this.handleClickOpen} /> */}
-                <button
-                  style={{ float: "right", cursor: "pointer" }}
-                  onClick={this.handleSave}
-                >
-                  <img src="add-button.jpg" height="10px" width="10px" />
-                </button>
-                <SaveIcon
-                  style={{ float: "right", cursor: "pointer" }}
-                  onClick={this.handleSave}
-                />
               </div>
             </Typography>
           </ExpansionPanelDetails>

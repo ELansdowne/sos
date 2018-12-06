@@ -49,6 +49,7 @@ class Container extends Component {
     const { canDrop, isOver, connectDropTarget } = this.props;
     const isActive = canDrop && isOver;
     const style = {
+      width: "400px",
       minheight: "80%",
       marginRight: "2px"
     };

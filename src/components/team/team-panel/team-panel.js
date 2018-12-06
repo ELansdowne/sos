@@ -47,7 +47,7 @@ class TeamPanel extends PureComponent {
       open: false,
       status: " ",
       features: null,
-      teamStatus: ""
+      teamStatus: null
     };
   }
 
@@ -163,7 +163,7 @@ class TeamPanel extends PureComponent {
     }
     const style = {
       display: "flex",
-      paddingTop: "20px"
+      paddingTop: "0px"
     };
 
     let imgPath = "default.jpg";
@@ -221,30 +221,29 @@ class TeamPanel extends PureComponent {
           />
         </Dialog>
         <Grid container spacing={12}>
-          <Paper
-            className={styles.paper}
-            style={{ background: color, padding: "4px" }}
-          >
-            <img
-              src={require("./images/" + imgPath)}
-              className={styles.image}
-              style={{
-                width: "40px",
-                height: "40px",
-                float: "center"
-              }}
-              alt="teamName"
-            />
-
+          <Paper className={styles.paper} style={{ padding: "4px" }}>
+            <div style={{ background: color }}>
+              <img
+                src={require("./images/" + imgPath)}
+                className={styles.image}
+                style={{
+                  width: "50px",
+                  height: "50px",
+                  float: "center",
+                  padding: "15px"
+                }}
+                alt="teamName"
+              />
+            </div>
             <div style={{ padding: "8px" }}>
               <div>
-                <label>Status</label>
                 <div>
                   <Select
-                    value={this.state.teamStatus}
+                    value={StatusCategory.Status}
                     onChange={this.handleChange}
                     displayEmpty
                     name="teamStatus"
+                    style={{ fontSize: "12px" }}
                   >
                     {this.getSelectValues(StatusCategory)}
                   </Select>

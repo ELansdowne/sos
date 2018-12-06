@@ -27,10 +27,10 @@ class Issue extends PureComponent {
       : "Risks";
     switch (cardType) {
       case FeatureCategory.Risks:
-        bgColorConfig = "orangered";
+        bgColorConfig = "palevioletred";
         break;
       case FeatureCategory.Blockers:
-        bgColorConfig = "palevioletred";
+        bgColorConfig = "orangered";
         break;
       case FeatureCategory.Dependencies:
         bgColorConfig = "peachpuff";
@@ -44,14 +44,6 @@ class Issue extends PureComponent {
       <Card
         style={{ background: bgColorConfig, padding: "5px", margin: "5px" }}
       >
-        <Typography
-          color="textSecondary"
-          gutterBottom
-          style={{ fontWeight: "bold", fontSize: "12px" }}
-        >
-          {this.props.issue.Category}
-        </Typography>
-
         <TextField
           id="description"
           name="description"

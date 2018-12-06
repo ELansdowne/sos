@@ -15,6 +15,13 @@ const styles = theme => ({
   heading: {
     fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular
+  },
+  expanded: {
+    "&$expanded": {
+      minHeight: 0,
+      marginTop: 0,
+      marginBottom: 0
+    }
   }
 });
 
@@ -37,9 +44,9 @@ class Team extends React.Component {
         axios.get("http://localhost:3000/status").then(result => {
           let filteredstatus = this.filterstatus(result.data);
           this.setState({ teamStatus: filteredstatus });
-        })
+        });
       });
-  };
+  }
   filterstatus(tStatus = []) {
     return tStatus.filter(
       teamStatus => teamStatus.TeamId === this.props.data.TeamId
@@ -47,6 +54,7 @@ class Team extends React.Component {
   }
 
   render() {
+    const { classes } = this.props;
     let tStatus = null;
     if (this.state.teamStatus && this.state.teamStatus !== "") {
       this.state.teamStatus.map((team, index) => {
@@ -71,7 +79,11 @@ class Team extends React.Component {
     }
     return (
       <ExpansionPanel>
-        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} style={{ background: color }}>
+        <ExpansionPanelSummary
+          expandIcon={<ExpandMoreIcon />}
+          style={{ background: color, minHeight: "40px" }}
+          classes={{ expanded: classes.expanded }}
+        >
           <Typography className={styles.heading}>
             {this.props.data.TeamName}
           </Typography>

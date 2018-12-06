@@ -7,7 +7,7 @@ import axios from "axios";
 import { Header } from "../../shared/model/header";
 
 const style = {
-  padding: "0.5rem 1rem",
+  padding: "0.2rem 0.2rem",
   cursor: "move"
 };
 
@@ -42,7 +42,6 @@ const cardSource = {
 
   endDrag(props, monitor) {
     const item = monitor.getItem();
-    console.log("dropped is enddrag ", item); // moved item
     const dropResult = monitor.getDropResult();
     let status = "Backlog";
     //  drop location
@@ -65,11 +64,11 @@ const cardSource = {
         status: status
       })
       .then(response => {
-        window.location.reload();
+        // window.location.reload();
       })
       .catch(error => {
         axios
-          .put("http://localhost:3000/features", {
+          .put("http://localhost:3000/features" + item.card.id, {
             id: item.id,
             Tasks: item.tasks,
             AssignedTo: item.AssignedTo,
@@ -79,14 +78,13 @@ const cardSource = {
             status: status
           })
           .then(response => {
-            window.location.reload();
+            // window.location.reload();
           });
       });
     //  this.props.close();
 
     if (dropResult && dropResult.listId !== item.listId) {
       props.removeCard(item.index);
-      console.log("dropped is ", item); // moved item
     }
   }
 };

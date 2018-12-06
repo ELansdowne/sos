@@ -1,5 +1,5 @@
 export const StatusCategory = {
-  None: "None",
+  Status: "Status",
   Red: "Red",
   Amber: "Amber",
   Green: "Green"
