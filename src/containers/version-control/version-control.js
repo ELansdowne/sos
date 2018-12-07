@@ -30,6 +30,15 @@ export class VersionControl extends PureComponent {
 
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
+    if (event.target.name === "sprint") {
+      setTimeout(() => {
+        this.props.sprint(this.state.sprint);
+      }, 100);
+    } else if (event.target.name === "release") {
+      setTimeout(() => {
+        this.props.sprint(this.state.release);
+      }, 100);
+    }
   };
 
   getSelectValues = enums => {

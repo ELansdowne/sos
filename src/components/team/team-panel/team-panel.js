@@ -47,14 +47,22 @@ class TeamPanel extends PureComponent {
       open: false,
       status: " ",
       features: null,
-      teamStatus: null
+      teamStatus: null,
+      tasks: null
     };
   }
 
   componentDidMount() {
-    this.getFeatures();
+    // this.getFeatures();
     this.getStatus();
+    this.getTasks();
   }
+
+  componentWillReceiveProps(nextProps) {
+    console.log("nextprops are", nextProps.sprint);
+    this.getTasks();
+  }
+
   getStatus() {
     axios
       .get(`http://localhost:3000/getStatus`)
@@ -97,6 +105,48 @@ class TeamPanel extends PureComponent {
             this.setState({ features: filteredFeatures });
           });
       });
+  }
+  getTasks() {
+    this.backlog.length = 0;
+    this.progress.length = 0;
+    this.done.length = 0;
+    axios
+      .get(`http://localhost:3000/getTask`)
+      .then(result => {
+        let filteredTasks = this.filterTasks(result.data);
+        this.setState({ tasks: filteredTasks });
+      })
+      .catch(error => {
+        axios
+          .get("http://localhost:3000/tasks")
+          .then(result => {
+            let filteredTasks = this.filterTasks(result.data);
+            if (this.props.sprint) {
+              filteredTasks = this.filterSprint(filteredTasks);
+            }
+            filteredTasks.forEach(task => {
+              if (task.status === Header.BACKLOG) {
+                this.backlog.push(task);
+              } else if (task.status === Header.INPROGRESS) {
+                this.progress.push(task);
+              } else if (task.status === Header.DONE) {
+                this.done.push(task);
+              }
+            });
+            this.setState({ tasks: filteredTasks });
+          })
+          .catch(error => {
+            let filteredFeatures = this.filterFeatures(features);
+            this.setState({ features: filteredFeatures });
+          });
+      });
+  }
+
+  filterTasks(tasks = []) {
+    return tasks.filter(task => task.teamId === this.props.data.TeamId);
+  }
+  filterSprint(tasks = []) {
+    return tasks.filter(task => task.sprint === this.props.sprint);
   }
 
   filterFeatures(features = []) {
@@ -155,6 +205,7 @@ class TeamPanel extends PureComponent {
     return values;
   };
   render() {
+    console.log("props in team-panel", this.props.sprint);
     let tStatus = null;
     if (this.state.teamStatus && this.state.teamStatus !== "") {
       this.state.teamStatus.map((team, index) => {
@@ -212,9 +263,7 @@ class TeamPanel extends PureComponent {
           aria-labelledby="alert-dialog-slide-title"
           aria-describedby="alert-dialog-slide-description"
         >
-          <DialogTitle id="alert-dialog-slide-title">
-            {"Add Features"}
-          </DialogTitle>
+          <DialogTitle id="alert-dialog-slide-title">{"Add Task"}</DialogTitle>
           <AddFeatureDialog
             close={this.handleClose}
             teamData={this.props.data}
@@ -256,10 +305,10 @@ class TeamPanel extends PureComponent {
               variant="contained"
               onClick={this.handleClickOpen}
             >
-              Add feature
+              Add Task
             </Button>
           </Paper>
-          {this.state.features ? (
+          {this.state.tasks ? (
             <Grid>
               <div style={{ ...style }}>
                 <Container

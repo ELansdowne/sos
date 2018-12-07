@@ -1,4 +1,4 @@
-import React from "react";
+import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -26,17 +26,30 @@ const styles = {
   }
 };
 
-function Header(props) {
-  const { classes } = props;
-
-  return (
-    <Aux>
-      <AppBar position="static" color="default" className={classes.appBar}>
-        <Toolbar className={classes.toolBar}>SOS</Toolbar>
-        <VersionControl className={style.versionControl} />
-      </AppBar>
-    </Aux>
-  );
+export class Header extends PureComponent {
+  getSprint = sprint => {
+    console.log("indiede sprint", sprint);
+    this.props.sprint(sprint);
+  };
+  getRelease = release => {
+    console.log("indiede sprint", release);
+    this.props.release(release);
+  };
+  render() {
+    const { classes } = this.props;
+    return (
+      <Aux>
+        <AppBar position="static" color="default" className={classes.appBar}>
+          <Toolbar className={classes.toolBar}>SOS</Toolbar>
+          <VersionControl
+            className={style.versionControl}
+            sprint={this.getSprint}
+            release={this.getRelease}
+          />
+        </AppBar>
+      </Aux>
+    );
+  }
 }
 
 Header.propTypes = {

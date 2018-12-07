@@ -5,6 +5,7 @@ import flow from "lodash/flow";
 import Task from "../../components/team/task/task";
 import axios from "axios";
 import { Header } from "../../shared/model/header";
+import { TaskType } from "../../shared/model/task-type";
 
 const style = {
   padding: "0.2rem 0.2rem",
@@ -24,7 +25,7 @@ class Card extends Component {
     return connectDragSource(
       connectDropTarget(
         <div style={{ ...style, opacity }}>
-          <Task feature={card} />
+          <Task task={card} />
         </div>
       )
     );
@@ -53,8 +54,9 @@ const cardSource = {
       status = Header.DONE;
     }
 
+    console.log("item is ", item);
     axios
-      .put("http://localhost:3000/features/" + item.card.id, {
+      .put("http://localhost:3000/add-task/" + item.card.id, {
         id: item.card.id,
         Tasks: item.card.Tasks,
         AssignedTo: item.card.AssignedTo,
@@ -68,13 +70,17 @@ const cardSource = {
       })
       .catch(error => {
         axios
-          .put("http://localhost:3000/features" + item.card.id, {
-            id: item.id,
-            Tasks: item.tasks,
-            AssignedTo: item.AssignedTo,
-            FeatureId: item.FeatureId,
-            WorkRequestInfo: item.WorkRequestInfo,
-            TeamId: item.TeamId,
+          .put("http://localhost:3000/tasks/" + item.card.id, {
+            id: item.card.id,
+            teamId: item.card.teamId,
+            taskId: item.card.taskId,
+            type: item.card.type,
+            subType: item.card.subType,
+            owner: item.card.owner,
+            summary: item.card.summary,
+            description: item.card.description,
+            sprint: item.card.sprint,
+            release: item.card.release,
             status: status
           })
           .then(response => {

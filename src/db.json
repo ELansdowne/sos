@@ -1,6 +1,5 @@
 {
-  "teams": [
-    {
+  "teams": [{
       "id": 1,
       "TeamName": "Nike",
       "TeamLogo": "Nike.png",
@@ -22,41 +21,20 @@
       "TeamId": "TR003"
     }
   ],
-  "features": [
-    {
+  "features": [{
       "id": 1,
-      "Tasks": "CA",
-      "AssignedTo": "Leno",
-      "FeatureId": "FR001",
-      "WorkRequestInfo": "NA",
-      "TeamId": "TR001",
-      "status": "Done"
-    },
-    {
-      "id": 2,
-      "Tasks": "CI",
-      "AssignedTo": "Moni",
-      "WorkRequestInfo": "NA",
-      "TeamId": "TR001",
-      "FeatureId": "FR002",
       "status": "InProgress"
     },
     {
+      "id": 2,
+      "status": "Backlog"
+    },
+    {
       "id": 3,
-      "Tasks": "CA",
-      "AssignedTo": "Leno",
-      "FeatureId": "FR003",
-      "WorkRequestInfo": "NA",
-      "TeamId": "TR001",
-      "status": "Done"
+      "status": "Backlog"
     },
     {
       "id": 4,
-      "Tasks": "CI",
-      "AssignedTo": "Keto",
-      "WorkRequestInfo": "NA",
-      "TeamId": "TR002",
-      "FeatureId": "FR004",
       "status": "InProgress"
     },
     {
@@ -75,7 +53,7 @@
       "FeatureId": "FR006",
       "WorkRequestInfo": "checker",
       "TeamId": "TR003",
-      "status": "Done"
+      "status": "Backlog"
     },
     {
       "id": 7,
@@ -96,8 +74,7 @@
       "status": "Done"
     }
   ],
-  "issues": [
-    {
+  "issues": [{
       "id": 1,
       "FeatureId": "FR001",
       "IssueId": "IR001",
@@ -141,6 +118,85 @@
       "Description": "dependent on t01",
       "AssignedTo": "Ascensio",
       "date": "2018-11-30"
+    }
+  ],
+  "tasks": [{
+      "id": 1,
+      "teamId": "TR001",
+      "taskId": "SOS-20",
+      "type": "Feature",
+      "subType": "WorkRequest",
+      "owner": "Alice",
+      "summary": "main card implementation",
+      "description": "main card implementation with all style and cs implementaion also aa demo",
+      "sprint": "Sprint1",
+      "release": "19E1",
+      "status": "InProgress"
+    },
+    {
+      "id": 5,
+      "teamId": "TR001",
+      "taskId": "SOS-21",
+      "type": "Feature",
+      "subType": "WorkRequest",
+      "owner": "Amanda",
+      "summary": "main card implementation 2",
+      "description": "main card implementation with all style and cs implementaion also aa demo",
+      "sprint": "Sprint2",
+      "release": "19E1",
+      "status": "Backlog"
+    },
+    {
+      "id": 2,
+      "teamId": "TR001",
+      "taskId": "SOS-22",
+      "type": "Feature",
+      "subType": "WorkRequest",
+      "owner": "Walis",
+      "summary": "main card implementation 3",
+      "description": "main card implementation with all style and cs implementaion also aa demo",
+      "sprint": "Sprint3",
+      "release": "19E1",
+      "status": "Backlog"
+    },
+    {
+      "id": 3,
+      "teamId": "TR001",
+      "taskId": "SOS-23",
+      "type": "Feature",
+      "subType": "WorkRequest",
+      "owner": "Tenny",
+      "summary": "main card implementation 4",
+      "description": "main card implementation with all style and cs implementaion also aa demo",
+      "sprint": "Sprint4",
+      "release": "19E1",
+      "status": "Backlog"
+    },
+    {
+      "id": 4,
+      "teamId": "TR001",
+      "taskId": "SOS-24",
+      "type": "Feature",
+      "subType": "WorkRequest",
+      "owner": "Alice",
+      "summary": "main card implementation",
+      "description": "main card implementation with all style and cs implementaion also aa demo",
+      "sprint": "Sprint5",
+      "release": "19E1",
+      "status": "Backlog"
+    },
+    {
+      "teamId": "TR001",
+      "taskId": "SOS-5698",
+      "type": "Issue",
+      "subType": "Dependencies",
+      "owner": "Amba",
+      "summary": "summary demo",
+      "description": "description demo",
+      "sprint": "Sprint2",
+      "release": "19E2",
+      "status": "Backlog",
+      "id": 6
     }
   ]
 }

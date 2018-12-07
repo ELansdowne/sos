@@ -8,6 +8,10 @@ import { EnumToArray } from "../../../shared/Utils/enumToArray";
 import { Category } from "../../../shared/model/category";
 import axios from "axios";
 import { Header } from "../../../shared/model/header";
+import { TaskType } from "../../../shared/model/task-type";
+import { FeatureCategory } from "../../../shared/model/feature-category";
+import { Sprint } from "../../../shared/model/sprint";
+import { Releases } from "../../../shared/model/release";
 
 const styles = theme => ({
   formControl: {
@@ -50,7 +54,13 @@ class AddFeatureDialog extends PureComponent {
       labelWidth: 0,
       task: "WorkRequest",
       taskId: "",
-      description: ""
+      description: "",
+      type: "Feature",
+      issue: "Risks",
+      summary: "",
+      date: "",
+      sprint: "Sprint1",
+      release: "19E1"
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -59,7 +69,9 @@ class AddFeatureDialog extends PureComponent {
     this.props.close();
   };
 
-  createFeature = () => {
+  createTask = () => {
+    debugger;
+    let taskId = "SOS-" + Math.floor(1000 + Math.random() * 9000);
     /*  a unique parameter as FeatureId has to generated at backend to uniquely identify every feature also to map every feature with team*/
     const taskData = {
       Tasks: this.state.task,
@@ -78,13 +90,20 @@ class AddFeatureDialog extends PureComponent {
       })
       .catch(error => {
         axios
-          .post("http://localhost:3000/features", {
-            Tasks: this.state.task,
-            AssignedTo: this.state.assigned,
-            FeatureId: this.state.taskId,
-            WorkRequestInfo: this.state.description,
-            status: Header.BACKLOG,
-            TeamId: this.props.teamData.TeamId
+          .post("http://localhost:3000/tasks", {
+            teamId: this.props.teamData.TeamId,
+            taskId: taskId,
+            type: this.state.type,
+            subType:
+              this.state.type === TaskType.FEATURE
+                ? this.state.task
+                : this.state.issue,
+            owner: this.state.assigned,
+            summary: this.state.summary,
+            description: this.state.description,
+            sprint: this.state.sprint,
+            release: this.state.release,
+            status: Header.BACKLOG
           })
           .then(response => {
             window.location.reload();
@@ -112,26 +131,78 @@ class AddFeatureDialog extends PureComponent {
     return (
       <div className={classes.root}>
         <div className={classes.task}>
-          <label className={classes.label}>Feature: </label>
+          <label className={classes.label}>Type: </label>
           <Select
-            value={this.state.task}
+            value={this.state.type}
             onChange={this.handleChange}
             displayEmpty
-            name="task"
+            name="type"
             className={classes.selectEmpty}
           >
-            {this.getSelectValues(Category)}
+            {this.getSelectValues(TaskType)}
+          </Select>
+        </div>
+
+        {this.state.type === TaskType.FEATURE ? (
+          <div className={classes.task}>
+            <label className={classes.label}>Feature: </label>
+            <Select
+              value={this.state.task}
+              onChange={this.handleChange}
+              displayEmpty
+              name="task"
+              className={classes.selectEmpty}
+            >
+              {this.getSelectValues(Category)}
+            </Select>
+          </div>
+        ) : (
+          <div className={classes.task}>
+            <label className={classes.label}>Issue Type: </label>
+            <Select
+              value={this.state.issue}
+              onChange={this.handleChange}
+              displayEmpty
+              name="issue"
+              className={classes.selectEmpty}
+            >
+              {this.getSelectValues(FeatureCategory)}
+            </Select>
+          </div>
+        )}
+        <div className={classes.task}>
+          <label className={classes.label}>Sprint: </label>
+          <Select
+            value={this.state.sprint}
+            onChange={this.handleChange}
+            displayEmpty
+            name="sprint"
+            className={classes.selectEmpty}
+          >
+            {this.getSelectValues(Sprint)}
           </Select>
         </div>
         <div className={classes.task}>
-          <label className={classes.label}>Feature ID:</label>
+          <label className={classes.label}>Release: </label>
+          <Select
+            value={this.state.release}
+            onChange={this.handleChange}
+            displayEmpty
+            name="release"
+            className={classes.selectEmpty}
+          >
+            {this.getSelectValues(Releases)}
+          </Select>
+        </div>
+        {/* <div className={classes.task}>
+          <label className={classes.label}>Task ID:</label>
           <input
             type="text"
             name="taskId"
             value={this.state.taskId}
             onChange={this.handleChange}
           />
-        </div>
+        </div> */}
         <div className={classes.task}>
           <label className={classes.label}>Product Owner:</label>
           <input
@@ -142,12 +213,31 @@ class AddFeatureDialog extends PureComponent {
           />
         </div>
         <div className={classes.task}>
-          <label className={classes.label}>Title: </label>
+          <label className={classes.label}>Summary: </label>
+          <TextField
+            type="text"
+            name="summary"
+            style={{ width: "75%", textOverflow: "ellipsis" }}
+            value={this.state.summary}
+            onChange={this.handleChange}
+          />
+        </div>
+        <div className={classes.task}>
+          <label className={classes.label}>Description: </label>
           <TextField
             type="text"
             name="description"
             style={{ width: "75%", textOverflow: "ellipsis" }}
             value={this.state.description}
+            onChange={this.handleChange}
+          />
+        </div>
+        <div className={classes.task}>
+          <label className={classes.label}>ETA:</label>
+          <input
+            type="date"
+            name="date"
+            value={this.state.date}
             onChange={this.handleChange}
           />
         </div>
@@ -163,7 +253,7 @@ class AddFeatureDialog extends PureComponent {
             variant="contained"
             color="primary"
             className={classes.button}
-            onClick={this.createFeature}
+            onClick={this.createTask}
           >
             Submit
           </Button>
