@@ -93,6 +93,8 @@ class Team extends React.Component {
             data={this.props.data}
             sprint={this.props.sprint}
             release={this.props.release}
+            team={this.props.team}
+            location={this.props.location}
           />
         </ExpansionPanelDetails>
       </ExpansionPanel>

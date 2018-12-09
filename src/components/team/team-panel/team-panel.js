@@ -21,6 +21,8 @@ import { EnumToArray } from "../../../shared/Utils/enumToArray";
 import { StatusCategory } from "../../../shared/model/team-status";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
+import { Sprint } from "../../../shared/model/sprint.js";
+import { Releases } from "../../../shared/model/release.js";
 
 function Transition(props) {
   return <Slide direction="up" {...props} />;
@@ -53,7 +55,10 @@ class TeamPanel extends PureComponent {
 
   componentWillReceiveProps(nextProps) {
     console.log("props are", nextProps);
-    this.getTasks();
+    if (nextProps.sprint || nextProps.release) {
+      console.log("inside non null");
+      this.getTasks();
+    }
   }
   componentWillUnmount() {
     this.backlog.length = 0;
@@ -75,38 +80,38 @@ class TeamPanel extends PureComponent {
         });
       });
   }
-  getFeatures() {
-    axios
-      .get(`http://localhost:3000/getTask`)
-      .then(result => {
-        let filteredFeatures = this.filterFeatures(result.data);
-        this.setState({ features: filteredFeatures });
-      })
-      .catch(error => {
-        axios
-          .get("http://localhost:3000/features")
-          .then(result => {
-            let filteredFeatures = this.filterFeatures(result.data);
-            debugger;
-            filteredFeatures.forEach(feature => {
-              if (filteredFeatures.indexOf(feature) === -1) {
-                if (feature.status === TaskStatus.BACKLOG) {
-                  this.backlog.push(feature);
-                } else if (feature.status === TaskStatus.INPROGRESS) {
-                  this.progress.push(feature);
-                } else if (feature.status === TaskStatus.DONE) {
-                  this.done.push(feature);
-                }
-              }
-            });
-            this.setState({ features: filteredFeatures });
-          })
-          .catch(error => {
-            let filteredFeatures = this.filterFeatures(features);
-            this.setState({ features: filteredFeatures });
-          });
-      });
-  }
+  // getFeatures() {
+  //   axios
+  //     .get(`http://localhost:3000/getTask`)
+  //     .then(result => {
+  //       let filteredFeatures = this.filterFeatures(result.data);
+  //       this.setState({ features: filteredFeatures });
+  //     })
+  //     .catch(error => {
+  //       axios
+  //         .get("http://localhost:3000/features")
+  //         .then(result => {
+  //           let filteredFeatures = this.filterFeatures(result.data);
+  //           debugger;
+  //           filteredFeatures.forEach(feature => {
+  //             if (filteredFeatures.indexOf(feature) === -1) {
+  //               if (feature.status === TaskStatus.BACKLOG) {
+  //                 this.backlog.push(feature);
+  //               } else if (feature.status === TaskStatus.INPROGRESS) {
+  //                 this.progress.push(feature);
+  //               } else if (feature.status === TaskStatus.DONE) {
+  //                 this.done.push(feature);
+  //               }
+  //             }
+  //           });
+  //           this.setState({ features: filteredFeatures });
+  //         })
+  //         .catch(error => {
+  //           let filteredFeatures = this.filterFeatures(features);
+  //           this.setState({ features: filteredFeatures });
+  //         });
+  //     });
+  // }
   getTasks() {
     this.backlog.length = 0;
     this.progress.length = 0;
@@ -124,9 +129,15 @@ class TeamPanel extends PureComponent {
             let filteredTasks = this.filterTasks(result.data);
             if (this.props.sprint) {
               filteredTasks = this.filterSprint(filteredTasks);
+              if (this.props.sprint === Sprint.All) {
+                filteredTasks = this.filterTasks(result.data);
+              }
             }
             if (this.props.release) {
               filteredTasks = this.filterRelease(filteredTasks);
+              if (this.props.release === Releases.All) {
+                filteredTasks = this.filterTasks(result.data);
+              }
             }
             filteredTasks.forEach(task => {
               if (task.status === TaskStatus.BACKLOG) {

@@ -1,4 +1,5 @@
 export const Team = {
+  All: "All",
   Nike: "Nike",
   Nemesis: "Nemesis",
   Titans: "Titans",

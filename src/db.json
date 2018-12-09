@@ -1,6 +1,5 @@
 {
-  "teams": [
-    {
+  "teams": [{
       "TeamName": "Nike",
       "TeamLogo": "Nike.png",
       "Location": "Noida",
@@ -17,12 +16,12 @@
       "id": 2
     },
     {
-      "id": 3,
       "TeamName": "Hades",
       "TeamLogo": "Hades.png",
       "Location": "Noida",
       "TeamId": "TR003",
-      "status": "Green"
+      "status": "Amber",
+      "id": 3
     },
     {
       "TeamName": "Caerus",
@@ -41,8 +40,7 @@
       "id": 5
     }
   ],
-  "features": [
-    {
+  "features": [{
       "id": 1,
       "status": "InProgress"
     },
@@ -95,8 +93,7 @@
       "status": "Done"
     }
   ],
-  "issues": [
-    {
+  "issues": [{
       "id": 1,
       "FeatureId": "FR001",
       "IssueId": "IR001",
@@ -142,8 +139,7 @@
       "date": "2018-11-30"
     }
   ],
-  "tasks": [
-    {
+  "tasks": [{
       "id": 1,
       "teamId": "TR001",
       "taskId": "SOS-20",
@@ -176,11 +172,10 @@
       "type": "Feature",
       "subType": "WorkRequest",
       "owner": "Walis",
-      "summary": "main card implementation 3",
       "description": "main card implementation with all style and cs implementaion also aa demo",
       "sprint": "Sprint3",
       "release": "19E1",
-      "status": "Backlog"
+      "status": "Done"
     },
     {
       "id": 3,

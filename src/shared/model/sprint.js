@@ -1,4 +1,5 @@
 export const Sprint = {
+  All: "All",
   sprint1: "Sprint1",
   sprint2: "Sprint2",
   sprint3: "Sprint3",

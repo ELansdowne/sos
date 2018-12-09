@@ -4,13 +4,16 @@ import Header from "../../components/header/header";
 import AddTeam from "../../containers/add-team/add-team";
 import Teams from "../../containers/teams/teams";
 import styles from "./Dashboard.module.css";
+import { Location } from "../../shared/model/location";
 
 export class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
       sprint: null,
-      release: null
+      release: null,
+      team: null,
+      location: null
     };
   }
   getSprint = sprint => {
@@ -18,6 +21,12 @@ export class Dashboard extends Component {
   };
   getRelease = release => {
     this.setState({ release: release });
+  };
+  getTeam = team => {
+    this.setState({ team: team });
+  };
+  getLocation = location => {
+    this.setState({ location: location });
   };
 
   render() {
@@ -29,8 +38,13 @@ export class Dashboard extends Component {
           release={this.getRelease}
         />
         <div className={styles.dashboard}>
-          <AddTeam />
-          <Teams sprint={this.state.sprint} release={this.state.release} />
+          <AddTeam team={this.getTeam} location={this.getLocation} />
+          <Teams
+            sprint={this.state.sprint}
+            release={this.state.release}
+            team={this.state.team}
+            location={this.state.location}
+          />
         </div>
       </Aux>
     );
