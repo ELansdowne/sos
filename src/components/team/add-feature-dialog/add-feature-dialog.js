@@ -5,11 +5,11 @@ import { withStyles } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import { EnumToArray } from "../../../shared/Utils/enumToArray";
-import { Category } from "../../../shared/model/category";
+import { FeatureType } from "../../../shared/model/feature-type";
 import axios from "axios";
-import { Header } from "../../../shared/model/header";
+import { TaskStatus } from "../../../shared/model/task-status";
 import { TaskType } from "../../../shared/model/task-type";
-import { FeatureCategory } from "../../../shared/model/feature-category";
+import { IssueType } from "../../../shared/model/issue-type";
 import { Sprint } from "../../../shared/model/sprint";
 import { Releases } from "../../../shared/model/release";
 
@@ -83,7 +83,7 @@ class AddFeatureDialog extends PureComponent {
       description: this.state.description,
       sprint: this.state.sprint,
       release: this.state.release,
-      status: Header.BACKLOG
+      status: TaskStatus.BACKLOG
     };
     axios
       .post("http://localhost:3000/addTask", {
@@ -107,7 +107,7 @@ class AddFeatureDialog extends PureComponent {
             description: this.state.description,
             sprint: this.state.sprint,
             release: this.state.release,
-            status: Header.BACKLOG
+            status: TaskStatus.BACKLOG
           })
           .then(response => {
             window.location.reload();
@@ -157,7 +157,7 @@ class AddFeatureDialog extends PureComponent {
               name="task"
               className={classes.selectEmpty}
             >
-              {this.getSelectValues(Category)}
+              {this.getSelectValues(FeatureType)}
             </Select>
           </div>
         ) : (
@@ -170,7 +170,7 @@ class AddFeatureDialog extends PureComponent {
               name="issue"
               className={classes.selectEmpty}
             >
-              {this.getSelectValues(FeatureCategory)}
+              {this.getSelectValues(IssueType)}
             </Select>
           </div>
         )}

@@ -10,7 +10,7 @@ import SaveIcon from "@material-ui/icons/Save";
 import Card from "@material-ui/core/Card";
 import TextField from "@material-ui/core/TextField";
 import { FormatDate } from "../../../shared/Utils/format-date";
-import { FeatureCategory } from "../../../shared/model/feature-category";
+import { IssueType } from "../../../shared/model/issue-type";
 const styles = theme => ({
   root: {
     marginBottom: "20px"
@@ -94,13 +94,13 @@ export class Task extends PureComponent {
     let bgColorConfig = "orangered";
     let cardType = this.props.task.subType ? this.props.task.subType : "Risks";
     switch (cardType) {
-      case FeatureCategory.Risks:
+      case IssueType.Risks:
         bgColorConfig = "palevioletred";
         break;
-      case FeatureCategory.Blockers:
+      case IssueType.Blockers:
         bgColorConfig = "orangered";
         break;
-      case FeatureCategory.Dependencies:
+      case IssueType.Dependencies:
         bgColorConfig = "peachpuff";
         break;
       default:

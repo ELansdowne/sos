@@ -14,7 +14,7 @@ import Container from "../../../containers/Container/container";
 import { DragDropContext } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
 import styles from "./team-panel.module.css";
-import { Header } from "../../../shared/model/header";
+import { TaskStatus } from "../../../shared/model/task-status";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import { EnumToArray } from "../../../shared/Utils/enumToArray";
@@ -76,11 +76,11 @@ class TeamPanel extends PureComponent {
           .then(result => {
             let filteredFeatures = this.filterFeatures(result.data);
             filteredFeatures.forEach(feature => {
-              if (feature.status === Header.BACKLOG) {
+              if (feature.status === TaskStatus.BACKLOG) {
                 this.backlog.push(feature);
-              } else if (feature.status === Header.INPROGRESS) {
+              } else if (feature.status === TaskStatus.INPROGRESS) {
                 this.progress.push(feature);
-              } else if (feature.status === Header.DONE) {
+              } else if (feature.status === TaskStatus.DONE) {
                 this.done.push(feature);
               }
             });
@@ -114,11 +114,11 @@ class TeamPanel extends PureComponent {
               filteredTasks = this.filterRelease(filteredTasks);
             }
             filteredTasks.forEach(task => {
-              if (task.status === Header.BACKLOG) {
+              if (task.status === TaskStatus.BACKLOG) {
                 this.backlog.push(task);
-              } else if (task.status === Header.INPROGRESS) {
+              } else if (task.status === TaskStatus.INPROGRESS) {
                 this.progress.push(task);
-              } else if (task.status === Header.DONE) {
+              } else if (task.status === TaskStatus.DONE) {
                 this.done.push(task);
               }
             });
@@ -306,19 +306,19 @@ class TeamPanel extends PureComponent {
                 <Container
                   id={1}
                   list={this.backlog}
-                  header={Header.BACKLOG}
+                  header={TaskStatus.BACKLOG}
                   style={{ width: "400px" }}
                 />
                 <Container
                   id={2}
                   list={this.progress}
-                  header={Header.INPROGRESS}
+                  header={TaskStatus.INPROGRESS}
                   style={{ width: "400px" }}
                 />
                 <Container
                   id={3}
                   list={this.done}
-                  header={Header.DONE}
+                  header={TaskStatus.DONE}
                   style={{ width: "400px" }}
                 />
               </div>

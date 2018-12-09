@@ -1,4 +1,4 @@
-export const Header = {
+export const TaskStatus = {
   BACKLOG: "Backlog",
   INPROGRESS: "InProgress",
   DONE: "Done"

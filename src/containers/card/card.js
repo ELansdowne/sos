@@ -4,7 +4,7 @@ import { DragSource, DropTarget } from "react-dnd";
 import flow from "lodash/flow";
 import Task from "../../components/team/task/task";
 import axios from "axios";
-import { Header } from "../../shared/model/header";
+import { TaskStatus } from "../../shared/model/task-status";
 
 const style = {
   padding: "0.2rem 0.2rem",
@@ -46,11 +46,11 @@ const cardSource = {
     let status = "Backlog";
     //  drop location
     if (dropResult.listId === 1) {
-      status = Header.BACKLOG;
+      status = TaskStatus.BACKLOG;
     } else if (dropResult.listId === 2) {
-      status = Header.INPROGRESS;
+      status = TaskStatus.INPROGRESS;
     } else if (dropResult.listId === 3) {
-      status = Header.DONE;
+      status = TaskStatus.DONE;
     }
 
     axios
