@@ -13,7 +13,7 @@ const styles = {
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
-    height: " 45px",
+    height: "55px",
     padding: "0px"
   },
   toolBar: {
@@ -21,8 +21,8 @@ const styles = {
     justifyContent: "center",
     backgroundColor: "#3f51b5",
     color: "white",
-    height: " 45px ",
-    minHeight: " 45px ",
+    height: "55px ",
+    minHeight: "55px ",
     fontSize: "xx-large"
   }
 };

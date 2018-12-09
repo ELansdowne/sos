@@ -19,6 +19,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import { EnumToArray } from "../../../shared/Utils/enumToArray";
 import { StatusCategory } from "../../../shared/model/team-status";
+import InputLabel from "@material-ui/core/InputLabel";
+import FormControl from "@material-ui/core/FormControl";
 
 function Transition(props) {
   return <Slide direction="up" {...props} />;
@@ -28,6 +30,7 @@ class TeamPanel extends PureComponent {
   backlog = [];
   progress = [];
   done = [];
+
   constructor(props) {
     super(props);
     this.state = {
@@ -35,11 +38,15 @@ class TeamPanel extends PureComponent {
       status: " ",
       features: null,
       teamStatus: null,
-      tasks: null
+      tasks: null,
+      color: null
     };
   }
 
   componentDidMount() {
+    this.backlog.length = 0;
+    this.progress.length = 0;
+    this.done.length = 0;
     this.getStatus();
     this.getTasks();
   }
@@ -47,6 +54,11 @@ class TeamPanel extends PureComponent {
   componentWillReceiveProps(nextProps) {
     console.log("props are", nextProps);
     this.getTasks();
+  }
+  componentWillUnmount() {
+    this.backlog.length = 0;
+    this.progress.length = 0;
+    this.done.length = 0;
   }
 
   getStatus() {
@@ -75,13 +87,16 @@ class TeamPanel extends PureComponent {
           .get("http://localhost:3000/features")
           .then(result => {
             let filteredFeatures = this.filterFeatures(result.data);
+            debugger;
             filteredFeatures.forEach(feature => {
-              if (feature.status === TaskStatus.BACKLOG) {
-                this.backlog.push(feature);
-              } else if (feature.status === TaskStatus.INPROGRESS) {
-                this.progress.push(feature);
-              } else if (feature.status === TaskStatus.DONE) {
-                this.done.push(feature);
+              if (filteredFeatures.indexOf(feature) === -1) {
+                if (feature.status === TaskStatus.BACKLOG) {
+                  this.backlog.push(feature);
+                } else if (feature.status === TaskStatus.INPROGRESS) {
+                  this.progress.push(feature);
+                } else if (feature.status === TaskStatus.DONE) {
+                  this.done.push(feature);
+                }
               }
             });
             this.setState({ features: filteredFeatures });
@@ -160,31 +175,21 @@ class TeamPanel extends PureComponent {
     this.setState({ open: false });
   };
   handleChange = event => {
-    if (event.target.name === FeatureStatus.RED)
-      this.setState({ status: event.target.name });
-    if (event.target.name === FeatureStatus.AMBER)
-      this.setState({ status: event.target.name });
-    if (event.target.name === FeatureStatus.GREEN)
-      this.setState({ status: event.target.name });
-    if (event.target.name === "teamStatus")
-      this.setState({ teamStatus: event.target.value });
-
-    const statusData = {
-      status: event.target.value,
-      TeamId: this.props.data.TeamId
-    };
+    console.log(
+      "team panel handle chage and ",
+      event.target.value,
+      this.props.data
+    );
     axios
-      .post("http://localhost:3000/addStatus", {
-        statusData
+      .put("http://localhost:3000/teams/" + this.props.data.id, {
+        TeamName: this.props.data.TeamName,
+        TeamLogo: this.props.data.TeamLogo,
+        Location: this.props.data.Location,
+        TeamId: this.props.data.TeamId,
+        status: event.target.value
       })
-      .then(response => {
+      .then(respones => {
         window.location.reload();
-      })
-      .catch(error => {
-        axios.post("http://localhost:3000/status", {
-          status: this.state.teamStatus,
-          TeamId: this.props.data.TeamId
-        });
       });
   };
   getSelectValues = enums => {
@@ -199,6 +204,7 @@ class TeamPanel extends PureComponent {
   };
   render() {
     let tStatus = null;
+    let color = "white";
     if (this.state.teamStatus && this.state.teamStatus !== "") {
       this.state.teamStatus.map((team, index) => {
         tStatus = team.status;
@@ -230,8 +236,7 @@ class TeamPanel extends PureComponent {
         imgPath = "default.jpg";
         break;
     }
-    let color = "white";
-    switch (tStatus) {
+    switch (this.props.data.status) {
       case "Green":
         color = "#55ce55";
         break;
@@ -277,19 +282,17 @@ class TeamPanel extends PureComponent {
               />
             </div>
             <div style={{ padding: "8px" }}>
-              <div>
-                <div>
-                  <Select
-                    value={StatusCategory.Status}
-                    onChange={this.handleChange}
-                    displayEmpty
-                    name="teamStatus"
-                    style={{ fontSize: "12px" }}
-                  >
-                    {this.getSelectValues(StatusCategory)}
-                  </Select>
-                </div>
-              </div>
+              <FormControl>
+                <InputLabel>status</InputLabel>
+                <Select
+                  value={this.props.data.status}
+                  onChange={this.handleChange}
+                  name="teamStatus"
+                  style={{ fontSize: "12px" }}
+                >
+                  {this.getSelectValues(StatusCategory)}
+                </Select>
+              </FormControl>
             </div>
             <Button
               size="small"

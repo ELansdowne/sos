@@ -1,27 +1,48 @@
 {
-  "teams": [{
-      "id": 1,
+  "teams": [
+    {
       "TeamName": "Nike",
       "TeamLogo": "Nike.png",
       "Location": "Noida",
-      "TeamId": "TR001"
+      "TeamId": "TR001",
+      "status": "Amber",
+      "id": 1
     },
     {
-      "id": 2,
       "TeamName": "Titans",
       "TeamLogo": "Titans.png",
       "Location": "Noida",
-      "TeamId": "TR002"
+      "TeamId": "TR002",
+      "status": "Amber",
+      "id": 2
     },
     {
       "id": 3,
       "TeamName": "Hades",
       "TeamLogo": "Hades.png",
       "Location": "Noida",
-      "TeamId": "TR003"
+      "TeamId": "TR003",
+      "status": "Green"
+    },
+    {
+      "TeamName": "Caerus",
+      "TeamLogo": "Caerus",
+      "Location": "Sydney",
+      "TeamId": "T869",
+      "status": "Amber",
+      "id": 4
+    },
+    {
+      "TeamName": "Athena",
+      "TeamLogo": "Athena",
+      "Location": "Sydney",
+      "TeamId": "T41",
+      "status": "green",
+      "id": 5
     }
   ],
-  "features": [{
+  "features": [
+    {
       "id": 1,
       "status": "InProgress"
     },
@@ -74,7 +95,8 @@
       "status": "Done"
     }
   ],
-  "issues": [{
+  "issues": [
+    {
       "id": 1,
       "FeatureId": "FR001",
       "IssueId": "IR001",
@@ -120,7 +142,8 @@
       "date": "2018-11-30"
     }
   ],
-  "tasks": [{
+  "tasks": [
+    {
       "id": 1,
       "teamId": "TR001",
       "taskId": "SOS-20",
@@ -197,6 +220,58 @@
       "release": "19E2",
       "status": "Backlog",
       "id": 6
+    },
+    {
+      "teamId": "TR002",
+      "taskId": "SOS-7584",
+      "type": "Feature",
+      "subType": "CI",
+      "owner": "Amitq",
+      "summary": "",
+      "description": "octhohorpe",
+      "sprint": "Sprint1",
+      "release": "19E1",
+      "status": "Backlog",
+      "id": 7
+    },
+    {
+      "teamId": "T869",
+      "taskId": "SOS-5474",
+      "type": "Feature",
+      "subType": "WorkRequest",
+      "owner": "chan",
+      "summary": "",
+      "description": "task checker",
+      "sprint": "Sprint1",
+      "release": "19E1",
+      "status": "Backlog",
+      "id": 8
+    },
+    {
+      "teamId": "T41",
+      "taskId": "SOS-2897",
+      "type": "Issue",
+      "subType": "Dependencies",
+      "owner": "adf",
+      "summary": "",
+      "description": "checker",
+      "sprint": "Sprint2",
+      "release": "19E1",
+      "status": "Backlog",
+      "id": 9
+    },
+    {
+      "teamId": "TR003",
+      "taskId": "SOS-9486",
+      "type": "Feature",
+      "subType": "WorkRequest",
+      "owner": "agghh",
+      "summary": "",
+      "description": "champ",
+      "sprint": "Sprint1",
+      "release": "19E1",
+      "status": "Backlog",
+      "id": 10
     }
   ]
 }

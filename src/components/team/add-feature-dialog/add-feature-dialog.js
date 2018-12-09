@@ -70,9 +70,10 @@ class AddFeatureDialog extends PureComponent {
   };
 
   createTask = () => {
+    let taskId = "SOS-" + Math.floor(1000 + Math.random() * 9000);
     const taskData = {
       teamId: this.props.teamData.TeamId,
-      taskId: this.state.taskId,
+      taskId: taskId,
       type: this.state.type,
       subType:
         this.state.type === TaskType.FEATURE
@@ -96,7 +97,7 @@ class AddFeatureDialog extends PureComponent {
         axios
           .post("http://localhost:3000/tasks", {
             teamId: this.props.teamData.TeamId,
-            taskId: this.state.taskId,
+            taskId: taskId,
             type: this.state.type,
             subType:
               this.state.type === TaskType.FEATURE
