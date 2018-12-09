@@ -55,7 +55,6 @@ class Team extends React.Component {
 
   render() {
     const { classes } = this.props;
-    console.log("props in team", this.props.sprint);
     let tStatus = null;
     if (this.state.teamStatus && this.state.teamStatus !== "") {
       this.state.teamStatus.map((team, index) => {
@@ -82,7 +81,7 @@ class Team extends React.Component {
       <ExpansionPanel>
         <ExpansionPanelSummary
           expandIcon={<ExpandMoreIcon />}
-          style={{ background: color, minHeight: "40px" }}
+          style={{ background: color }}
           classes={{ expanded: classes.expanded }}
         >
           <Typography className={styles.heading}>
@@ -90,7 +89,11 @@ class Team extends React.Component {
           </Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
-          <TeamPanel data={this.props.data} sprint={this.props.sprint} />
+          <TeamPanel
+            data={this.props.data}
+            sprint={this.props.sprint}
+            release={this.props.release}
+          />
         </ExpansionPanelDetails>
       </ExpansionPanel>
     );

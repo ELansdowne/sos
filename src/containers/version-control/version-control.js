@@ -36,7 +36,7 @@ export class VersionControl extends PureComponent {
       }, 100);
     } else if (event.target.name === "release") {
       setTimeout(() => {
-        this.props.sprint(this.state.release);
+        this.props.release(this.state.release);
       }, 100);
     }
   };

@@ -16,7 +16,7 @@ export class Teams extends PureComponent {
   }
   getTeams() {
     axios
-      .get(`http://localhost:3000/teams`)
+      .get(`http://localhost:3000/getTeam`)
       .then(res => {
         this.setState({ teamData: res.data });
       })
@@ -35,7 +35,14 @@ export class Teams extends PureComponent {
     let teamData = null;
     if (this.state.teamData) {
       teamData = this.state.teamData.map((team, index) => {
-        return <Team key={index} data={team} sprint={this.props.sprint} />;
+        return (
+          <Team
+            key={index}
+            data={team}
+            sprint={this.props.sprint}
+            release={this.props.release}
+          />
+        );
       });
     }
     return <Aux>{teamData}</Aux>;

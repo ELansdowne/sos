@@ -20,19 +20,6 @@ import Select from "@material-ui/core/Select";
 import { EnumToArray } from "../../../shared/Utils/enumToArray";
 import { StatusCategory } from "../../../shared/model/team-status";
 
-// const styles = theme => ({
-//   root: {
-//     flexGrow: 1
-//   },
-//   paper: {
-//     padding: theme.spacing.unit * 2,
-//     textAlign: "center",
-//     color: theme.palette.text.secondary,
-//     minHeight: "400px"
-//   },
-//   dialog: {}
-// });
-
 function Transition(props) {
   return <Slide direction="up" {...props} />;
 }
@@ -53,13 +40,12 @@ class TeamPanel extends PureComponent {
   }
 
   componentDidMount() {
-    // this.getFeatures();
     this.getStatus();
     this.getTasks();
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log("nextprops are", nextProps.sprint);
+    console.log("props are", nextProps);
     this.getTasks();
   }
 
@@ -124,6 +110,9 @@ class TeamPanel extends PureComponent {
             if (this.props.sprint) {
               filteredTasks = this.filterSprint(filteredTasks);
             }
+            if (this.props.release) {
+              filteredTasks = this.filterRelease(filteredTasks);
+            }
             filteredTasks.forEach(task => {
               if (task.status === Header.BACKLOG) {
                 this.backlog.push(task);
@@ -147,6 +136,10 @@ class TeamPanel extends PureComponent {
   }
   filterSprint(tasks = []) {
     return tasks.filter(task => task.sprint === this.props.sprint);
+  }
+
+  filterRelease(tasks = []) {
+    return tasks.filter(task => task.release === this.props.release);
   }
 
   filterFeatures(features = []) {
@@ -205,7 +198,6 @@ class TeamPanel extends PureComponent {
     return values;
   };
   render() {
-    console.log("props in team-panel", this.props.sprint);
     let tStatus = null;
     if (this.state.teamStatus && this.state.teamStatus !== "") {
       this.state.teamStatus.map((team, index) => {

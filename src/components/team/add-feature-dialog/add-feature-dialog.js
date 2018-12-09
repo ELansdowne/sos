@@ -70,16 +70,20 @@ class AddFeatureDialog extends PureComponent {
   };
 
   createTask = () => {
-    debugger;
-    let taskId = "SOS-" + Math.floor(1000 + Math.random() * 9000);
-    /*  a unique parameter as FeatureId has to generated at backend to uniquely identify every feature also to map every feature with team*/
     const taskData = {
-      Tasks: this.state.task,
-      AssignedTo: this.state.assigned,
-      FeatureId: this.state.taskId,
-      WorkRequestInfo: this.state.description,
-      status: Header.BACKLOG,
-      TeamId: this.props.teamData.TeamId
+      teamId: this.props.teamData.TeamId,
+      taskId: this.state.taskId,
+      type: this.state.type,
+      subType:
+        this.state.type === TaskType.FEATURE
+          ? this.state.task
+          : this.state.issue,
+      owner: this.state.assigned,
+      summary: this.state.summary,
+      description: this.state.description,
+      sprint: this.state.sprint,
+      release: this.state.release,
+      status: Header.BACKLOG
     };
     axios
       .post("http://localhost:3000/addTask", {
@@ -92,7 +96,7 @@ class AddFeatureDialog extends PureComponent {
         axios
           .post("http://localhost:3000/tasks", {
             teamId: this.props.teamData.TeamId,
-            taskId: taskId,
+            taskId: this.state.taskId,
             type: this.state.type,
             subType:
               this.state.type === TaskType.FEATURE
@@ -131,7 +135,7 @@ class AddFeatureDialog extends PureComponent {
     return (
       <div className={classes.root}>
         <div className={classes.task}>
-          <label className={classes.label}>Type: </label>
+          <label className={classes.label}>Task: </label>
           <Select
             value={this.state.type}
             onChange={this.handleChange}
@@ -145,7 +149,7 @@ class AddFeatureDialog extends PureComponent {
 
         {this.state.type === TaskType.FEATURE ? (
           <div className={classes.task}>
-            <label className={classes.label}>Feature: </label>
+            <label className={classes.label}>Feature Type:</label>
             <Select
               value={this.state.task}
               onChange={this.handleChange}
@@ -158,7 +162,7 @@ class AddFeatureDialog extends PureComponent {
           </div>
         ) : (
           <div className={classes.task}>
-            <label className={classes.label}>Issue Type: </label>
+            <label className={classes.label}>Issue Type:</label>
             <Select
               value={this.state.issue}
               onChange={this.handleChange}
@@ -171,7 +175,7 @@ class AddFeatureDialog extends PureComponent {
           </div>
         )}
         <div className={classes.task}>
-          <label className={classes.label}>Sprint: </label>
+          <label className={classes.label}>Sprint:</label>
           <Select
             value={this.state.sprint}
             onChange={this.handleChange}
@@ -183,7 +187,7 @@ class AddFeatureDialog extends PureComponent {
           </Select>
         </div>
         <div className={classes.task}>
-          <label className={classes.label}>Release: </label>
+          <label className={classes.label}>Release:</label>
           <Select
             value={this.state.release}
             onChange={this.handleChange}
@@ -194,61 +198,48 @@ class AddFeatureDialog extends PureComponent {
             {this.getSelectValues(Releases)}
           </Select>
         </div>
-        {/* <div className={classes.task}>
-          <label className={classes.label}>Task ID:</label>
-          <input
-            type="text"
-            name="taskId"
-            value={this.state.taskId}
-            onChange={this.handleChange}
-          />
-        </div> */}
         <div className={classes.task}>
           <label className={classes.label}>Product Owner:</label>
-          <input
+          <TextField
             type="text"
             name="assigned"
             value={this.state.assigned}
             onChange={this.handleChange}
+            style={{ width: "50%", textOverflow: "ellipsis" }}
           />
         </div>
         <div className={classes.task}>
-          <label className={classes.label}>Summary: </label>
+          <label className={classes.label}>Task Id:</label>
           <TextField
             type="text"
-            name="summary"
-            style={{ width: "75%", textOverflow: "ellipsis" }}
-            value={this.state.summary}
+            name="taskId"
+            style={{ width: "50%", textOverflow: "ellipsis" }}
+            value={this.state.taskId}
             onChange={this.handleChange}
           />
         </div>
         <div className={classes.task}>
-          <label className={classes.label}>Description: </label>
+          <label className={classes.label}>Title:</label>
           <TextField
             type="text"
             name="description"
-            style={{ width: "75%", textOverflow: "ellipsis" }}
+            style={{ width: "85%", textOverflow: "ellipsis" }}
             value={this.state.description}
             onChange={this.handleChange}
           />
         </div>
-        <div className={classes.task}>
-          <label className={classes.label}>ETA:</label>
-          <input
-            type="date"
-            name="date"
-            value={this.state.date}
-            onChange={this.handleChange}
-          />
-        </div>
+        {this.state.type === TaskType.ISSUE && (
+          <div className={classes.task}>
+            <label className={classes.label}>ETA:</label>
+            <input
+              type="date"
+              name="date"
+              value={this.state.date}
+              onChange={this.handleChange}
+            />
+          </div>
+        )}
         <div className={classes.buttonGroup}>
-          <Button
-            variant="contained"
-            className={classes.button}
-            onClick={this.closeDialog}
-          >
-            Cancel
-          </Button>
           <Button
             variant="contained"
             color="primary"
@@ -256,6 +247,13 @@ class AddFeatureDialog extends PureComponent {
             onClick={this.createTask}
           >
             Submit
+          </Button>
+          <Button
+            variant="contained"
+            className={classes.button}
+            onClick={this.closeDialog}
+          >
+            Cancel
           </Button>
         </div>
       </div>

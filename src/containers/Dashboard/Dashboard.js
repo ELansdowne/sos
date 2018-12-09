@@ -9,15 +9,15 @@ export class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      sprint: null
+      sprint: null,
+      release: null
     };
   }
   getSprint = sprint => {
-    console.log("sprint in dashboard", sprint);
     this.setState({ sprint: sprint });
   };
   getRelease = release => {
-    console.log("release in dashboard", release);
+    this.setState({ release: release });
   };
 
   render() {
@@ -30,7 +30,7 @@ export class Dashboard extends Component {
         />
         <div className={styles.dashboard}>
           <AddTeam />
-          <Teams sprint={this.state.sprint} />
+          <Teams sprint={this.state.sprint} release={this.state.release} />
         </div>
       </Aux>
     );

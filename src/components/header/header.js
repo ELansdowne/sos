@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
+// import Typography from "@material-ui/core/Typography";
 import VersionControl from "../../containers/version-control/version-control";
 import Aux from "../../hoc/Auxi";
 import style from "./header.module.css";
@@ -22,17 +22,16 @@ const styles = {
     backgroundColor: "#3f51b5",
     color: "white",
     height: " 45px ",
-    minHeight: " 45px "
+    minHeight: " 45px ",
+    fontSize: "xx-large"
   }
 };
 
 export class Header extends PureComponent {
   getSprint = sprint => {
-    console.log("indiede sprint", sprint);
     this.props.sprint(sprint);
   };
   getRelease = release => {
-    console.log("indiede sprint", release);
     this.props.release(release);
   };
   render() {
