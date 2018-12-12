@@ -64,7 +64,11 @@ const cardSource = {
         description: item.card.description,
         sprint: item.card.sprint,
         release: item.card.release,
-        status: status
+        status: status,
+        Size: item.card.size,
+        Priority: item.card.priority,
+        SprintStartEnd: item.card.sprintStartEnd,
+        date: item.card.date
       })
       .then(response => {
         // window.location.reload();
@@ -81,7 +85,11 @@ const cardSource = {
             description: item.card.description,
             sprint: item.card.sprint,
             release: item.card.release,
-            status: status
+            status: status,
+            Size: item.card.size,
+            Priority: item.card.priority,
+            SprintStartEnd: item.card.sprintStartEnd,
+            date: item.card.date
           })
           .then(response => {
             // window.location.reload();

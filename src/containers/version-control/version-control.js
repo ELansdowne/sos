@@ -6,13 +6,12 @@ import { withStyles } from "@material-ui/core";
 import { EnumToArray } from "../../shared/Utils/enumToArray";
 import { Releases } from "../../shared/model/release";
 import { Sprint } from "../../shared/model/sprint";
-import InputLabel from "@material-ui/core/InputLabel";
 
 const styles = theme => ({
   root: {},
   formControl: {
     marginRight: theme.spacing.unit,
-    minWidth: 220,
+    minWidth: 120,
     verticalAlign: "super"
   },
   selectEmpty: {
@@ -26,8 +25,8 @@ export class VersionControl extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      release: "",
-      sprint: "",
+      release: "Select Release",
+      sprint: "Select a Sprint",
       labelWidth: 0
     };
   }
@@ -60,7 +59,6 @@ export class VersionControl extends PureComponent {
     return (
       <div className={classes.root}>
         <FormControl className={classes.formControl}>
-          <InputLabel>select release</InputLabel>
           <Select
             value={this.state.release}
             onChange={this.handleChange}
@@ -72,7 +70,6 @@ export class VersionControl extends PureComponent {
           </Select>
         </FormControl>
         <FormControl className={classes.formControl}>
-          <InputLabel>select sprint</InputLabel>
           <Select
             value={this.state.sprint}
             onChange={this.handleChange}

@@ -8,7 +8,6 @@ import Slide from "@material-ui/core/Slide";
 import axios from "axios";
 import features from "../../../assets/localDB/features.json";
 import AddFeatureDialog from "../add-feature-dialog/add-feature-dialog";
-import { FeatureStatus } from "../../../shared/model/feature-status";
 import { Team } from "../../../shared/model/team";
 import Container from "../../../containers/Container/container";
 import { DragDropContext } from "react-dnd";
@@ -19,7 +18,6 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import { EnumToArray } from "../../../shared/Utils/enumToArray";
 import { StatusCategory } from "../../../shared/model/team-status";
-import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import { Sprint } from "../../../shared/model/sprint.js";
 import { Releases } from "../../../shared/model/release.js";
@@ -32,7 +30,6 @@ class TeamPanel extends PureComponent {
   backlog = [];
   progress = [];
   done = [];
-
   constructor(props) {
     super(props);
     this.state = {
@@ -54,9 +51,7 @@ class TeamPanel extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log("props are", nextProps);
     if (nextProps.sprint || nextProps.release) {
-      console.log("inside non null");
       this.getTasks();
     }
   }
@@ -80,38 +75,7 @@ class TeamPanel extends PureComponent {
         });
       });
   }
-  // getFeatures() {
-  //   axios
-  //     .get(`http://localhost:3000/getTask`)
-  //     .then(result => {
-  //       let filteredFeatures = this.filterFeatures(result.data);
-  //       this.setState({ features: filteredFeatures });
-  //     })
-  //     .catch(error => {
-  //       axios
-  //         .get("http://localhost:3000/features")
-  //         .then(result => {
-  //           let filteredFeatures = this.filterFeatures(result.data);
-  //           debugger;
-  //           filteredFeatures.forEach(feature => {
-  //             if (filteredFeatures.indexOf(feature) === -1) {
-  //               if (feature.status === TaskStatus.BACKLOG) {
-  //                 this.backlog.push(feature);
-  //               } else if (feature.status === TaskStatus.INPROGRESS) {
-  //                 this.progress.push(feature);
-  //               } else if (feature.status === TaskStatus.DONE) {
-  //                 this.done.push(feature);
-  //               }
-  //             }
-  //           });
-  //           this.setState({ features: filteredFeatures });
-  //         })
-  //         .catch(error => {
-  //           let filteredFeatures = this.filterFeatures(features);
-  //           this.setState({ features: filteredFeatures });
-  //         });
-  //     });
-  // }
+
   getTasks() {
     this.backlog.length = 0;
     this.progress.length = 0;
@@ -129,13 +93,13 @@ class TeamPanel extends PureComponent {
             let filteredTasks = this.filterTasks(result.data);
             if (this.props.sprint) {
               filteredTasks = this.filterSprint(filteredTasks);
-              if (this.props.sprint === Sprint.All) {
+              if (this.props.sprint === Sprint.none) {
                 filteredTasks = this.filterTasks(result.data);
               }
             }
             if (this.props.release) {
               filteredTasks = this.filterRelease(filteredTasks);
-              if (this.props.release === Releases.All) {
+              if (this.props.release === Releases.None) {
                 filteredTasks = this.filterTasks(result.data);
               }
             }
@@ -249,13 +213,13 @@ class TeamPanel extends PureComponent {
     }
     switch (this.props.data.status) {
       case "Green":
-        color = "#55ce55";
+        color = "rgb(123, 234, 123)";
         break;
       case "Amber":
-        color = "#FFBF00";
+        color = "rgb(241, 200, 78)";
         break;
       case "Red":
-        color = "#fb4141";
+        color = "rgb(245, 94, 94)";
         break;
       default:
         color = "white";
@@ -294,9 +258,8 @@ class TeamPanel extends PureComponent {
             </div>
             <div style={{ padding: "8px" }}>
               <FormControl>
-                <InputLabel>status</InputLabel>
                 <Select
-                  value={this.props.data.status}
+                  value={StatusCategory.Status}
                   onChange={this.handleChange}
                   name="teamStatus"
                   style={{ fontSize: "12px" }}

@@ -70,10 +70,9 @@ class AddFeatureDialog extends PureComponent {
   };
 
   createTask = () => {
-    let taskId = "SOS-" + Math.floor(1000 + Math.random() * 9000);
     const taskData = {
       teamId: this.props.teamData.TeamId,
-      taskId: taskId,
+      taskId: this.state.taskId,
       type: this.state.type,
       subType:
         this.state.type === TaskType.FEATURE
@@ -84,7 +83,8 @@ class AddFeatureDialog extends PureComponent {
       description: this.state.description,
       sprint: this.state.sprint,
       release: this.state.release,
-      status: TaskStatus.BACKLOG
+      status: TaskStatus.BACKLOG,
+      date: this.state.date
     };
     axios
       .post("http://localhost:3000/addTask", {
@@ -97,7 +97,7 @@ class AddFeatureDialog extends PureComponent {
         axios
           .post("http://localhost:3000/tasks", {
             teamId: this.props.teamData.TeamId,
-            taskId: taskId,
+            taskId: this.state.taskId,
             type: this.state.type,
             subType:
               this.state.type === TaskType.FEATURE
@@ -108,7 +108,8 @@ class AddFeatureDialog extends PureComponent {
             description: this.state.description,
             sprint: this.state.sprint,
             release: this.state.release,
-            status: TaskStatus.BACKLOG
+            status: TaskStatus.BACKLOG,
+            date: this.state.date
           })
           .then(response => {
             window.location.reload();

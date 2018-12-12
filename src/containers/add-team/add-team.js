@@ -11,7 +11,6 @@ import { Location } from "../../shared/model/location";
 import { Team } from "../../shared/model/team";
 import { EnumToArray } from "../../shared/Utils/enumToArray";
 import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
 
 const styles = theme => ({
   root: {
@@ -20,9 +19,9 @@ const styles = theme => ({
     justifyContent: "space-between"
   },
   formControl: {
-    margin: theme.spacing.unit,
-    minWidth: 220,
-    verticalAlign: "super"
+    margin: theme.spacing.unit
+    // minWidth: 220,
+    // verticalAlign: "super"
   },
   selectEmpty: {
     marginTop: theme.spacing.unit,
@@ -46,8 +45,8 @@ export class AddTeam extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      location: "",
-      team: "",
+      location: Location.None,
+      team: Team.None,
       labelWidth: 0,
       open: false
     };
@@ -105,30 +104,24 @@ export class AddTeam extends PureComponent {
           />
         </Dialog>
         <div className={classes.select}>
-          <FormControl className={classes.formControl}>
-            <InputLabel>select location</InputLabel>
-            <Select
-              value={this.state.location}
-              onChange={this.handleChange}
-              displayEmpty
-              name="location"
-              className={classes.selectEmpty}
-            >
-              {this.getSelectValues(Location)}
-            </Select>
-          </FormControl>
-          <FormControl className={classes.formControl}>
-            <InputLabel>select team</InputLabel>
-            <Select
-              value={this.state.team}
-              onChange={this.handleChange}
-              displayEmpty
-              name="team"
-              className={classes.selectEmpty}
-            >
-              {this.getSelectValues(Team)}
-            </Select>
-          </FormControl>
+          <Select
+            value={this.state.location}
+            onChange={this.handleChange}
+            displayEmpty
+            name="location"
+            className={classes.selectEmpty}
+          >
+            {this.getSelectValues(Location)}
+          </Select>
+          <Select
+            value={this.state.team}
+            onChange={this.handleChange}
+            displayEmpty
+            name="team"
+            className={classes.selectEmpty}
+          >
+            {this.getSelectValues(Team)}
+          </Select>
         </div>
         <Button
           variant="outlined"

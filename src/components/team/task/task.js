@@ -9,12 +9,9 @@ import axios from "axios";
 import SaveIcon from "@material-ui/icons/Save";
 import Card from "@material-ui/core/Card";
 import TextField from "@material-ui/core/TextField";
-import { FormatDate } from "../../../shared/Utils/format-date";
 import { IssueType } from "../../../shared/model/issue-type";
+
 const styles = theme => ({
-  root: {
-    marginBottom: "20px"
-  },
   heading: {
     fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular,
@@ -24,7 +21,19 @@ const styles = theme => ({
   },
   input: {
     marginRight: "10px"
-  }
+  },
+  expanded: {
+    "&$expanded": {
+      minHeight: 0,
+      marginTop: "2px",
+      marginBottom: 0
+    }
+  },
+  root: {
+    padding: "1px 21px 0px",
+    minHeight: "0px"
+  },
+  content: { margin: "0px" }
 });
 
 export class Task extends PureComponent {
@@ -49,13 +58,20 @@ export class Task extends PureComponent {
   handleSave = event => {
     event.preventDefault();
     const taskRequestData = {
+      id: this.props.task.id,
+      teamId: this.props.task.teamId,
+      type: this.props.task.type,
+      subType: this.props.task.subType,
+      owner: this.props.task.owner,
+      description: this.state.description,
+      sprint: this.props.task.sprint,
+      release: this.props.task.release,
+      status: this.props.task.status,
       taskId: this.props.task.taskId,
       Size: this.state.size,
       Priority: this.state.priority,
       SprintStartEnd: this.state.sprintStartEnd,
-      date: this.state.date,
-      owner: this.state.owner,
-      description: this.state.description
+      date: this.state.date
     };
     axios
       .post(
@@ -71,14 +87,21 @@ export class Task extends PureComponent {
       )
       .catch(error => {
         axios
-          .post("http://localhost:3000/taskCard", {
+          .put("http://localhost:3000/tasks/" + this.props.task.id, {
+            id: this.props.task.id,
+            teamId: this.props.task.teamId,
+            type: this.props.task.type,
+            subType: this.props.task.subType,
+            owner: this.props.task.owner,
+            description: this.state.description,
+            sprint: this.props.task.sprint,
+            release: this.props.task.release,
+            status: this.props.task.status,
             taskId: this.props.task.taskId,
             Size: this.state.size,
             Priority: this.state.priority,
             SprintStartEnd: this.state.sprintStartEnd,
-            date: this.state.date,
-            owner: this.state.owner,
-            description: this.state.description
+            date: this.state.date
           })
           .then(response => {
             //  window.location.reload();
@@ -87,24 +110,20 @@ export class Task extends PureComponent {
     this.setState({ isSubmitted: true });
   };
   render() {
-    let endDate = null;
-    if (this.props.task.type === "Issue") {
-      endDate = FormatDate.formatDate(this.props.task.date);
-    }
-    let bgColorConfig = "orangered";
+    let bgColorConfig = "rgb(251, 65, 65)";
     let cardType = this.props.task.subType ? this.props.task.subType : "Risks";
     switch (cardType) {
       case IssueType.Risks:
         bgColorConfig = "palevioletred";
         break;
       case IssueType.Blockers:
-        bgColorConfig = "orangered";
+        bgColorConfig = "rgb(251, 65, 65)";
         break;
       case IssueType.Dependencies:
         bgColorConfig = "peachpuff";
         break;
       default:
-        bgColorConfig = "orangered";
+        bgColorConfig = "rgb(251, 65, 65)";
         break;
     }
     let cardColor = "rgba(19, 19, 241, 0.281)";
@@ -124,27 +143,30 @@ export class Task extends PureComponent {
         break;
     }
     return (
-      <div className={classes.root}>
+      <div>
         {this.props.task.type === "Feature" ? (
           <ExpansionPanel>
-            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+            <ExpansionPanelSummary
+              expandIcon={<ExpandMoreIcon />}
+              classes={{ expanded: classes.expanded }}
+              className={classes.root}
+            >
               <Typography className={classes.heading}>
                 <input
                   placeholder="workrequest information"
                   name="workrequest"
-                  className={classes.input}
                   value={this.props.task.taskId}
-                  style={{ background: cardColor, width: "70px" }}
+                  style={{ background: cardColor, width: "75px" }}
                 />
                 <input
                   placeholder="description"
                   name="description"
-                  style={{ background: cardColor, width: "220px" }}
+                  style={{ background: cardColor, width: "228px" }}
                   value={this.props.task.description}
                 />
               </Typography>
             </ExpansionPanelSummary>
-            <ExpansionPanelDetails>
+            <ExpansionPanelDetails className={classes.root}>
               <Typography>
                 <div>
                   <table
@@ -179,7 +201,7 @@ export class Task extends PureComponent {
                             value={this.state.sprintStartEnd}
                             onChange={this.handleChange}
                             style={{ width: "70px" }}
-                            placeholder="0"
+                            placeholder={this.props.task.SprintStartEnd}
                           />
                         </td>
                         <td>
@@ -196,7 +218,7 @@ export class Task extends PureComponent {
                             value={this.state.size}
                             onChange={this.handleChange}
                             style={{ width: "40px" }}
-                            placeholder="0"
+                            placeholder={this.props.task.Size}
                           />
                         </td>
                         <td>
@@ -206,7 +228,7 @@ export class Task extends PureComponent {
                             style={{ width: "50px" }}
                             value={this.state.priority}
                             onChange={this.handleChange}
-                            placeholder="0"
+                            placeholder={this.props.task.Priority}
                           />
                         </td>
                         <tr>
@@ -229,7 +251,7 @@ export class Task extends PureComponent {
           </ExpansionPanel>
         ) : (
           <Card
-            style={{ background: bgColorConfig, padding: "5px", margin: "5px" }}
+            style={{ background: bgColorConfig, padding: "5px", margin: "0px" }}
           >
             <TextField
               id="description"
@@ -246,16 +268,25 @@ export class Task extends PureComponent {
               type="text"
               placeholder={this.props.task.owner}
               style={{ width: "45%", fontSize: "10px" }}
-              value={this.state.owner}
+              value={this.props.task.owner}
               onChange={this.handleChange}
             />
             <TextField
               id="date"
               name="date"
-              type="date"
-              style={{ marginLeft: "8px", width: "50%", fontSize: "10px" }}
+              type="text"
+              style={{ marginLeft: "8px", width: "45%", fontSize: "10px" }}
               value={this.state.date}
+              placeholder={this.props.task.date}
               onChange={this.handleChange}
+            />
+            <SaveIcon
+              style={{
+                cursor: "pointer",
+                float: "right",
+                paddingTop: "8px"
+              }}
+              onClick={this.handleSave}
             />
           </Card>
         )}{" "}

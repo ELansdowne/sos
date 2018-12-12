@@ -35,13 +35,13 @@ class Team extends React.Component {
 
   componentDidMount() {
     axios
-      .get(`http://localhost:3000/getStatus`)
+      .get(`http://localhost:3000/getTeam`)
       .then(result => {
         let filteredstatus = this.filterstatus(result.data);
         this.setState({ teamStatus: filteredstatus });
       })
       .catch(error => {
-        axios.get("http://localhost:3000/status").then(result => {
+        axios.get("http://localhost:3000/teams").then(result => {
           let filteredstatus = this.filterstatus(result.data);
           this.setState({ teamStatus: filteredstatus });
         });
@@ -65,13 +65,13 @@ class Team extends React.Component {
     let color;
     switch (tStatus) {
       case "Green":
-        color = "#55ce55";
+        color = "rgb(123, 234, 123)";
         break;
       case "Amber":
-        color = "#FFBF00";
+        color = "rgb(241, 200, 78)";
         break;
       case "Red":
-        color = "#fb4141";
+        color = "rgb(245, 94, 94)";
         break;
       default:
         color = "white";

@@ -1,5 +1,5 @@
 export const Location = {
-  ALL: "All",
+  None: "Select a location",
   Noida: "Noida",
   Sydney: "Sydney"
 };
