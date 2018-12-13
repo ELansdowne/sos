@@ -43,56 +43,57 @@
   ],
   "features": [
     {
-      "id": 1,
-      "status": "InProgress"
-    },
-    {
-      "id": 2,
-      "status": "Backlog"
-    },
-    {
-      "id": 3,
-      "status": "Backlog"
-    },
-    {
-      "id": 4,
-      "status": "InProgress"
-    },
-    {
       "id": 5,
-      "Tasks": "WorkRequest",
-      "AssignedTo": "ammo",
-      "FeatureId": "FR005",
-      "WorkRequestInfo": "NA",
-      "TeamId": "TR002",
+      "task": "WorkRequest",
+      "assignedTo": "ammo",
+      "featureId": "FR005",
+      "workRequestInfo": "NA",
+      "teamId": "TR002",
       "status": "Backlog"
     },
     {
       "id": 6,
-      "Tasks": "CI",
-      "AssignedTo": "Apkl",
-      "FeatureId": "FR006",
-      "WorkRequestInfo": "checker",
-      "TeamId": "TR003",
+      "task": "CI",
+      "assignedTo": "Apkl",
+      "featureId": "FR006",
+      "workRequestInfo": "checker",
+      "teamId": "TR003",
       "status": "Backlog"
     },
     {
       "id": 7,
-      "Tasks": "CI",
-      "AssignedTo": "Amit",
-      "FeatureId": "FR007",
-      "WorkRequestInfo": "chekkk",
-      "TeamId": "TR001",
+      "task": "CI",
+      "assignedTo": "Amit",
+      "featureId": "FR007",
+      "workRequestInfo": "chekkk",
+      "teamId": "TR001",
       "status": "Backlog"
     },
     {
       "id": 8,
-      "Tasks": "CA",
-      "AssignedTo": "Ankit",
-      "WorkRequestInfo": "chek",
-      "TeamId": "TR002",
-      "FeatureId": "FR008",
+      "task": "CA",
+      "assignedTo": "Ankit",
+      "workRequestInfo": "chek",
+      "teamId": "TR002",
+      "featureId": "FR008",
       "status": "Done"
+    },
+    {
+      "task": "CI",
+      "assignedTo": "amnok",
+      "featureId": "FR4786",
+      "workRequestInfo": "checking feature",
+      "teamId": "TR001",
+      "id": 9
+    },
+    {
+      "task": "CI",
+      "assignedTo": "amnoks",
+      "featureId": "FR1896",
+      "workRequestInfo": "amnok checker",
+      "teamId": "TR001",
+      "status": "Backlog",
+      "id": 10
     }
   ],
   "issues": [
@@ -207,30 +208,28 @@
       "status": "Backlog"
     },
     {
+      "id": 6,
       "teamId": "TR002",
       "taskId": "SOS-5698",
       "type": "Issue",
       "subType": "Dependencies",
       "owner": "Amba",
-      "summary": "summary demo",
       "description": "description demo",
       "sprint": "Sprint2",
       "release": "19E2",
-      "status": "Backlog",
-      "id": 6
+      "status": "Backlog"
     },
     {
+      "id": 7,
       "teamId": "TR002",
       "taskId": "SOS-7584",
       "type": "Feature",
       "subType": "CI",
       "owner": "Amitq",
-      "summary": "",
       "description": "octhohorpe",
       "sprint": "Sprint1",
       "release": "19E1",
-      "status": "Backlog",
-      "id": 7
+      "status": "Backlog"
     },
     {
       "teamId": "T869",

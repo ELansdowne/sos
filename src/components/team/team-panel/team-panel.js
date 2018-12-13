@@ -76,6 +76,33 @@ class TeamPanel extends PureComponent {
       });
   }
 
+  getFeatures() {
+    axios
+      .get(`http://localhost:3000/getTask`)
+      .then(result => {
+        let filteredFeatures = this.filterFeatures(result.data);
+        this.setState({ features: filteredFeatures });
+      })
+      .catch(error => {
+        axios
+          .get("http://localhost:3000/features")
+          .then(result => {
+            let filteredFeatures = this.filterFeatures(result.data);
+            this.setState({ features: filteredFeatures });
+          })
+          .catch(error => {
+            let filteredFeatures = this.filterFeatures(features);
+            this.setState({ features: filteredFeatures });
+          });
+      });
+  }
+
+  filterFeatures(features = []) {
+    return features.filter(
+      feature => feature.teamId === this.props.data.teamId
+    );
+  }
+
   getTasks() {
     this.backlog.length = 0;
     this.progress.length = 0;
