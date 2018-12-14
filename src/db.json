@@ -1,6 +1,5 @@
 {
-  "teams": [
-    {
+  "teams": [{
       "TeamName": "Nike",
       "TeamLogo": "Nike.png",
       "Location": "Noida",
@@ -41,110 +40,119 @@
       "id": 5
     }
   ],
-  "features": [
-    {
-      "id": 5,
-      "task": "WorkRequest",
-      "assignedTo": "ammo",
-      "featureId": "FR005",
-      "workRequestInfo": "NA",
-      "teamId": "TR002",
-      "status": "Backlog"
-    },
-    {
-      "id": 6,
-      "task": "CI",
-      "assignedTo": "Apkl",
-      "featureId": "FR006",
-      "workRequestInfo": "checker",
-      "teamId": "TR003",
-      "status": "Backlog"
-    },
-    {
-      "id": 7,
-      "task": "CI",
-      "assignedTo": "Amit",
-      "featureId": "FR007",
-      "workRequestInfo": "chekkk",
-      "teamId": "TR001",
-      "status": "Backlog"
-    },
-    {
-      "id": 8,
-      "task": "CA",
-      "assignedTo": "Ankit",
-      "workRequestInfo": "chek",
-      "teamId": "TR002",
-      "featureId": "FR008",
-      "status": "Done"
-    },
-    {
-      "task": "CI",
-      "assignedTo": "amnok",
-      "featureId": "FR4786",
-      "workRequestInfo": "checking feature",
-      "teamId": "TR001",
-      "id": 9
-    },
-    {
-      "task": "CI",
-      "assignedTo": "amnoks",
-      "featureId": "FR1896",
-      "workRequestInfo": "amnok checker",
+  "features": [{
+      "id": 1,
+      "featureType": "WorkRequest",
+      "assignedTo": "Lyla",
+      "featureId": "FR001",
+      "featureInfo": "NA",
       "teamId": "TR001",
       "status": "Backlog",
-      "id": 10
-    }
-  ],
-  "issues": [
-    {
-      "id": 1,
-      "FeatureId": "FR001",
-      "IssueId": "IR001",
-      "Category": "Risks",
-      "Description": "just an test",
-      "AssignedTo": "Amit",
-      "date": "Thu Jan 01 2019 05:30:00 GMT+0530 (India Standard Time)"
+      "sprint": "Sprint1",
+      "release": "19E1"
     },
     {
       "id": 2,
-      "FeatureId": "FR001",
-      "IssueId": "IR002",
-      "Category": "Risks",
-      "Description": "just an test",
-      "AssignedTo": "Amit",
-      "date": "Thu Jan 01 2019 05:30:00 GMT+0530 (India Standard Time)"
+      "featureType": "WorkRequest",
+      "assignedTo": "ammo",
+      "featureId": "FR002",
+      "featureInfo": "NA",
+      "teamId": "TR001",
+      "status": "Backlog",
+      "sprint": "Sprint1",
+      "release": "19E1"
+    },
+    {
+      "id": 1,
+      "featureType": "CI",
+      "assignedTo": "Lyla",
+      "featureId": "FR003",
+      "featureInfo": "NA",
+      "teamId": "TR002",
+      "status": "Backlog",
+      "sprint": "Sprint1",
+      "release": "19E1"
+    },
+    {
+      "id": 1,
+      "featureType": "CI",
+      "assignedTo": "Tan",
+      "featureId": "FR004",
+      "featureInfo": "NA",
+      "teamId": "TR002",
+      "status": "Backlog",
+      "sprint": "Sprint1",
+      "release": "19E1"
+    },
+    {
+      "id": 1,
+      "featureType": "WorkRequest",
+      "assignedTo": "Mark",
+      "featureId": "FR005",
+      "featureInfo": "NA",
+      "teamId": "TR002",
+      "status": "Backlog",
+      "sprint": "Sprint1",
+      "release": "19E1"
+    }
+  ],
+  "issues": [{
+      "id": 1,
+      "issueId": "IR001",
+      "issueType": "Risks",
+      "issueInfo": "just an test",
+      "featureId": "FR001",
+      "teamId": "TR001",
+      "assignedTo": "Amit",
+      "date": "Thu Jan 01 2019 05:30:00 GMT+0530 (India Standard Time)",
+      "status": "red"
+    },
+    {
+      "id": 2,
+      "issueId": "IR002",
+      "issueType": "Dependencies",
+      "issueInfo": "just an test",
+      "featureId": "FR001",
+      "teamId": "TR001",
+      "assignedTo": "Ana",
+      "date": "Thu Jan 01 2019 05:30:00 GMT+0530 (India Standard Time)",
+      "status": "red"
     },
     {
       "id": 3,
-      "FeatureId": "FR002",
-      "IssueId": "IR003",
-      "Category": "Blockers",
-      "Description": "just an test",
-      "AssignedTo": "Amit",
-      "date": "Thu Jan 01 2019 05:30:00 GMT+0530 (India Standard Time)"
+      "issueId": "IR003",
+      "issueType": "Risks",
+      "issueInfo": "just an test",
+      "featureId": "FR001",
+      "teamId": "TR001",
+      "assignedTo": "Lamp",
+      "date": "Thu Jan 01 2019 05:30:00 GMT+0530 (India Standard Time)",
+      "status": "red"
     },
     {
       "id": 4,
-      "FeatureId": "FR002",
-      "IssueId": "IR004",
-      "Category": "Blockers",
-      "Description": "just an test",
-      "AssignedTo": "Amit",
-      "date": "Thu Jan 01 2019 05:30:00 GMT+0530 (India Standard Time)"
+      "issueId": "IR004",
+      "issueType": "Risks",
+      "issueInfo": "just an test",
+      "featureId": "FR002",
+      "teamId": "TR001",
+      "assignedTo": "Can",
+      "date": "Thu Jan 01 2019 05:30:00 GMT+0530 (India Standard Time)",
+      "status": "red"
     },
     {
       "id": 5,
-      "FeatureId": "FR001",
-      "IssueId": "IR005",
-      "Category": "Dependencies",
-      "Description": "dependent on t01",
-      "AssignedTo": "Ascensio",
-      "date": "2018-11-30"
+      "issueId": "IR005",
+      "issueType": "Blockers",
+      "issueInfo": "just an test",
+      "featureId": "FR002",
+      "teamId": "TR001",
+      "assignedTo": "Ten",
+      "date": "Thu Jan 01 2019 05:30:00 GMT+0530 (India Standard Time)",
+      "status": "red"
     }
   ],
-  "tasks": [
-    {
+  "tasks": [{
       "id": 1,
       "teamId": "TR001",
       "taskId": "SOS-20",
