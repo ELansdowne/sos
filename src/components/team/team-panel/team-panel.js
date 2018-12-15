@@ -47,13 +47,13 @@ class TeamPanel extends PureComponent {
     this.progress.length = 0;
     this.done.length = 0;
     this.getStatus();
-    //  this.getTasks();
     this.getFeatures();
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log("mectprops are", nextProps);
     if (nextProps.sprint || nextProps.release) {
-      this.getTasks();
+      this.getFeatures();
     }
   }
   componentWillUnmount() {
@@ -78,6 +78,9 @@ class TeamPanel extends PureComponent {
   }
 
   getFeatures() {
+    this.backlog.length = 0;
+    this.progress.length = 0;
+    this.done.length = 0;
     axios
       .get(`http://localhost:3000/getTask`)
       .then(result => {
@@ -137,52 +140,8 @@ class TeamPanel extends PureComponent {
     );
   }
 
-  getTasks() {
-    this.backlog.length = 0;
-    this.progress.length = 0;
-    this.done.length = 0;
-    axios
-      .get(`http://localhost:3000/getTask`)
-      .then(result => {
-        let filteredTasks = this.filterTasks(result.data);
-        this.setState({ tasks: filteredTasks });
-      })
-      .catch(error => {
-        axios
-          .get("http://localhost:3000/tasks")
-          .then(result => {
-            let filteredTasks = this.filterTasks(result.data);
-            if (this.props.sprint) {
-              filteredTasks = this.filterSprint(filteredTasks);
-              if (this.props.sprint === Sprint.none) {
-                filteredTasks = this.filterTasks(result.data);
-              }
-            }
-            if (this.props.release) {
-              filteredTasks = this.filterRelease(filteredTasks);
-              if (this.props.release === Releases.None) {
-                filteredTasks = this.filterTasks(result.data);
-              }
-            }
-            filteredTasks.forEach(task => {
-              if (task.status === TaskStatus.BACKLOG) {
-                this.backlog.push(task);
-              } else if (task.status === TaskStatus.INPROGRESS) {
-                this.progress.push(task);
-              } else if (task.status === TaskStatus.DONE) {
-                this.done.push(task);
-              }
-            });
-            this.setState({ tasks: filteredTasks });
-          })
-          .catch(error => {
-            let filteredFeatures = this.filterFeatures(features);
-            this.setState({ features: filteredFeatures });
-          });
-      });
-  }
-
   filterSprint(features = []) {
+    console.log(" insede filterpsrint", this.props.sprint, features);
     return features.filter(feature => feature.sprint === this.props.sprint);
   }
 
