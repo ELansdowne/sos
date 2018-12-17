@@ -24,7 +24,7 @@ class Card extends Component {
     return connectDragSource(
       connectDropTarget(
         <div style={{ ...style, opacity }}>
-          <Task task={card} />
+          <Task feature={card} />
         </div>
       )
     );
@@ -43,7 +43,7 @@ const cardSource = {
   endDrag(props, monitor) {
     const item = monitor.getItem();
     const dropResult = monitor.getDropResult();
-    let status = "Backlog";
+    let status = "";
     //  drop location
     if (dropResult.listId === 1) {
       status = TaskStatus.BACKLOG;
@@ -53,49 +53,49 @@ const cardSource = {
       status = TaskStatus.DONE;
     }
 
-    axios
-      .put("http://localhost:3000/add-task/" + item.card.id, {
-        id: item.card.id,
-        teamId: item.card.teamId,
-        taskId: item.card.taskId,
-        type: item.card.type,
-        subType: item.card.subType,
-        owner: item.card.owner,
-        description: item.card.description,
-        sprint: item.card.sprint,
-        release: item.card.release,
-        status: status,
-        Size: item.card.size,
-        Priority: item.card.priority,
-        SprintStartEnd: item.card.sprintStartEnd,
-        date: item.card.date
-      })
-      .then(response => {
-        // window.location.reload();
-      })
-      .catch(error => {
-        axios
-          .put("http://localhost:3000/tasks/" + item.card.id, {
-            id: item.card.id,
-            teamId: item.card.teamId,
-            taskId: item.card.taskId,
-            type: item.card.type,
-            subType: item.card.subType,
-            owner: item.card.owner,
-            description: item.card.description,
-            sprint: item.card.sprint,
-            release: item.card.release,
-            status: status,
-            Size: item.card.size,
-            Priority: item.card.priority,
-            SprintStartEnd: item.card.sprintStartEnd,
-            date: item.card.date
-          })
-          .then(response => {
-            // window.location.reload();
-          });
-      });
-    //  this.props.close();
+    // axios
+    //   .put("http://localhost:3000/add-task/" + item.card.id, {
+    //     id: item.card.id,
+    //     teamId: item.card.teamId,
+    //     taskId: item.card.taskId,
+    //     type: item.card.type,
+    //     subType: item.card.subType,
+    //     owner: item.card.owner,
+    //     description: item.card.description,
+    //     sprint: item.card.sprint,
+    //     release: item.card.release,
+    //     status: status,
+    //     Size: item.card.size,
+    //     Priority: item.card.priority,
+    //     SprintStartEnd: item.card.sprintStartEnd,
+    //     date: item.card.date
+    //   })
+    //   .then(response => {
+    //     // window.location.reload();
+    //   })
+    //   .catch(error => {
+    //     axios
+    //       .put("http://localhost:3000/tasks/" + item.card.id, {
+    //         id: item.card.id,
+    //         teamId: item.card.teamId,
+    //         taskId: item.card.taskId,
+    //         type: item.card.type,
+    //         subType: item.card.subType,
+    //         owner: item.card.owner,
+    //         description: item.card.description,
+    //         sprint: item.card.sprint,
+    //         release: item.card.release,
+    //         status: status,
+    //         Size: item.card.size,
+    //         Priority: item.card.priority,
+    //         SprintStartEnd: item.card.sprintStartEnd,
+    //         date: item.card.date
+    //       })
+    //       .then(response => {
+    //         // window.location.reload();
+    //       });
+    //   });
+    // //  this.props.close();
 
     if (dropResult && dropResult.listId !== item.listId) {
       props.removeCard(item.index);

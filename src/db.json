@@ -1,10 +1,11 @@
 {
-  "teams": [{
+  "teams": [
+    {
       "TeamName": "Nike",
       "TeamLogo": "Nike.png",
       "Location": "Noida",
       "TeamId": "TR001",
-      "status": "Amber",
+      "status": "Status",
       "id": 1
     },
     {
@@ -40,7 +41,8 @@
       "id": 5
     }
   ],
-  "features": [{
+  "features": [
+    {
       "id": 1,
       "featureType": "WorkRequest",
       "assignedTo": "Lyla",
@@ -94,9 +96,21 @@
       "status": "Backlog",
       "sprint": "Sprint3",
       "release": "19E1"
+    },
+    {
+      "featureType": "CA",
+      "assignedTo": "tann",
+      "featureId": "FR5063",
+      "featureInfo": "just an tan",
+      "teamId": "TR001",
+      "status": "Backlog",
+      "sprint": "Sprint2",
+      "release": "19E2",
+      "id": 6
     }
   ],
-  "issues": [{
+  "issues": [
+    {
       "id": 1,
       "issueId": "IR001",
       "issueType": "Risks",
@@ -150,20 +164,36 @@
       "assignedTo": "Ten",
       "date": "Thu Jan 01 2019 05:30:00 GMT+0530 (India Standard Time)",
       "status": "red"
+    },
+    {
+      "featureId": "FR001",
+      "IssueId": "IR173",
+      "issueType": "Risks",
+      "issueInfo": "",
+      "assignedTo": "",
+      "date": "",
+      "status": "Amber",
+      "id": 6
+    },
+    {
+      "featureId": "FR001",
+      "teamId": "TR001",
+      "IssueId": "IR562",
+      "issueType": "Dependencies",
+      "issueInfo": "just an dependency",
+      "assignedTo": "tommy",
+      "date": "2018-12-20",
+      "status": "Amber",
+      "id": 7
     }
   ],
-  "tasks": [{
+  "tasks": [
+    {
       "id": 1,
       "teamId": "TR001",
-      "taskId": "SOS-20",
-      "type": "Feature",
-      "subType": "WorkRequest",
-      "owner": "Alice",
-      "summary": "main card implementation",
-      "description": "main card implementation with all style and cs implementaion also aa demo",
       "sprint": "Sprint1",
       "release": "19E1",
-      "status": "InProgress"
+      "status": "Backlog"
     },
     {
       "id": 5,
@@ -181,14 +211,9 @@
     {
       "id": 2,
       "teamId": "TR001",
-      "taskId": "SOS-22",
-      "type": "Feature",
-      "subType": "WorkRequest",
-      "owner": "Walis",
-      "description": "main card implementation with all style and cs implementaion also aa demo",
-      "sprint": "Sprint3",
+      "sprint": "Sprint1",
       "release": "19E1",
-      "status": "Done"
+      "status": "InProgress"
     },
     {
       "id": 3,

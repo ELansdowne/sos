@@ -84,12 +84,14 @@ class AddFeatureDialog extends PureComponent {
       .catch(error => {
         axios
           .post("http://localhost:3000/features", {
-            task: this.state.task,
+            featureType: this.state.task,
             assignedTo: this.state.assigned,
             featureId: featureId,
-            workRequestInfo: this.state.description,
+            featureInfo: this.state.description,
             teamId: this.props.teamData.TeamId,
-            status: TaskStatus.BACKLOG
+            status: TaskStatus.BACKLOG,
+            sprint: Sprint.sprint2,
+            release: Releases["19E2"]
           })
           .then(response => {
             window.location.reload();

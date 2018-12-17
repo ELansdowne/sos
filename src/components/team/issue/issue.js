@@ -17,13 +17,14 @@ class Issue extends PureComponent {
   }
 
   render() {
+    console.log("props in issue", this.props);
     let endDate = null;
     if (this.props.issue) {
       endDate = FormatDate.formatDate(this.props.issue.date);
     }
     let bgColorConfig = "orangered";
-    let cardType = this.props.issue.Category
-      ? this.props.issue.Category
+    let cardType = this.props.issue.issueType
+      ? this.props.issue.issueType
       : "Risks";
     switch (cardType) {
       case FeatureCategory.Risks:
@@ -49,7 +50,7 @@ class Issue extends PureComponent {
           gutterBottom
           style={{ fontWeight: "bold", fontSize: "12px" }}
         >
-          {this.props.issue.Category}
+          {this.props.issue.issueType}
         </Typography>
 
         <TextField
@@ -57,7 +58,7 @@ class Issue extends PureComponent {
           name="description"
           placeholder="description"
           style={{ width: "100%", fontSize: "10px" }}
-          value={this.props.issue.Description}
+          value={this.props.issue.issueInfo}
         />
 
         <TextField
@@ -66,7 +67,7 @@ class Issue extends PureComponent {
           type="text"
           placeholder="Assigned to"
           style={{ width: "45%", fontSize: "10px" }}
-          value={this.props.issue.AssignedTo}
+          value={this.props.issue.assignedTo}
         />
         <TextField
           id="date"

@@ -5,13 +5,19 @@ import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import Slide from "@material-ui/core/Slide";
+import AddRiskDialog from "../add-risk-dialog/add-risk-dialog";
 import axios from "axios";
-import SaveIcon from "@material-ui/icons/Save";
-import Card from "@material-ui/core/Card";
-import TextField from "@material-ui/core/TextField";
-import { IssueType } from "../../../shared/model/issue-type";
+import Issue from "../issue/issue";
+import issues from "../../../assets/localDB/issues.json";
 
 const styles = theme => ({
+  root: {
+    marginBottom: "20px"
+  },
   heading: {
     fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular,
@@ -21,57 +27,80 @@ const styles = theme => ({
   },
   input: {
     marginRight: "10px"
-  },
-  expanded: {
-    "&$expanded": {
-      minHeight: 0,
-      marginTop: "2px",
-      marginBottom: 0
-    }
-  },
-  root: {
-    padding: "1px 21px 0px",
-    minHeight: "0px"
-  },
-  content: { margin: "0px" }
+  }
 });
+function Transition(props) {
+  return <Slide direction="up" {...props} />;
+}
 
 export class Task extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       size: "",
+      owner: "",
       priority: "",
+      sprintStartDate: "",
+      sprintEndDate: "",
+      noOfDependency: "",
+      workrequest: "",
+      noOfBlocker: "",
       taskData: null,
       open: false,
       issueData: null,
-      date: null,
-      sprintStartEnd: "",
-      owner: "",
-      description: ""
+      sprintStartEnd: ""
     };
   }
 
+  componentDidMount() {
+    this.getIssues();
+  }
+  getIssues() {
+    axios
+      .get(`http://localhost:3000/getRisks`)
+      .then(result => {
+        let filteredIssues = this.filterIssues(result.data);
+        this.setState({ issueData: filteredIssues });
+      })
+      .catch(error => {
+        axios
+          .get("http://localhost:3000/issues")
+          .then(result => {
+            let filteredIssues = this.filterIssues(result.data);
+            this.setState({ issueData: filteredIssues });
+          })
+          .catch(error => {
+            let filteredIssues = this.filterIssues(issues);
+            this.setState({ issueData: filteredIssues });
+          });
+      });
+  }
+  filterIssues(issues = []) {
+    return issues.filter(
+      feature => feature.featureId === this.props.feature.featureId
+    );
+  }
+  handleClickOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
   handleSave = event => {
     event.preventDefault();
     const taskRequestData = {
-      id: this.props.task.id,
-      teamId: this.props.task.teamId,
-      type: this.props.task.type,
-      subType: this.props.task.subType,
-      owner: this.props.task.owner,
-      description: this.state.description,
-      sprint: this.props.task.sprint,
-      release: this.props.task.release,
-      status: this.props.task.status,
-      taskId: this.props.task.taskId,
+      featureId: this.props.feature.featureId,
+      NBlocker: this.state.noOfBlocker,
+      NDependency: this.state.noOfDependency,
       Size: this.state.size,
       Priority: this.state.priority,
-      SprintStartEnd: this.state.sprintStartEnd,
-      date: this.state.date
+      StartDate: this.state.sprintStartDate,
+      EndDate: this.state.sprintEndDate,
+      SprintStartEnd: this.state.sprintStartEnd
     };
     axios
       .post(
@@ -87,21 +116,15 @@ export class Task extends PureComponent {
       )
       .catch(error => {
         axios
-          .put("http://localhost:3000/tasks/" + this.props.task.id, {
-            id: this.props.task.id,
-            teamId: this.props.task.teamId,
-            type: this.props.task.type,
-            subType: this.props.task.subType,
-            owner: this.props.task.owner,
-            description: this.state.description,
-            sprint: this.props.task.sprint,
-            release: this.props.task.release,
-            status: this.props.task.status,
-            taskId: this.props.task.taskId,
+          .post("http://localhost:3000/taskCard", {
+            featureId: this.props.feature.featureId,
+            NBlocker: this.state.noOfBlocker,
+            NDependency: this.state.noOfDependency,
             Size: this.state.size,
             Priority: this.state.priority,
-            SprintStartEnd: this.state.sprintStartEnd,
-            date: this.state.date
+            StartDate: this.state.sprintStartDate,
+            EndDate: this.state.sprintEndDate,
+            SprintStartEnd: this.state.sprintStartEnd
           })
           .then(response => {
             //  window.location.reload();
@@ -110,25 +133,16 @@ export class Task extends PureComponent {
     this.setState({ isSubmitted: true });
   };
   render() {
-    let bgColorConfig = "rgb(251, 65, 65)";
-    let cardType = this.props.task.subType ? this.props.task.subType : "Risks";
-    switch (cardType) {
-      case IssueType.Risks:
-        bgColorConfig = "palevioletred";
-        break;
-      case IssueType.Blockers:
-        bgColorConfig = "rgb(251, 65, 65)";
-        break;
-      case IssueType.Dependencies:
-        bgColorConfig = "peachpuff";
-        break;
-      default:
-        bgColorConfig = "rgb(251, 65, 65)";
-        break;
+    console.log("props in task js", this.props);
+    let issues = null;
+    if (this.state.issueData) {
+      issues = this.state.issueData.map((issue, index) => {
+        return <Issue key={index} issue={issue} />;
+      });
     }
     let cardColor = "rgba(19, 19, 241, 0.281)";
     const { classes } = this.props;
-    switch (this.props.task.subType) {
+    switch (this.props.feature.featureType) {
       case "WorkRequest":
         cardColor = "rgba(19, 19, 241, 0.281)";
         break;
@@ -143,153 +157,132 @@ export class Task extends PureComponent {
         break;
     }
     return (
-      <div>
-        {this.props.task.type === "Feature" ? (
-          <ExpansionPanel>
-            <ExpansionPanelSummary
-              expandIcon={<ExpandMoreIcon />}
-              classes={{ expanded: classes.expanded }}
-              className={classes.root}
-            >
-              <Typography className={classes.heading}>
-                <input
-                  placeholder="workrequest information"
-                  name="workrequest"
-                  value={this.props.task.taskId}
-                  style={{ background: cardColor, width: "75px" }}
-                />
-                <input
-                  placeholder="description"
-                  name="description"
-                  style={{ background: cardColor, width: "228px" }}
-                  value={this.props.task.description}
-                />
-              </Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails className={classes.root}>
-              <Typography>
-                <div>
-                  <table
-                    id="tableWorkRequest"
-                    className="table table-bordered"
-                    style={{ marginBottom: "0px", width: "120px" }}
-                  >
-                    <thead>
-                      <tr>
-                        <th style={{ background: cardColor, width: "60px" }}>
-                          Sprint Start/End
-                        </th>
-                        <th style={{ background: cardColor, width: "50px" }}>
-                          Product Owner
-                        </th>
-                        <th style={{ background: cardColor, width: "40px" }}>
-                          Size
-                        </th>
-                        <th style={{ background: cardColor, width: "50px" }}>
-                          Priority
-                        </th>
-                        <th
-                          style={{ backgroundColor: "white", width: "50px" }}
+      <div className={classes.root}>
+        <ExpansionPanel>
+          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography className={classes.heading}>
+              <input
+                placeholder="workrequest information"
+                name="workrequest"
+                className={classes.input}
+                value={this.props.feature.featureId}
+                style={{ background: cardColor, width: "70px" }}
+              />
+              <input
+                placeholder="description"
+                name="description"
+                //  style={{ background: cardColor, width: "220px" }}
+                value={this.props.feature.featureInfo}
+              />
+            </Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <Typography>
+              <div>
+                <table
+                  id="tableWorkRequest"
+                  className="table table-bordered"
+                  style={{ marginBottom: "0px", width: "120px" }}
+                >
+                  <thead>
+                    <tr>
+                      <th style={{ background: cardColor, width: "60px" }}>
+                        Sprint Start/End
+                      </th>
+                      <th style={{ background: cardColor, width: "50px" }}>
+                        Product Owner
+                      </th>
+                      <th style={{ background: cardColor, width: "40px" }}>
+                        Size
+                      </th>
+                      <th style={{ background: cardColor, width: "50px" }}>
+                        Priority
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <input
+                          name="sprintStartEnd"
+                          value={this.state.sprintStartEnd}
+                          onChange={this.handleChange}
+                          style={{ width: "70px" }}
+                          placeholder="0"
                         />
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>
-                          <input
-                            name="sprintStartEnd"
-                            value={this.state.sprintStartEnd}
-                            onChange={this.handleChange}
-                            style={{ width: "70px" }}
-                            placeholder={this.props.task.SprintStartEnd}
-                          />
-                        </td>
-                        <td>
-                          <input
-                            placeholder="product owner"
-                            name="owner"
-                            style={{ width: "120px", textOverflow: "ellipsis" }}
-                            value={this.props.task.owner}
-                          />
-                        </td>
-                        <td>
-                          <input
-                            name="size"
-                            value={this.state.size}
-                            onChange={this.handleChange}
-                            style={{ width: "40px" }}
-                            placeholder={this.props.task.Size}
-                          />
-                        </td>
-                        <td>
-                          {" "}
-                          <input
-                            name="priority"
-                            style={{ width: "50px" }}
-                            value={this.state.priority}
-                            onChange={this.handleChange}
-                            placeholder={this.props.task.Priority}
-                          />
-                        </td>
-                        <tr>
-                          <td>
-                            <SaveIcon
-                              style={{
-                                cursor: "pointer",
-                                color: "#0a7bdb"
-                              }}
-                              onClick={this.handleSave}
-                            />
-                          </td>
-                        </tr>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </Typography>
-            </ExpansionPanelDetails>
-          </ExpansionPanel>
-        ) : (
-          <Card
-            style={{ background: bgColorConfig, padding: "5px", margin: "0px" }}
-          >
-            <TextField
-              id="description"
-              name="description"
-              placeholder={this.props.task.description}
-              style={{ width: "100%", fontSize: "10px" }}
-              value={this.state.description}
-              onChange={this.handleChange}
-            />
-
-            <TextField
-              id="owner"
-              name="owner"
-              type="text"
-              placeholder={this.props.task.owner}
-              style={{ width: "45%", fontSize: "10px" }}
-              value={this.props.task.owner}
-              onChange={this.handleChange}
-            />
-            <TextField
-              id="date"
-              name="date"
-              type="text"
-              style={{ marginLeft: "8px", width: "45%", fontSize: "10px" }}
-              value={this.state.date}
-              placeholder={this.props.task.date}
-              onChange={this.handleChange}
-            />
-            <SaveIcon
-              style={{
-                cursor: "pointer",
-                float: "right",
-                paddingTop: "8px"
-              }}
-              onClick={this.handleSave}
-            />
-          </Card>
-        )}{" "}
+                      </td>
+                      <td>
+                        <input
+                          placeholder="product owner"
+                          name="owner"
+                          style={{ width: "120px", textOverflow: "ellipsis" }}
+                          //  value={this.props.feature.AssignedTo}
+                        />
+                      </td>
+                      <td>
+                        <input
+                          name="size"
+                          value={this.state.size}
+                          onChange={this.handleChange}
+                          style={{ width: "40px" }}
+                          placeholder="0"
+                        />
+                      </td>
+                      <td>
+                        {" "}
+                        <input
+                          name="priority"
+                          style={{ width: "50px" }}
+                          value={this.state.priority}
+                          onChange={this.handleChange}
+                          placeholder="0"
+                        />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <Dialog
+                  open={this.state.open}
+                  TransitionComponent={Transition}
+                  keepMounted
+                  onClose={this.handleClose}
+                  aria-labelledby="alert-dialog-slide-title"
+                  aria-describedby="alert-dialog-slide-description"
+                  className={classes.dialog}
+                >
+                  <DialogTitle id="alert-dialog-slide-title">
+                    {"Add Risks/Dependencies/Blockers"}
+                  </DialogTitle>
+                  <AddRiskDialog
+                    close={this.handleClose}
+                    feature={this.props.feature}
+                  />
+                </Dialog>
+                <Button
+                  color="default"
+                  size="small"
+                  className={classes.button}
+                  variant="contained"
+                  style={{ float: "left" }}
+                  onClick={this.handleClickOpen}
+                >
+                  Add
+                </Button>
+                <Button
+                  color="default"
+                  size="small"
+                  className={classes.button}
+                  variant="contained"
+                  style={{ float: "right" }}
+                  onClick={this.handleSave}
+                >
+                  Save
+                </Button>
+              </div>
+            </Typography>
+          </ExpansionPanelDetails>
+          {issues}
+        </ExpansionPanel>
       </div>
     );
   }

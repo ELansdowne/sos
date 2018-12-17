@@ -7,6 +7,7 @@ import Button from "@material-ui/core/Button";
 import { FeatureCategory } from "../../../shared/model/feature-category";
 import { EnumToArray } from "../../../shared/Utils/enumToArray";
 import axios from "axios";
+import { StatusCategory } from "../../../shared/model/team-status";
 
 const styles = theme => ({
   formControl: {
@@ -59,7 +60,7 @@ class AddRiskDialog extends PureComponent {
   };
   postIssue = () => {
     const riskData = {
-      FeatureId: this.props.feature,
+      FeatureId: this.props.feature.feature,
       Category: this.state.typeName,
       IssueId: "I" + parseInt(Math.random() * 1000),
       Description: this.state.description,
@@ -76,12 +77,14 @@ class AddRiskDialog extends PureComponent {
       .catch(error => {
         axios
           .post("http://localhost:3000/issues", {
-            FeatureId: this.props.feature,
-            IssueId: "I" + parseInt(Math.random() * 1000), //this is unique id for every issue , this has to be generated in backend , we don;t have to send it
-            Category: this.state.typeName,
-            Description: this.state.description,
-            AssignedTo: this.state.rAssignedName,
-            date: this.state.date
+            featureId: this.props.feature.featureId,
+            teamId: this.props.feature.teamId,
+            IssueId: "IR" + parseInt(Math.random() * 1000), //this is unique id for every issue , this has to be generated in backend , we don;t have to send it
+            issueType: this.state.typeName,
+            issueInfo: this.state.description,
+            assignedTo: this.state.rAssignedName,
+            date: this.state.date,
+            status: StatusCategory.Amber
           })
           .then(response => {
             window.location.reload();
@@ -104,6 +107,7 @@ class AddRiskDialog extends PureComponent {
     return values;
   };
   render() {
+    console.log("props in adrisk", this.props);
     const { classes } = this.props;
     return (
       <div className={classes.root}>
