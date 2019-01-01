@@ -40,15 +40,16 @@ export class Task extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      size: "",
-      priority: "",
+      size: this.props.task.Size,
+      priority: this.props.task.Priority,
       taskData: null,
       open: false,
       issueData: null,
-      date: null,
-      sprintStartEnd: "",
-      owner: "",
-      description: ""
+      taskId: this.props.task.taskId,
+      date: this.props.task.date,
+      sprintStartEnd: this.props.task.SprintStartEnd,
+      owner: this.props.task.owner,
+      description: this.props.task.description
     };
   }
 
@@ -62,19 +63,19 @@ export class Task extends PureComponent {
       teamId: this.props.task.teamId,
       type: this.props.task.type,
       subType: this.props.task.subType,
-      owner: this.props.task.owner,
+      owner: this.state.owner,
       description: this.state.description,
       sprint: this.props.task.sprint,
       release: this.props.task.release,
       status: this.props.task.status,
-      taskId: this.props.task.taskId,
+      taskId: this.state.taskId,
       Size: this.state.size,
       Priority: this.state.priority,
       SprintStartEnd: this.state.sprintStartEnd,
       date: this.state.date
     };
     axios
-      .post(
+      .put(
         `http://localhost:3000/addPatch`,
         {
           taskRequestData
@@ -92,12 +93,12 @@ export class Task extends PureComponent {
             teamId: this.props.task.teamId,
             type: this.props.task.type,
             subType: this.props.task.subType,
-            owner: this.props.task.owner,
+            owner: this.state.owner,
             description: this.state.description,
             sprint: this.props.task.sprint,
             release: this.props.task.release,
             status: this.props.task.status,
-            taskId: this.props.task.taskId,
+            taskId: this.state.taskId,
             Size: this.state.size,
             Priority: this.state.priority,
             SprintStartEnd: this.state.sprintStartEnd,
@@ -155,14 +156,16 @@ export class Task extends PureComponent {
                 <input
                   placeholder="workrequest information"
                   name="workrequest"
-                  value={this.props.task.taskId}
+                  value={this.state.taskId}
                   style={{ background: cardColor, width: "75px" }}
+                  onChange={this.handleChange}
                 />
                 <input
                   placeholder="description"
                   name="description"
                   style={{ background: cardColor, width: "228px" }}
-                  value={this.props.task.description}
+                  value={this.state.description}
+                  onChange={this.handleChange}
                 />
               </Typography>
             </ExpansionPanelSummary>
@@ -201,7 +204,6 @@ export class Task extends PureComponent {
                             value={this.state.sprintStartEnd}
                             onChange={this.handleChange}
                             style={{ width: "70px" }}
-                            placeholder={this.props.task.SprintStartEnd}
                           />
                         </td>
                         <td>
@@ -209,7 +211,8 @@ export class Task extends PureComponent {
                             placeholder="product owner"
                             name="owner"
                             style={{ width: "120px", textOverflow: "ellipsis" }}
-                            value={this.props.task.owner}
+                            onChange={this.handleChange}
+                            value={this.state.owner}
                           />
                         </td>
                         <td>
@@ -218,7 +221,6 @@ export class Task extends PureComponent {
                             value={this.state.size}
                             onChange={this.handleChange}
                             style={{ width: "40px" }}
-                            placeholder={this.props.task.Size}
                           />
                         </td>
                         <td>
@@ -228,7 +230,6 @@ export class Task extends PureComponent {
                             style={{ width: "50px" }}
                             value={this.state.priority}
                             onChange={this.handleChange}
-                            placeholder={this.props.task.Priority}
                           />
                         </td>
                         <tr>
@@ -251,33 +252,41 @@ export class Task extends PureComponent {
           </ExpansionPanel>
         ) : (
           <Card
-            style={{ background: bgColorConfig, padding: "5px", margin: "0px" }}
+            style={{ background: bgColorConfig, padding: "2px", margin: "0px" }}
           >
             <TextField
               id="description"
               name="description"
-              placeholder={this.props.task.description}
-              style={{ width: "100%", fontSize: "10px" }}
+              style={{ width: "84%", fontSize: "10px" }}
               value={this.state.description}
               onChange={this.handleChange}
             />
+            <span
+              style={{
+                width: "16",
+                fontSize: "11px",
+                fontWeight: "bold",
+                float: "right",
+                wordWrap: "break-word"
+              }}
+            >
+              {this.props.task.taskId}
+            </span>
 
             <TextField
               id="owner"
               name="owner"
               type="text"
-              placeholder={this.props.task.owner}
-              style={{ width: "45%", fontSize: "10px" }}
-              value={this.props.task.owner}
+              style={{ width: "40%", fontSize: "10px" }}
+              value={this.state.owner}
               onChange={this.handleChange}
             />
             <TextField
               id="date"
               name="date"
               type="text"
-              style={{ marginLeft: "8px", width: "45%", fontSize: "10px" }}
+              style={{ marginLeft: "6px", width: "43%", fontSize: "10px" }}
               value={this.state.date}
-              placeholder={this.props.task.date}
               onChange={this.handleChange}
             />
             <SaveIcon

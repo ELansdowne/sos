@@ -45,12 +45,22 @@ const cardSource = {
     const dropResult = monitor.getDropResult();
     let status = "Backlog";
     //  drop location
-    if (dropResult.listId === 1) {
+    if (dropResult && dropResult.listId === 1) {
       status = TaskStatus.BACKLOG;
-    } else if (dropResult.listId === 2) {
+    } else if (dropResult && dropResult.listId === 2) {
       status = TaskStatus.INPROGRESS;
-    } else if (dropResult.listId === 3) {
+    } else if (dropResult && dropResult.listId === 3) {
       status = TaskStatus.DONE;
+    } else if (dropResult === null) {
+      alert("Cannot drag here");
+      let id = monitor.getItem().listId;
+      if (id === 1) {
+        status = TaskStatus.BACKLOG;
+      } else if (id === 2) {
+        status = TaskStatus.INPROGRESS;
+      } else if (id === 3) {
+        status = TaskStatus.DONE;
+      }
     }
 
     axios

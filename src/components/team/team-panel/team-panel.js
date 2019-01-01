@@ -47,13 +47,12 @@ class TeamPanel extends PureComponent {
     this.progress.length = 0;
     this.done.length = 0;
     this.getStatus();
-    this.getFeatures();
+    this.getTasks();
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log("mectprops are", nextProps);
     if (nextProps.sprint || nextProps.release) {
-      this.getFeatures();
+      this.getTasks();
     }
   }
   componentWillUnmount() {
@@ -77,55 +76,43 @@ class TeamPanel extends PureComponent {
       });
   }
 
-  getFeatures() {
+  getTasks() {
     this.backlog.length = 0;
     this.progress.length = 0;
     this.done.length = 0;
     axios
       .get(`http://localhost:3000/getTask`)
       .then(result => {
-        let filteredFeatures = this.filterFeatures(result.data);
-        this.setState({ features: filteredFeatures });
+        let filteredTasks = this.filterTasks(result.data);
+        this.setState({ tasks: filteredTasks });
       })
       .catch(error => {
         axios
-          .get("http://localhost:3000/features")
+          .get("http://localhost:3000/tasks")
           .then(result => {
-            console.log("getfeatures", result.data);
-            let filteredFeatures = this.filterFeatures(result.data);
-            console.log("getfeatures after team filter", result.data);
+            let filteredTasks = this.filterTasks(result.data);
             if (this.props.sprint) {
-              filteredFeatures = this.filterSprint(filteredFeatures);
-              console.log(
-                "getfeatures after team filter sprint ",
-                filteredFeatures
-              );
-              if (this.props.sprint === Sprint.none) {
-                filteredFeatures = this.filterFeatures(result.data);
+              filteredTasks = this.filterSprint(filteredTasks);
+              if (this.props.sprint === Sprint.All) {
+                filteredTasks = this.filterTasks(result.data);
               }
             }
             if (this.props.release) {
-              filteredFeatures = this.filterRelease(filteredFeatures);
-              console.log(
-                "getfeatures after team filter release",
-                filteredFeatures
-              );
-              if (this.props.release === Releases.None) {
-                filteredFeatures = this.filterFeatures(result.data);
+              filteredTasks = this.filterRelease(filteredTasks);
+              if (this.props.release === Releases.All) {
+                filteredTasks = this.filterTasks(result.data);
               }
             }
-
-            filteredFeatures.forEach(feature => {
-              if (feature.status === TaskStatus.BACKLOG) {
-                this.backlog.push(feature);
-              } else if (feature.status === TaskStatus.INPROGRESS) {
-                this.progress.push(feature);
-              } else if (feature.status === TaskStatus.DONE) {
-                this.done.push(feature);
+            filteredTasks.forEach(task => {
+              if (task.status === TaskStatus.BACKLOG) {
+                this.backlog.push(task);
+              } else if (task.status === TaskStatus.INPROGRESS) {
+                this.progress.push(task);
+              } else if (task.status === TaskStatus.DONE) {
+                this.done.push(task);
               }
             });
-
-            this.setState({ features: filteredFeatures });
+            this.setState({ tasks: filteredTasks });
           })
           .catch(error => {
             let filteredFeatures = this.filterFeatures(features);
@@ -134,19 +121,21 @@ class TeamPanel extends PureComponent {
       });
   }
 
-  filterFeatures(features = []) {
-    return features.filter(
-      feature => feature.teamId === this.props.data.TeamId
-    );
+  filterTasks(tasks = []) {
+    return tasks.filter(task => task.teamId === this.props.data.TeamId);
   }
-
-  filterSprint(features = []) {
-    console.log(" insede filterpsrint", this.props.sprint, features);
-    return features.filter(feature => feature.sprint === this.props.sprint);
+  filterSprint(tasks = []) {
+    return tasks.filter(task => task.sprint === this.props.sprint);
   }
 
   filterRelease(tasks = []) {
     return tasks.filter(task => task.release === this.props.release);
+  }
+
+  filterFeatures(features = []) {
+    return features.filter(
+      feature => feature.TeamId === this.props.data.TeamId
+    );
   }
   filterstatus(tStatus = []) {
     return tStatus.filter(
@@ -202,7 +191,10 @@ class TeamPanel extends PureComponent {
     };
 
     let imgPath = "default.jpg";
-    switch (this.props.data.TeamName) {
+    let teamName = this.props.data.TeamName;
+    teamName =
+      teamName.charAt(0).toUpperCase() + teamName.slice(1).toLowerCase();
+    switch (teamName) {
       case Team.Nike:
         imgPath = "Nike.png";
         break;
@@ -288,7 +280,7 @@ class TeamPanel extends PureComponent {
               Add Task
             </Button>
           </Paper>
-          {this.state.features ? (
+          {this.state.tasks ? (
             <Grid>
               <div style={{ ...style }}>
                 <Container

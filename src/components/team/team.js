@@ -10,7 +10,8 @@ import axios from "axios";
 
 const styles = theme => ({
   root: {
-    width: "100%"
+    width: "100%",
+    padding: "0px"
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
@@ -78,17 +79,20 @@ class Team extends React.Component {
         break;
     }
     return (
-      <ExpansionPanel>
+      <ExpansionPanel classes={{ expanded: classes.expanded }} defaultExpanded>
         <ExpansionPanelSummary
           expandIcon={<ExpandMoreIcon />}
           style={{ background: color }}
           classes={{ expanded: classes.expanded }}
         >
-          <Typography className={styles.heading}>
+          <Typography
+            className={styles.heading}
+            style={{ textTransform: "capitalize" }}
+          >
             {this.props.data.TeamName}
           </Typography>
         </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
+        <ExpansionPanelDetails className={classes.root}>
           <TeamPanel
             data={this.props.data}
             sprint={this.props.sprint}

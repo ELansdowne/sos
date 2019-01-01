@@ -7,5 +7,12 @@ export const Team = {
   Helios: "Helios",
   Kratos: "Kratos",
   Athena: "Athena",
-  Caerus: "Caerus"
+  Plutos: "Plutos",
+  Hercules: "Hercules",
+  Odysseus: "Odysseus",
+  Dionysus: "Dionysus",
+  Zeus: "Zeus",
+  Proteus: "Proteus",
+  Aeon: "Aeon",
+  Ion: "Ion"
 };

@@ -4,12 +4,13 @@ import Select from "@material-ui/core/Select";
 import { withStyles } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import { EnumToArray } from "../../../shared/Utils/enumToArray";
-import { Team } from "../../../shared/model/team";
+// import { Team } from "../../../shared/model/team";
 import { Location } from "../../../shared/model/location";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import axios from "axios";
 import { FeatureStatus } from "../../../shared/model/feature-status";
+import TextField from "@material-ui/core/TextField";
 
 const styles = theme => ({
   formControl: {
@@ -112,15 +113,22 @@ class AddTeamDialog extends PureComponent {
         <div className={classes.task}>
           <label className={classes.label}>Team Name </label>
           <FormControl className={classes.formControl}>
-            <InputLabel>select team</InputLabel>
-            <Select
+            {/* <InputLabel>select team</InputLabel>
+             <Select
               value={this.state.teamName}
               onChange={this.handleChange}
               name="teamName"
               className={classes.selectEmpty}
             >
               {this.getSelectValues(Team)}
-            </Select>
+            </Select> */}
+            <TextField
+              type="text"
+              name="teamName"
+              value={this.state.teamName}
+              onChange={this.handleChange}
+              style={{ width: "100%", textOverflow: "ellipsis" }}
+            />
           </FormControl>
         </div>
         <div className={classes.task}>

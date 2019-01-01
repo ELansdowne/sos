@@ -21,7 +21,7 @@ const styles = {
     backgroundColor: "#3f51b5",
     color: "white",
     height: "45px ",
-    minHeight: "45px ",
+    minHeight: "40px ",
     fontSize: "xx-large"
   }
 };
@@ -38,7 +38,7 @@ export class Header extends PureComponent {
     return (
       <Aux>
         <AppBar position="static" color="default" className={classes.appBar}>
-          <Toolbar className={classes.toolBar}>SOS</Toolbar>
+          <Toolbar  className={classes.toolBar}>SOS</Toolbar>
           <VersionControl
             className={style.versionControl}
             sprint={this.getSprint}

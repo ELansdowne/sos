@@ -17,19 +17,15 @@ export class Teams extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log("receiveprops in teams", nextProps);
     if (nextProps.team || nextProps.location) {
-      console.log("inside non null");
       this.getTeams();
     }
   }
   filterTeams(teams = []) {
-    console.log("inside filterteams", teams, this.props);
     return teams.filter(team => team.TeamName === this.props.team);
   }
 
   filterLocation(teams = []) {
-    console.log("inside filterteams", teams, this.props);
     return teams.filter(team => team.Location === this.props.location);
   }
   getTeams() {
@@ -44,7 +40,6 @@ export class Teams extends PureComponent {
           .get("http://localhost:3000/teams") //using json-server dependency for local json .. check db.json file for local data.
           .then(result => {
             let teams = result.data;
-            console.log("yaya", this.props.team);
             if (this.props.team) {
               teams = this.filterTeams(teams);
               if (this.props.team === "All") {
@@ -65,7 +60,6 @@ export class Teams extends PureComponent {
       });
   }
   render() {
-    console.log("props in team", this.props);
     let teamData = null;
     if (this.state.teamData) {
       teamData = this.state.teamData.map((team, index) => {

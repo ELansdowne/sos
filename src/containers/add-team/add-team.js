@@ -105,6 +105,7 @@ export class AddTeam extends PureComponent {
         </Dialog>
         <div className={classes.select}>
           <Select
+            style={{ margin: "0px" }}
             value={this.state.location}
             onChange={this.handleChange}
             displayEmpty
@@ -114,6 +115,7 @@ export class AddTeam extends PureComponent {
             {this.getSelectValues(Location)}
           </Select>
           <Select
+            style={{ margin: "0px" }}
             value={this.state.team}
             onChange={this.handleChange}
             displayEmpty
@@ -126,7 +128,9 @@ export class AddTeam extends PureComponent {
         <Button
           variant="outlined"
           className={classes.button}
+          size="small"
           onClick={this.handleClickOpen}
+          style={{ margin: "0px", height: "10px" }}
         >
           Add Team
         </Button>
