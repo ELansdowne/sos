@@ -57,13 +57,13 @@ export class Teams extends PureComponent {
             let teams = result.data;
             if (this.props.team) {
               teams = this.filterTeams(teams);
-              if (this.props.team === "All") {
+              if (this.props.team === TeamConst.None) {
                 teams = result.data;
               }
             }
             if (this.props.location) {
               teams = this.filterLocation(teams);
-              if (this.props.location === Location.ALL) {
+              if (this.props.location === Location.None) {
                 teams = result.data;
               }
             }

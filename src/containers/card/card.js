@@ -41,6 +41,9 @@ const cardSource = {
   },
 
   endDrag(props, monitor) {
+    const headers = {
+      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+    };
     const item = monitor.getItem();
     const dropResult = monitor.getDropResult();
     let status = "Backlog";
@@ -64,23 +67,27 @@ const cardSource = {
     }
 
     axios
-      .put("http://localhost:3000/add-task/" + item.card.id, {
-        id: item.card.id,
-        teamId: item.card.teamId,
-        taskId: item.card.taskId,
-        type: item.card.type,
-        subType: item.card.subType,
-        owner: item.card.owner,
-        description: item.card.description,
-        sprint: item.card.sprint,
-        release: item.card.release,
-        status: status,
-        Size: item.card.size,
-        Priority: item.card.priority,
-        SprintStartEnd: item.card.sprintStartEnd,
-        date: item.card.date
-      })
+      .put(
+        "http://localhost:3005/api/tasks/updateTask",
+        {
+          teamId: item.card.teamId,
+          taskId: item.card.taskId,
+          type: item.card.type,
+          subType: item.card.subType,
+          owner: item.card.owner,
+          description: item.card.description,
+          sprint: item.card.sprint,
+          release: item.card.release,
+          status: status,
+          // Size: item.card.size,
+          // Priority: item.card.priority,
+          // SprintStartEnd: item.card.sprintStartEnd,
+          date: item.card.date
+        },
+        headers
+      )
       .then(response => {
+        console.log("task updated succesfully succsesfully", response);
         // window.location.reload();
       })
       .catch(error => {
