@@ -112,31 +112,33 @@ class TeamPanel extends PureComponent {
       })
       .catch(error => {
         axios
-          .get("http://localhost:3000/tasks")
+          .get(
+            "http://localhost:3000/tasks"
+          ) /*needed in case on json-server  */
           .then(result => {
-            // let filteredTasks = this.filterTasks(result.data);
-            // if (this.props.sprint) {
-            //   filteredTasks = this.filterSprint(filteredTasks);
-            //   if (this.props.sprint === Sprint.All) {
-            //     filteredTasks = this.filterTasks(result.data);
-            //   }
-            // }
-            // if (this.props.release) {
-            //   filteredTasks = this.filterRelease(filteredTasks);
-            //   if (this.props.release === Releases.All) {
-            //     filteredTasks = this.filterTasks(result.data);
-            //   }
-            // }
-            // filteredTasks.forEach(task => {
-            //   if (task.status === TaskStatus.BACKLOG) {
-            //     this.backlog.push(task);
-            //   } else if (task.status === TaskStatus.INPROGRESS) {
-            //     this.progress.push(task);
-            //   } else if (task.status === TaskStatus.DONE) {
-            //     this.done.push(task);
-            //   }
-            // });
-            // this.setState({ tasks: filteredTasks });
+            let filteredTasks = this.filterTasks(result.data);
+            if (this.props.sprint) {
+              filteredTasks = this.filterSprint(filteredTasks);
+              if (this.props.sprint === Sprint.All) {
+                filteredTasks = this.filterTasks(result.data);
+              }
+            }
+            if (this.props.release) {
+              filteredTasks = this.filterRelease(filteredTasks);
+              if (this.props.release === Releases.All) {
+                filteredTasks = this.filterTasks(result.data);
+              }
+            }
+            filteredTasks.forEach(task => {
+              if (task.status === TaskStatus.BACKLOG) {
+                this.backlog.push(task);
+              } else if (task.status === TaskStatus.INPROGRESS) {
+                this.progress.push(task);
+              } else if (task.status === TaskStatus.DONE) {
+                this.done.push(task);
+              }
+            });
+            this.setState({ tasks: filteredTasks });
           })
           .catch(error => {
             let filteredFeatures = this.filterFeatures(features);

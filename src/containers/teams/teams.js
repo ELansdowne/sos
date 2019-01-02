@@ -52,7 +52,7 @@ export class Teams extends PureComponent {
       })
       .catch(error => {
         axios
-          .get("http://localhost:3005/api/teams") //using json-server dependency for local json .. check db.json file for local data.
+          .get("http://localhost:3000/teams") //using json-server dependency for local json .. check db.json file for local data.
           .then(result => {
             let teams = result.data;
             if (this.props.team) {

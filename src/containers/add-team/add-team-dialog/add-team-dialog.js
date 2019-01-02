@@ -52,7 +52,8 @@ class AddTeamDialog extends PureComponent {
     this.state = {
       teamName: "",
       location: "",
-      labelWidth: 0
+      labelWidth: 0,
+      base64: ""
     };
   }
 
@@ -61,19 +62,21 @@ class AddTeamDialog extends PureComponent {
   };
 
   createTeam = () => {
+    const headers = {
+      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+    };
     if (this.state.teamName.length > 0 && this.state.location.length > 0) {
       const teamData = {
-        TeamName: this.state.teamName,
-        TeamLogo: this.state.teamName,
-        Location: this.state.location,
-        TeamId: "TR" + parseInt(Math.random() * 1000),
+        teamName: this.state.teamName,
+        teamLogo: this.state.teamName,
+        location: this.state.location,
+        teamId: "TR" + parseInt(Math.random() * 1000),
         status: FeatureStatus.GREEN
       };
       axios
-        .post("http://localhost:3000/addTeam", {
-          teamData
-        })
+        .post("http://localhost:3005/api/teams/addTeam", teamData, headers)
         .then(response => {
+          console.log("team aded succsesfully", response);
           window.location.reload();
         })
         .catch(error => {
@@ -92,6 +95,38 @@ class AddTeamDialog extends PureComponent {
       this.props.close();
     }
   };
+
+  handleImageChange(e) {
+    // get the files
+    let files = e.target.files;
+
+    // Process each file
+    var allFiles = [];
+    for (var i = 0; i < files.length; i++) {
+      let file = files[i];
+
+      // Make new FileReader
+      let reader = new FileReader();
+
+      // Convert the file to base64 text
+      reader.readAsDataURL(file);
+
+      // on reader load somthing...
+      reader.onload = () => {
+        // Make a fileInfo Object
+        let fileInfo = {
+          name: file.name,
+          type: file.type,
+          size: Math.round(file.size / 1000) + " kB",
+          base64: reader.result,
+          file: file
+        };
+
+        console.log("image is ", fileInfo);
+        this.setState({ base64: fileInfo.base64 });
+      }; // reader.onload
+    } // for
+  }
 
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
@@ -146,6 +181,12 @@ class AddTeamDialog extends PureComponent {
             </Select>
           </FormControl>
         </div>
+        <input
+          type="file"
+          onChange={this.handleImageChange.bind(this)}
+          multiple={false}
+        />
+        <div />
 
         <div className={classes.buttonGroup}>
           <Button
