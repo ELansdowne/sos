@@ -1,24 +1,22 @@
 {
-  "teams": [
-    {
-      "TeamName": "Nike",
-      "TeamLogo": "Nike",
-      "Location": "Noida",
-      "TeamId": "T52",
+  "teams": [{
+      "teamName": "Nike",
+      "teamLogo": "Nike",
+      "location": "Noida",
+      "teamId": "T52",
       "status": "Red",
       "id": 1
     },
     {
-      "TeamName": "Hades",
-      "TeamLogo": "Hades",
-      "Location": "Noida",
-      "TeamId": "T10",
+      "teamName": "Hades",
+      "teamLogo": "Hades",
+      "location": "Noida",
+      "teamId": "T10",
       "status": "Amber",
       "id": 2
     }
   ],
-  "tasks": [
-    {
+  "tasks": [{
       "id": 1,
       "teamId": "T52",
       "type": "Feature",

@@ -4,6 +4,7 @@ import Team from "../../components/team/team";
 import teams from "../../assets/localDB/teams.json";
 import axios from "axios";
 import { Location } from "../../shared/model/location";
+import { Team as TeamConst } from "../../shared/model/team";
 
 export class Teams extends PureComponent {
   constructor() {
@@ -17,27 +18,41 @@ export class Teams extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log("nextprops are", nextProps);
     if (nextProps.team || nextProps.location) {
       this.getTeams();
     }
   }
   filterTeams(teams = []) {
-    return teams.filter(team => team.TeamName === this.props.team);
+    return teams.filter(team => team.teamName === this.props.team);
   }
 
   filterLocation(teams = []) {
     return teams.filter(team => team.Location === this.props.location);
   }
   getTeams() {
-    let filteredTeams = [];
     axios
-      .get(`http://localhost:3000/getTeam`)
-      .then(res => {
-        this.setState({ teamData: res.data });
+      .get("http://localhost:3005/api/teams")
+      .then(result => {
+        console.log("teams are ", result.data.result);
+        let teams = result.data.result;
+        if (this.props.team) {
+          teams = this.filterTeams(teams);
+          if (this.props.team === TeamConst.None) {
+            teams = result.data.result;
+          }
+        }
+        if (this.props.location) {
+          teams = this.filterLocation(teams);
+          if (this.props.location === Location.None) {
+            teams = result.data.result;
+          }
+        }
+        this.setState({ teamData: teams });
       })
       .catch(error => {
         axios
-          .get("http://localhost:3000/teams") //using json-server dependency for local json .. check db.json file for local data.
+          .get("http://localhost:3005/api/teams") //using json-server dependency for local json .. check db.json file for local data.
           .then(result => {
             let teams = result.data;
             if (this.props.team) {

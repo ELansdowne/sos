@@ -7,6 +7,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { withStyles } from "@material-ui/core";
 import TeamPanel from "./team-panel/team-panel";
 import axios from "axios";
+import { ServiceConfig } from "../../shared/Utils/service-config";
 
 const styles = theme => ({
   root: {
@@ -36,13 +37,14 @@ class Team extends React.Component {
 
   componentDidMount() {
     axios
-      .get(`http://localhost:3000/getTeam`)
+      .get("http://localhost:3005/api/teams")
       .then(result => {
-        let filteredstatus = this.filterstatus(result.data);
+        console.log("datat home", result.data.result);
+        let filteredstatus = this.filterstatus(result.data.result);
         this.setState({ teamStatus: filteredstatus });
       })
       .catch(error => {
-        axios.get("http://localhost:3000/teams").then(result => {
+        axios.get("http://localhost:3005/api/teams").then(result => {
           let filteredstatus = this.filterstatus(result.data);
           this.setState({ teamStatus: filteredstatus });
         });
@@ -50,7 +52,7 @@ class Team extends React.Component {
   }
   filterstatus(tStatus = []) {
     return tStatus.filter(
-      teamStatus => teamStatus.TeamId === this.props.data.TeamId
+      teamStatus => teamStatus.teamId === this.props.data.teamId
     );
   }
 
@@ -89,7 +91,7 @@ class Team extends React.Component {
             className={styles.heading}
             style={{ textTransform: "capitalize" }}
           >
-            {this.props.data.TeamName}
+            {this.props.data.teamName}
           </Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails className={classes.root}>

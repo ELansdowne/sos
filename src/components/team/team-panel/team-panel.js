@@ -81,38 +81,62 @@ class TeamPanel extends PureComponent {
     this.progress.length = 0;
     this.done.length = 0;
     axios
-      .get(`http://localhost:3000/getTask`)
+      .get(`http://localhost:3005/api/tasks`)
       .then(result => {
-        let filteredTasks = this.filterTasks(result.data);
+        console.log("tasks are--", result.data.result);
+        let filteredTasks = this.filterTasks(result.data.result);
+        console.log("tasks are", filteredTasks);
+        if (this.props.sprint) {
+          filteredTasks = this.filterSprint(filteredTasks);
+          if (this.props.sprint === Sprint.All) {
+            filteredTasks = this.filterTasks(result.data.result);
+          }
+        }
+        if (this.props.release) {
+          filteredTasks = this.filterRelease(filteredTasks);
+          if (this.props.release === Releases.All) {
+            filteredTasks = this.filterTasks(result.data.result);
+          }
+        }
+        filteredTasks.forEach(task => {
+          if (task.status === TaskStatus.BACKLOG) {
+            this.backlog.push(task);
+          } else if (task.status === TaskStatus.INPROGRESS) {
+            this.progress.push(task);
+          } else if (task.status === TaskStatus.DONE) {
+            this.done.push(task);
+          }
+        });
+        console.log("cals are", this.backlog, this.progress, this.done);
         this.setState({ tasks: filteredTasks });
       })
       .catch(error => {
         axios
           .get("http://localhost:3000/tasks")
           .then(result => {
-            let filteredTasks = this.filterTasks(result.data);
-            if (this.props.sprint) {
-              filteredTasks = this.filterSprint(filteredTasks);
-              if (this.props.sprint === Sprint.All) {
-                filteredTasks = this.filterTasks(result.data);
-              }
-            }
-            if (this.props.release) {
-              filteredTasks = this.filterRelease(filteredTasks);
-              if (this.props.release === Releases.All) {
-                filteredTasks = this.filterTasks(result.data);
-              }
-            }
-            filteredTasks.forEach(task => {
-              if (task.status === TaskStatus.BACKLOG) {
-                this.backlog.push(task);
-              } else if (task.status === TaskStatus.INPROGRESS) {
-                this.progress.push(task);
-              } else if (task.status === TaskStatus.DONE) {
-                this.done.push(task);
-              }
-            });
-            this.setState({ tasks: filteredTasks });
+            // let filteredTasks = this.filterTasks(result.data);
+            // if (this.props.sprint) {
+            //   filteredTasks = this.filterSprint(filteredTasks);
+            //   if (this.props.sprint === Sprint.All) {
+            //     filteredTasks = this.filterTasks(result.data);
+            //   }
+            // }
+            // if (this.props.release) {
+            //   filteredTasks = this.filterRelease(filteredTasks);
+            //   if (this.props.release === Releases.All) {
+            //     filteredTasks = this.filterTasks(result.data);
+            //   }
+            // }
+            // filteredTasks.forEach(task => {
+            //   if (task.status === TaskStatus.BACKLOG) {
+            //     this.backlog.push(task);
+            //   } else if (task.status === TaskStatus.INPROGRESS) {
+            //     this.progress.push(task);
+            //   } else if (task.status === TaskStatus.DONE) {
+            //     this.done.push(task);
+            //   }
+            // });
+            // this.setState({ tasks: filteredTasks });
           })
           .catch(error => {
             let filteredFeatures = this.filterFeatures(features);
@@ -122,7 +146,12 @@ class TeamPanel extends PureComponent {
   }
 
   filterTasks(tasks = []) {
-    return tasks.filter(task => task.teamId === this.props.data.TeamId);
+    console.log(
+      "check data uis--------------------------->",
+      tasks,
+      this.props.data.teamId
+    );
+    return tasks.filter(task => task.teamId === this.props.data.teamId);
   }
   filterSprint(tasks = []) {
     return tasks.filter(task => task.sprint === this.props.sprint);
@@ -134,12 +163,12 @@ class TeamPanel extends PureComponent {
 
   filterFeatures(features = []) {
     return features.filter(
-      feature => feature.TeamId === this.props.data.TeamId
+      feature => feature.teamId === this.props.data.teamId
     );
   }
   filterstatus(tStatus = []) {
     return tStatus.filter(
-      teamStatus => teamStatus.TeamId === this.props.data.TeamId
+      teamStatus => teamStatus.teamId === this.props.data.teamId
     );
   }
   handleClickOpen = () => {
@@ -157,10 +186,10 @@ class TeamPanel extends PureComponent {
     );
     axios
       .put("http://localhost:3000/teams/" + this.props.data.id, {
-        TeamName: this.props.data.TeamName,
-        TeamLogo: this.props.data.TeamLogo,
-        Location: this.props.data.Location,
-        TeamId: this.props.data.TeamId,
+        teamName: this.props.data.teamName,
+        teamLogo: this.props.data.teamLogo,
+        location: this.props.data.location,
+        teamId: this.props.data.teamId,
         status: event.target.value
       })
       .then(respones => {
@@ -191,29 +220,29 @@ class TeamPanel extends PureComponent {
     };
 
     let imgPath = "default.jpg";
-    let teamName = this.props.data.TeamName;
-    teamName =
-      teamName.charAt(0).toUpperCase() + teamName.slice(1).toLowerCase();
-    switch (teamName) {
-      case Team.Nike:
-        imgPath = "Nike.png";
-        break;
-      case Team.Titans:
-        imgPath = "Titans.png";
-        break;
-      case Team.Hades:
-        imgPath = "Hades.png";
-        break;
-      case Team.Caerus:
-        imgPath = "Caerus.png";
-        break;
-      case Team.Nemesis:
-        imgPath = "Nemesis.png";
-        break;
-      default:
-        imgPath = "default.jpg";
-        break;
-    }
+    let teamName = this.props.data.teamName;
+    // teamName =
+    //   teamName.charAt(0).toUpperCase() + teamName.slice(1).toLowerCase();
+    // switch (teamName) {
+    //   case Team.Nike:
+    //     imgPath = "Nike.png";
+    //     break;
+    //   case Team.Titans:
+    //     imgPath = "Titans.png";
+    //     break;
+    //   case Team.Hades:
+    //     imgPath = "Hades.png";
+    //     break;
+    //   case Team.Caerus:
+    //     imgPath = "Caerus.png";
+    //     break;
+    //   case Team.Nemesis:
+    //     imgPath = "Nemesis.png";
+    //     break;
+    //   default:
+    //     imgPath = "default.jpg";
+    //     break;
+    // }
     switch (this.props.data.status) {
       case "Green":
         color = "rgb(123, 234, 123)";
