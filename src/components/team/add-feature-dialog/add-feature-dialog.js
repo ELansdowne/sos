@@ -12,6 +12,7 @@ import { TaskType } from "../../../shared/model/task-type";
 import { IssueType } from "../../../shared/model/issue-type";
 import { Sprint } from "../../../shared/model/sprint";
 import { Releases } from "../../../shared/model/release";
+import { ServiceConfig } from "../../../shared/Utils/service-config";
 
 const styles = theme => ({
   formControl: {
@@ -94,7 +95,7 @@ class AddFeatureDialog extends PureComponent {
         date: this.state.date
       };
       axios
-        .post("http://localhost:3005/api/tasks/addTask", taskData, headers)
+        .post(ServiceConfig.prodUrl + "/tasks/addTask", taskData, headers)
         .then(response => {
           console.log("task aded succsesfully", response);
           window.location.reload();

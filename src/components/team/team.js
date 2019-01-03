@@ -37,7 +37,7 @@ class Team extends React.Component {
 
   componentDidMount() {
     axios
-      .get("http://localhost:3005/api/teams")
+      .get(`${ServiceConfig.prodUrl}/teams`)
       .then(result => {
         console.log("datat home", result.data.result);
         let filteredstatus = this.filterstatus(result.data.result);

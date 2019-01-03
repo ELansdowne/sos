@@ -11,6 +11,7 @@ import FormControl from "@material-ui/core/FormControl";
 import axios from "axios";
 import { FeatureStatus } from "../../../shared/model/feature-status";
 import TextField from "@material-ui/core/TextField";
+import { ServiceConfig } from "../../../shared/Utils/service-config";
 
 const styles = theme => ({
   formControl: {
@@ -74,7 +75,7 @@ class AddTeamDialog extends PureComponent {
         status: FeatureStatus.GREEN
       };
       axios
-        .post("http://localhost:3005/api/teams/addTeam", teamData, headers)
+        .post(ServiceConfig.prodUrl + "/teams/addTeam", teamData, headers)
         .then(response => {
           console.log("team aded succsesfully", response);
           window.location.reload();

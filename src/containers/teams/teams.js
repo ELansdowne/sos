@@ -5,6 +5,7 @@ import teams from "../../assets/localDB/teams.json";
 import axios from "axios";
 import { Location } from "../../shared/model/location";
 import { Team as TeamConst } from "../../shared/model/team";
+import { ServiceConfig } from "../../shared/Utils/service-config";
 
 export class Teams extends PureComponent {
   constructor() {
@@ -32,7 +33,7 @@ export class Teams extends PureComponent {
   }
   getTeams() {
     axios
-      .get("http://localhost:3005/api/teams")
+      .get(`${ServiceConfig.prodUrl}/teams`)
       .then(result => {
         console.log("teams are ", result.data.result);
         let teams = result.data.result;

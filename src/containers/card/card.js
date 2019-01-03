@@ -5,6 +5,7 @@ import flow from "lodash/flow";
 import Task from "../../components/team/task/task";
 import axios from "axios";
 import { TaskStatus } from "../../shared/model/task-status";
+import { ServiceConfig } from "../../shared/Utils/service-config";
 
 const style = {
   padding: "0.2rem 0.2rem",
@@ -68,7 +69,7 @@ const cardSource = {
 
     axios
       .put(
-        "http://localhost:3005/api/tasks/updateTask",
+        ServiceConfig.prodUrl + "/tasks/updateTask",
         {
           teamId: item.card.teamId,
           taskId: item.card.taskId,

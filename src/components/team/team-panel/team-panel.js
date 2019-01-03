@@ -21,6 +21,7 @@ import { StatusCategory } from "../../../shared/model/team-status";
 import FormControl from "@material-ui/core/FormControl";
 import { Sprint } from "../../../shared/model/sprint.js";
 import { Releases } from "../../../shared/model/release.js";
+import { ServiceConfig } from "../../../shared/Utils/service-config";
 
 function Transition(props) {
   return <Slide direction="up" {...props} />;
@@ -46,7 +47,7 @@ class TeamPanel extends PureComponent {
     this.backlog.length = 0;
     this.progress.length = 0;
     this.done.length = 0;
-    this.getStatus();
+    //   this.getStatus();
     this.getTasks();
   }
 
@@ -81,7 +82,7 @@ class TeamPanel extends PureComponent {
     this.progress.length = 0;
     this.done.length = 0;
     axios
-      .get(`http://localhost:3005/api/tasks`)
+      .get(`${ServiceConfig.prodUrl}/tasks`)
       .then(result => {
         console.log("tasks are--", result.data.result);
         let filteredTasks = this.filterTasks(result.data.result);
