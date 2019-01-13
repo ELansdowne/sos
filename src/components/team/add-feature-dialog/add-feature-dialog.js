@@ -141,19 +141,22 @@ class AddFeatureDialog extends PureComponent {
     const { classes } = this.props;
     return (
       <div className={classes.root}>
-        <Select
-          value={this.state.type}
-          required
-          label="Add feature"
-          onChange={this.handleChange}
-          displayEmpty
-          name="type"
-          fullWidth
-          className={classes.selectEmpty}
-          style={{ width: "220px" }}
-        >
-          {this.getSelectValues(TaskType)}
-        </Select>
+        <div className={classes.task}>
+          <label className={classes.label}> Task Type: </label>
+          <Select
+            value={this.state.type}
+            required
+            label="Add feature"
+            onChange={this.handleChange}
+            displayEmpty
+            name="type"
+            fullWidth
+            className={classes.selectEmpty}
+            style={{ width: "220px" }}
+          >
+            {this.getSelectValues(TaskType)}
+          </Select>
+        </div>
         {this.state.type === TaskType.FEATURE ? (
           <div className={classes.task}>
             <label className={classes.label}> Feature Type: </label>
