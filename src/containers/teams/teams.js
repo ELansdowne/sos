@@ -19,7 +19,6 @@ export class Teams extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log("nextprops are", nextProps);
     if (nextProps.team || nextProps.location) {
       this.getTeams();
     }
@@ -35,7 +34,6 @@ export class Teams extends PureComponent {
     axios
       .get(`${ServiceConfig.prodUrl}/teams`)
       .then(result => {
-        console.log("teams are ", result.data.result);
         let teams = result.data.result;
         if (this.props.team) {
           teams = this.filterTeams(teams);

@@ -88,7 +88,6 @@ const cardSource = {
         headers
       )
       .then(response => {
-        console.log("task updated succesfully succsesfully", response);
         // window.location.reload();
       })
       .catch(error => {

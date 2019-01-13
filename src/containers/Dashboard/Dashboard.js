@@ -4,7 +4,6 @@ import Header from "../../components/header/header";
 import AddTeam from "../../containers/add-team/add-team";
 import Teams from "../../containers/teams/teams";
 import styles from "./Dashboard.module.css";
-import { Location } from "../../shared/model/location";
 
 export class Dashboard extends Component {
   constructor(props) {

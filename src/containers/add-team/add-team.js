@@ -105,7 +105,7 @@ export class AddTeam extends PureComponent {
         </Dialog>
         <div className={classes.select}>
           <Select
-            style={{ margin: "0px" }}
+            style={{ marginTop: "0px" }}
             value={this.state.location}
             onChange={this.handleChange}
             displayEmpty

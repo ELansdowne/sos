@@ -39,12 +39,11 @@ class Team extends React.Component {
     axios
       .get(`${ServiceConfig.prodUrl}/teams`)
       .then(result => {
-        console.log("datat home", result.data.result);
         let filteredstatus = this.filterstatus(result.data.result);
         this.setState({ teamStatus: filteredstatus });
       })
       .catch(error => {
-        axios.get("http://localhost:3005/api/teams").then(result => {
+        axios.get("http://localhost:3000/teams").then(result => {
           let filteredstatus = this.filterstatus(result.data);
           this.setState({ teamStatus: filteredstatus });
         });

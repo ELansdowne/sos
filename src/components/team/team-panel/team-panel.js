@@ -84,9 +84,7 @@ class TeamPanel extends PureComponent {
     axios
       .get(`${ServiceConfig.prodUrl}/tasks`)
       .then(result => {
-        console.log("tasks are--", result.data.result);
         let filteredTasks = this.filterTasks(result.data.result);
-        console.log("tasks are", filteredTasks);
         if (this.props.sprint) {
           filteredTasks = this.filterSprint(filteredTasks);
           if (this.props.sprint === Sprint.All) {
@@ -108,7 +106,6 @@ class TeamPanel extends PureComponent {
             this.done.push(task);
           }
         });
-        console.log("cals are", this.backlog, this.progress, this.done);
         this.setState({ tasks: filteredTasks });
       })
       .catch(error => {
@@ -149,11 +146,6 @@ class TeamPanel extends PureComponent {
   }
 
   filterTasks(tasks = []) {
-    console.log(
-      "check data uis--------------------------->",
-      tasks,
-      this.props.data.teamId
-    );
     return tasks.filter(task => task.teamId === this.props.data.teamId);
   }
   filterSprint(tasks = []) {
@@ -182,11 +174,6 @@ class TeamPanel extends PureComponent {
     this.setState({ open: false });
   };
   handleChange = event => {
-    console.log(
-      "team panel handle chage and ",
-      event.target.value,
-      this.props.data
-    );
     axios
       .put("http://localhost:3000/teams/" + this.props.data.id, {
         teamName: this.props.data.teamName,
@@ -222,30 +209,6 @@ class TeamPanel extends PureComponent {
       paddingTop: "0px"
     };
 
-    let imgPath = "default.jpg";
-    let teamName = this.props.data.teamName;
-    // teamName =
-    //   teamName.charAt(0).toUpperCase() + teamName.slice(1).toLowerCase();
-    // switch (teamName) {
-    //   case Team.Nike:
-    //     imgPath = "Nike.png";
-    //     break;
-    //   case Team.Titans:
-    //     imgPath = "Titans.png";
-    //     break;
-    //   case Team.Hades:
-    //     imgPath = "Hades.png";
-    //     break;
-    //   case Team.Caerus:
-    //     imgPath = "Caerus.png";
-    //     break;
-    //   case Team.Nemesis:
-    //     imgPath = "Nemesis.png";
-    //     break;
-    //   default:
-    //     imgPath = "default.jpg";
-    //     break;
-    // }
     switch (this.props.data.status) {
       case "Green":
         color = "rgb(123, 234, 123)";
@@ -280,7 +243,7 @@ class TeamPanel extends PureComponent {
           <Paper className={styles.paper} style={{ padding: "4px" }}>
             <div style={{ background: color }}>
               <img
-                src={require("./images/" + imgPath)}
+                src={this.props.data.teamLogo}
                 className={styles.image}
                 style={{
                   width: "50px",
@@ -288,7 +251,7 @@ class TeamPanel extends PureComponent {
                   float: "center",
                   padding: "15px"
                 }}
-                alt="teamName"
+                alt={this.props.data.teamName}
               />
             </div>
             <div style={{ padding: "8px" }}>

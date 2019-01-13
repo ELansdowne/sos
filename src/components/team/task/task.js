@@ -109,6 +109,7 @@ export class Task extends PureComponent {
           });
       });
     this.setState({ isSubmitted: true });
+    alert("Information saved");
   };
   render() {
     let bgColorConfig = "rgb(251, 65, 65)";
@@ -122,6 +123,9 @@ export class Task extends PureComponent {
         break;
       case IssueType.Dependencies:
         bgColorConfig = "peachpuff";
+        break;
+      case IssueType.Tasks:
+        bgColorConfig = "#f7f70473";
         break;
       default:
         bgColorConfig = "rgb(251, 65, 65)";
@@ -236,8 +240,7 @@ export class Task extends PureComponent {
                           <td>
                             <SaveIcon
                               style={{
-                                cursor: "pointer",
-                                color: "#0a7bdb"
+                                cursor: "pointer"
                               }}
                               onClick={this.handleSave}
                             />

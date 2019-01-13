@@ -66,10 +66,14 @@ class AddTeamDialog extends PureComponent {
     const headers = {
       "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
     };
-    if (this.state.teamName.length > 0 && this.state.location.length > 0) {
+    if (
+      this.state.teamName.length > 0 &&
+      this.state.location.length > 0 &&
+      this.state.base64.length > 0
+    ) {
       const teamData = {
         teamName: this.state.teamName,
-        teamLogo: this.state.teamName,
+        teamLogo: this.state.base64,
         location: this.state.location,
         teamId: "TR" + parseInt(Math.random() * 1000),
         status: FeatureStatus.GREEN
@@ -77,16 +81,15 @@ class AddTeamDialog extends PureComponent {
       axios
         .post(ServiceConfig.prodUrl + "/teams/addTeam", teamData, headers)
         .then(response => {
-          console.log("team aded succsesfully", response);
           window.location.reload();
         })
         .catch(error => {
           axios
             .post("http://localhost:3000/teams", {
-              TeamName: this.state.teamName,
-              TeamLogo: this.state.teamName,
-              Location: this.state.location,
-              TeamId: "T" + parseInt(Math.random() * 1000),
+              teamName: this.state.teamName,
+              teamLogo: this.state.base64,
+              location: this.state.location,
+              teamId: "T" + parseInt(Math.random() * 1000),
               status: FeatureStatus.GREEN
             })
             .then(response => {
@@ -123,7 +126,6 @@ class AddTeamDialog extends PureComponent {
           file: file
         };
 
-        console.log("image is ", fileInfo);
         this.setState({ base64: fileInfo.base64 });
       }; // reader.onload
     } // for
@@ -147,7 +149,7 @@ class AddTeamDialog extends PureComponent {
     return (
       <div className={classes.root}>
         <div className={classes.task}>
-          <label className={classes.label}>Team Name </label>
+          <label className={classes.label}>Team Name</label>
           <FormControl className={classes.formControl}>
             {/* <InputLabel>select team</InputLabel>
              <Select
@@ -161,6 +163,7 @@ class AddTeamDialog extends PureComponent {
             <TextField
               type="text"
               name="teamName"
+              required
               value={this.state.teamName}
               onChange={this.handleChange}
               style={{ width: "100%", textOverflow: "ellipsis" }}
@@ -168,7 +171,10 @@ class AddTeamDialog extends PureComponent {
           </FormControl>
         </div>
         <div className={classes.task}>
-          <label className={classes.label}>Location </label>
+          <label className={classes.label} style={{ marginRight: "40px" }}>
+            {" "}
+            Location{" "}
+          </label>
           <FormControl className={classes.formControl}>
             <InputLabel>select location</InputLabel>
             <Select
@@ -186,17 +192,12 @@ class AddTeamDialog extends PureComponent {
           type="file"
           onChange={this.handleImageChange.bind(this)}
           multiple={false}
+          required
+          style={{ padding: "22px" }}
         />
         <div />
 
         <div className={classes.buttonGroup}>
-          <Button
-            variant="contained"
-            className={classes.button}
-            onClick={this.closeDialog}
-          >
-            Cancel
-          </Button>
           <Button
             variant="contained"
             color="primary"
@@ -204,6 +205,13 @@ class AddTeamDialog extends PureComponent {
             onClick={this.createTeam}
           >
             Submit
+          </Button>
+          <Button
+            variant="contained"
+            className={classes.button}
+            onClick={this.closeDialog}
+          >
+            Cancel
           </Button>
         </div>
       </div>
